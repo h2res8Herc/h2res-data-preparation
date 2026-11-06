@@ -63,8 +63,28 @@ class WeatherRateLimitTests(unittest.TestCase):
     def test_daily_quota_without_reset_delay_stops_without_futile_retries(self):
         with patch.object(vre.requests,'get',return_value=self.response(429,'Daily API request limit exceeded')) as request, \
              patch.object(vre.time,'sleep') as sleep:
-            with self.assertRaisesRegex(vre.OpenMeteoRateLimitError,'daily quota.*same weather cache'):self.fetch()
+            with self.assertRaisesRegex(vre.OpenMeteoRateLimitError,'daily quota.*same weather cache'):self.fetch(max_rate_limit_wait=3600.)
         self.assertEqual(request.call_count,1);sleep.assert_not_called()
+
+    def test_daily_provider_quota_can_recover_overnight_by_default(self):
+        with patch.object(vre.requests,'get',side_effect=[self.response(429,'Daily API request limit exceeded'),self.response()]) as request, \
+             patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()) as output:
+            frame=self.fetch()
+        self.assertEqual(len(frame),24)
+        self.assertEqual(request.call_count,2)
+        self.assertEqual(sum(c.args[0] for c in sleep.call_args_list),86400.)
+        self.assertIn('estimated resume',output.getvalue())
+
+    def test_local_and_provider_waits_share_one_total_budget(self):
+        def local_wait(params,**kwargs):
+            kwargs['wait'](79000.,'local day budget')
+        with patch.object(vre,'reserve_request',side_effect=local_wait), \
+             patch.object(vre.requests,'get',return_value=self.response(429,'Daily quota',retry='20000')) as request, \
+             patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(vre.OpenMeteoRateLimitError,'20000s'):
+                self.fetch()
+        request.assert_called_once()
+        self.assertEqual(sum(c.args[0] for c in sleep.call_args_list),79000.)
 
     def test_retry_after_exceeding_wait_budget_is_not_ignored_or_shortened(self):
         with patch.object(vre.requests,'get',return_value=self.response(429,'Hourly quota',retry='7200')) as request, \

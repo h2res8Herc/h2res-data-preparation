@@ -29,6 +29,7 @@ from model_input_bundle import (
     selected_workbook, validate_bundle, preflight_reference,
 )
 from scenario_config import apply_scenario, resolve_scenario
+from openmeteo_quota import DEFAULT_MAX_WAIT
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -448,6 +449,7 @@ def run_power(args: argparse.Namespace, maps: dict[str, Path]) -> None:
                     "--cache-dir", args.data_root / "vre_weather_cache",
                     "--weather-source", args.vre_weather_source,
                     "--ninja-dataset", args.renewables_ninja_dataset,
+                    "--openmeteo-max-wait", args.openmeteo_max_wait,
                 ]
                 if args.vre_calibrate:
                     if not args.irena_xlsx or not args.irena_xlsx.exists():
@@ -692,6 +694,8 @@ def build_parser() -> argparse.ArgumentParser:
         help="Weather backend; Renewables.ninja reads RENEWABLES_NINJA_TOKEN.",
     )
     parser.add_argument("--renewables-ninja-dataset", default="merra2")
+    parser.add_argument('--openmeteo-max-wait',type=float,default=DEFAULT_MAX_WAIT,
+                        help='Maximum wind/solar quota-wait seconds per site; default 93600 (26 hours) allows overnight continuation')
     parser.add_argument(
         "--vre-calibrate", action=argparse.BooleanOptionalAction, default=True
     )
@@ -718,6 +722,8 @@ def export_refactored_if_requested(args):
 def main(argv: Iterable[str] | None = None) -> int:
     args = build_parser().parse_args(list(argv) if argv is not None else None)
     try:
+        if not np.isfinite(args.openmeteo_max_wait) or args.openmeteo_max_wait < 0:
+            raise ValueError('--openmeteo-max-wait must be a finite nonnegative number of seconds')
         args.scenario = resolve_scenario(args)
         if args.refactored_export and not (args.model_export or args.export_only or args.import_model_inputs):
             raise ValueError("--refactored-export requires the native model export used as its prepared source")

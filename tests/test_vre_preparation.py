@@ -24,6 +24,12 @@ spec.loader.exec_module(vre)
 
 
 class VrePreparationTests(unittest.TestCase):
+    def test_runner_defaults_to_overnight_weather_quota_wait(self):
+        args=runner.build_parser().parse_args([])
+        self.assertEqual(args.openmeteo_max_wait,93600.)
+        shorter=runner.build_parser().parse_args(['--openmeteo-max-wait','3600'])
+        self.assertEqual(shorter.openmeteo_max_wait,3600.)
+
     def config(self, **changes):
         config = dict(countries="HR", spatial_level="country", out_root="prepared", data_root="cache",
                       sector_power=True, power_output_level="individual", hydro_output_level="individual",

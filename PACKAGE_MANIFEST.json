@@ -63,8 +63,8 @@
       "sha256": "012daeb5c17538adce4c93b4ff374b3645b4c8f0748ba0e67c7f8d8f04d2142e"
     },
     "TECHNICAL_DOCUMENTATION.md": {
-      "bytes": 23099,
-      "sha256": "348249ab525365ac376769925abffaced7c6eb835be67bd6982454542c45ba17"
+      "bytes": 23681,
+      "sha256": "fc8cb430cbd579203daae51b29eef69588e2ba6bdf6ce4602d826a0f8eb62519"
     },
     "USER_GUIDE.md": {
       "bytes": 19262,
@@ -147,12 +147,12 @@
       "sha256": "b9e089d0a8ea7bdb0aefeb94a02c1094da2833f285ce6055b932801c9005e80a"
     },
     "docs/PORTABLE_USER_GUIDE.html": {
-      "bytes": 31999,
-      "sha256": "4088de2fe968a13a57e15f8e025971ee2044bb5fe15e200bcd6388394ee8c4e1"
+      "bytes": 32865,
+      "sha256": "2092e7a1cafe107c80c29f89335b1ead2252050dc5f52dc1911bfca9c1507b1e"
     },
     "docs/PORTABLE_USER_GUIDE.md": {
-      "bytes": 25669,
-      "sha256": "cab846e423e5b4d148039b1142065443080744353ee940a202bc231cadd6ae40"
+      "bytes": 26493,
+      "sha256": "c5077a06d9956f996b33447fb6f9c122e36f8dd84ad41c4f34ea19deba0ed488"
     },
     "docs/PORTABLE_USER_GUIDE.pdf": {
       "bytes": 421903,
@@ -319,8 +319,8 @@
       "sha256": "43e34064d6ce9dc84c2a9e495e97d81beda9c6ff2540e4b218b564887f8eae48"
     },
     "generate_all_sector_inputs.py": {
-      "bytes": 43052,
-      "sha256": "2506b3207704072f71b75a22db1f9fe88c0e49d18b6f8e392cf34f7817cc2416"
+      "bytes": 43569,
+      "sha256": "ee3aa455e1089e28e973062412114801e6fc46761b4c351c3dda6e945409d6e3"
     },
     "h2res_input_gui.py": {
       "bytes": 38215,
@@ -623,8 +623,8 @@
       "sha256": "bf956ebb6b6ed2c3bbf21ca0b2231f92188e43efc148571ee67642ba12d912de"
     },
     "openmeteo_quota.py": {
-      "bytes": 5074,
-      "sha256": "750581ac45ca101fe81159693c8f738a379b9b1182ca12c6267f0e0fb2fb75a4"
+      "bytes": 5567,
+      "sha256": "61ad7cf51ddabfc33d341bbacb7f7b3e08c5c70dc5fbb00b9585855669857314"
     },
     "policy_input_links.py": {
       "bytes": 3811,
@@ -635,8 +635,8 @@
       "sha256": "176e3083f9e03bdcfd6a177a4b302b1af5a00060117cf654ab3aba548dea8794"
     },
     "power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py": {
-      "bytes": 36403,
-      "sha256": "425ad7e31903d271ed6660306249932bb9eca4f2db26108cba4343b9a114bae7"
+      "bytes": 36632,
+      "sha256": "36f8b69379eca8bb15383a99a848d9b7d408401f59d457890b9dac896e0490e5"
     },
     "power/data/NUTS_RG_20M_2021_4326_LEVL_3.geojson": {
       "bytes": 1684899,
@@ -943,8 +943,8 @@
       "sha256": "9eb7aca0ce788fad377895a71e2dfe652cde74c0a9f2a86356bf7a953f68eadd"
     },
     "tests/test_openmeteo_quota.py": {
-      "bytes": 5473,
-      "sha256": "185066431eea0407a2334e286c140f917c9231f1ae14cc5e7d7dc98063c179fb"
+      "bytes": 6231,
+      "sha256": "253fb6f99b4de0330a23e2a868e1e9d675f9338a3511bfc2a42bf03965d04411"
     },
     "tests/test_outside_system_inputs.py": {
       "bytes": 1714,
@@ -995,12 +995,12 @@
       "sha256": "d1724aaf083474fbf767d47b66c9c4e6c41ae67adf10aa0cc83378f8e48fad27"
     },
     "tests/test_vre_preparation.py": {
-      "bytes": 5988,
-      "sha256": "2d5c548fc4721223f0cfb8c0256a59ed88c4193a118640a92b2fa947a7f4c343"
+      "bytes": 6305,
+      "sha256": "c1b5a4bcf1736771ab337275ef1889558d67d9731d281baab0cb22af0752ed90"
     },
     "tests/test_weather_rate_limits.py": {
-      "bytes": 8895,
-      "sha256": "f0fdf7d8cc2b3c306bbce00ad86ce705679bb908fac6692e2287c0036b2d1e2e"
+      "bytes": 10157,
+      "sha256": "bb1d8d72cbc3dd95ef5d1b0f29b63f8e141afc7642a55908220b0eef1f6e60c1"
     },
     "tests/test_zero_generator_zones.py": {
       "bytes": 8580,

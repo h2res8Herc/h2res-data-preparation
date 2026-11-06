@@ -72,8 +72,23 @@ class QuotaTests(unittest.TestCase):
                 self.database=Path(self.database.parent)/(label+'.sqlite3')
                 self.seed([(self.now-age,cost)])
                 with self.assertRaisesRegex(quota.OpenMeteoQuotaWaitError,label+' budget.*same weather cache'):
-                    self.reserve()
+                    self.reserve(max_wait=3600.)
         self.assertEqual(self.waits,[])
+
+    def test_default_wait_recovers_the_reported_italy_daily_budget(self):
+        self.seed([(self.now-(86400.-79732.),8990.)])
+        self.reserve()
+        self.assertEqual(len(self.waits),1)
+        self.assertEqual(self.waits[0][0],79733.)
+        self.assertIn('day',self.waits[0][1])
+
+    def test_monthly_reset_beyond_default_budget_still_stops_without_reserving(self):
+        self.seed([(self.now-2*86400.,269990.)])
+        with self.assertRaisesRegex(quota.OpenMeteoQuotaWaitError,'month budget'):
+            self.reserve()
+        self.assertEqual(self.waits,[])
+        with closing(sqlite3.connect(self.database)) as connection:
+            self.assertEqual(connection.execute('SELECT COUNT(*) FROM requests').fetchone()[0],1)
 
     def test_expired_history_does_not_delay_new_requests(self):
         self.seed([(self.now-32*86400.,1000000.)])

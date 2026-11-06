@@ -6,7 +6,7 @@ SQLite transactions share the allowance across this installation's processes.
 """
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from contextlib import closing
 import math
 import os
@@ -18,6 +18,7 @@ import time
 WINDOWS = (("minute", 60., 540.), ("hour", 3600., 4500.),
            ("day", 86400., 9000.), ("month", 31 * 86400., 270000.))
 DEFAULT_DATABASE = Path(__file__).resolve().parent / ".openmeteo_quota.sqlite3"
+DEFAULT_MAX_WAIT = 26 * 3600.
 
 
 class OpenMeteoQuotaWaitError(ValueError):
@@ -36,6 +37,8 @@ def estimated_calls(params):
 
 def wait_seconds(seconds, reason):
     print(f'[Open-Meteo] {reason}; waiting {seconds:g}s. Completed weather stays cached.', flush=True)
+    if seconds >= 3600:
+        print(resume_message(seconds), flush=True)
     remaining = seconds
     elapsed = 0.
     while remaining > 0:
@@ -48,7 +51,13 @@ def wait_seconds(seconds, reason):
             elapsed = 0.
 
 
-def reserve_request(params, *, database=None, max_wait=3600., wait=None, clock=None):
+def resume_message(seconds):
+    resume = (datetime.now(timezone.utc) + timedelta(seconds=seconds)).astimezone().isoformat(timespec='seconds')
+    return (f'[Open-Meteo] Paused for quota recovery; estimated resume {resume}. '
+            'Leave the application running to continue automatically, or stop and resume later with the same cache.')
+
+
+def reserve_request(params, *, database=None, max_wait=DEFAULT_MAX_WAIT, wait=None, clock=None):
     """Reserve a weighted public HTTP attempt, waiting only when a budget is full.
 
     Call immediately before the network request, after checking the weather cache.
