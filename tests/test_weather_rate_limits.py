@@ -18,7 +18,9 @@ vre=importlib.util.module_from_spec(spec);spec.loader.exec_module(vre)
 
 class WeatherRateLimitTests(unittest.TestCase):
     def setUp(self):
-        self.environment=patch.dict(os.environ,{'OPEN_METEO_API_KEY':'','OPENMETEO_API_KEY':''})
+        folder=tempfile.TemporaryDirectory();self.addCleanup(folder.cleanup)
+        self.environment=patch.dict(os.environ,{'OPEN_METEO_API_KEY':'','OPENMETEO_API_KEY':'',
+            'H2RES_OPENMETEO_QUOTA_DB':str(Path(folder.name)/'quota.sqlite3')})
         self.environment.start();self.addCleanup(self.environment.stop)
 
     def response(self,status=200,reason='',retry=None,periods=24):
@@ -45,7 +47,7 @@ class WeatherRateLimitTests(unittest.TestCase):
     def test_retry_after_seconds_are_respected_without_shortening(self):
         with patch.object(vre.requests,'get',side_effect=[self.response(429,'Rate limit',retry='120'),self.response()]), \
              patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):self.fetch()
-        self.assertAlmostEqual(sum(c.args[0] for c in sleep.call_args_list),121.)
+        self.assertAlmostEqual(sum(c.args[0] for c in sleep.call_args_list),120.)
 
     def test_retry_after_http_date_and_bad_header(self):
         now=dt.datetime(2026,11,6,12,tzinfo=dt.timezone.utc)
@@ -56,7 +58,7 @@ class WeatherRateLimitTests(unittest.TestCase):
         with patch.object(vre.requests,'get',side_effect=[self.response(429,'Hourly API request limit exceeded'),self.response()]) as request, \
              patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):self.fetch()
         self.assertEqual(request.call_count,2)
-        self.assertAlmostEqual(sum(c.args[0] for c in sleep.call_args_list),3601.)
+        self.assertAlmostEqual(sum(c.args[0] for c in sleep.call_args_list),3600.)
 
     def test_daily_quota_without_reset_delay_stops_without_futile_retries(self):
         with patch.object(vre.requests,'get',return_value=self.response(429,'Daily API request limit exceeded')) as request, \
@@ -114,11 +116,11 @@ class WeatherRateLimitTests(unittest.TestCase):
             self.assertEqual(path.read_text(),'previous cache')
             self.assertEqual(list(Path(folder).glob('.weather_*.tmp')),[])
 
-    def test_full_year_request_is_paced_by_estimated_calls(self):
+    def test_full_year_request_has_no_fixed_pause_while_budget_is_available(self):
         with patch.object(vre.requests,'get',return_value=self.response(periods=8784)),patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):
             frame=vre.fetch_openmeteo_hourly(45.,16.,'2020-01-01','2020-12-31','UTC',True,False)
         self.assertEqual(len(frame),8784)
-        self.assertAlmostEqual(sum(c.args[0] for c in sleep.call_args_list),366/14)
+        sleep.assert_not_called()
 
     def test_rate_limit_aborts_remaining_sites_and_preserves_previous_curves(self):
         with tempfile.TemporaryDirectory() as folder:

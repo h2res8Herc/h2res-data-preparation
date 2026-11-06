@@ -39,6 +39,7 @@ h2res_gui_config.json
 /power/generators/genco_built_from_raw/
 *.zip
 *.log
+.openmeteo_quota.sqlite3*
 ~$*
 
 # The versioned model_reference* folders and packaged seed data are intentional.

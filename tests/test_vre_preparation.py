@@ -85,7 +85,8 @@ class VrePreparationTests(unittest.TestCase):
         response.json.return_value = {"hourly": {"time": pd.date_range('2020-01-01',periods=24,freq='h').astype(str).tolist(),
                                                  "windspeed_100m": [6.0]*24, "windspeed_10m": [4.0]*24}}
         with tempfile.TemporaryDirectory() as directory:
-            with patch.object(vre.requests, "get", return_value=response) as fetch, patch.object(vre.time, "sleep"):
+            with patch.object(vre.requests, "get", return_value=response) as fetch, patch.object(vre.time, "sleep"), \
+                 patch.dict('os.environ', {'H2RES_OPENMETEO_QUOTA_DB':str(Path(directory)/'quota.sqlite3')}):
                 args = dict(lat=45, lon=16, date_from="2020-01-01", date_to="2020-01-01", timezone="UTC",
                             want_pv=False, want_wind=True, cache_dir=Path(directory))
                 first = vre.fetch_openmeteo_hourly(**args)

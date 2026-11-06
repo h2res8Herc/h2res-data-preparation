@@ -35,6 +35,7 @@ def main():
     if source.count(old) != 1:
         raise ValueError("The supplied heating calculator's electric-fuel adapter needs review")
     source = source.replace(old, '"electric_heater": "m_electricity",\n        "heat_pump": "m_electricity",', 1)
+    source = install_weather_budget(source)
     exec(compile(source, str(options.calculator), "exec"), module.__dict__)
     method = dict(method_id="paper_heating_v1", weather_points=options.weather_points,
                   weather_seed=options.weather_seed, weather_method="random inhabited grid cells with population weights",
@@ -71,6 +72,18 @@ def main():
     sys.argv = [str(options.calculator), *remaining]
     module.main()
     (output / "paper_method_details.json").write_text(json.dumps(method, indent=2), encoding="utf-8")
+
+
+def install_weather_budget(source):
+    """Count actual temperature downloads; cached series never reach urlopen."""
+    marker = '        for attempt in range(1, 4):\n            try:'
+    if source.count(marker) != 1:
+        raise ValueError("The supplied heating calculator's weather-budget adapter needs review")
+    return source.replace(marker,
+        '        for attempt in range(1, 4):\n'
+        '            from openmeteo_quota import reserve_request\n'
+        '            reserve_request(params)\n'
+        '            try:', 1)
 
 
 if __name__ == "__main__":

@@ -308,6 +308,7 @@ The packaged population raster supports population-weighted spatial allocation.
 | `--power-output-level` | aggregated/individual/both | GENCO resolution |
 | `--hydro-output-level` | match-power/aggregated/individual/both | Hydro resolution |
 | `--vre-weather-source` | openmeteo/renewables-ninja | VRE backend |
+
 | `--vre-calibrate` | Boolean optional | IRENA calibration |
 | `--skip-vre-profiles` | flag | Avoid weather requests |
 | `--skip-hydro-profiles` | flag | Avoid hydro export |
@@ -315,6 +316,8 @@ The packaged population raster supports population-weighted spatial allocation.
 | `--skip-electricity-demand` | flag | Do not request or generate load profiles |
 
 Use `python generate_all_sector_inputs.py --help` for the complete interface.
+
+Public Open-Meteo acquisition uses `openmeteo_quota.py` to reserve weighted HTTP attempts before download. Both VRE and the heating calculator adapter use the same SQLite ledger, `.openmeteo_quota.sqlite3`, in the installation directory. Atomic transactions prevent concurrent processes from reserving the same remaining allowance. Cached series bypass reservations. Each query's estimated cost is `max(1, days/14) * max(1, variables/10) * models * locations`; retries are counted conservatively even if a request fails. Rolling limits use 90% of the published minute/hour/day/month allowance (540 / 4,500 / 9,000 / 270,000), with 31 days for the monthly window. Requests proceed without fixed pacing until the next reservation would exceed a budget, then wait only until sufficient prior calls expire. A wait exceeding the configured budget stops resumably. Wind/solar customer-endpoint requests bypass public budgets. Server HTTP 429 handling remains active because the local ledger cannot observe other clients on the same IP. The ledger stores no credentials or weather values, persists across restarts, and is excluded from distributable packages. An explicit `H2RES_OPENMETEO_QUOTA_DB` environment path can share a ledger between cooperating installations on the same machine.
 
 For custom geography, see [the mapping guide and editable examples](docs/CUSTOM_ZONES.html).
 The runner validates the map against the selected NUTS boundary vintage before

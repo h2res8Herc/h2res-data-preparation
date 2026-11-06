@@ -41,7 +41,8 @@ Custom-zone mapping examples and support limits: docs/CUSTOM_ZONES.html.
 Partial-country maps and independent offshore zones are not supported yet.
 Windows archive staging uses short sibling paths. Validated recovery folders
 can rebuild a missing package without repeating source preparation. See the native data guide.
-Wind/solar weather requests respect provider reset delays and retain reusable caches.
+Public wind/solar and heating downloads share a persistent weighted request budget;
+downloads pause only near quota limits, respect provider reset delays and retain caches.
 A daily/monthly provider quota may require resuming after its reset; see the user guide.
 Optional bus-based H2RES-refactored CSV case export: select it on Output format.
 See docs/REFACTORED_EXPORT.html for use, mappings and representation differences.

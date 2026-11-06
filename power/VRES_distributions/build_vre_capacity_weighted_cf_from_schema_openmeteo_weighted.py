@@ -60,6 +60,10 @@ import numpy as np
 import pandas as pd
 import requests
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+from openmeteo_quota import OpenMeteoQuotaWaitError, reserve_request
 
 # ----------------------------
 # Helpers: schema detection
@@ -186,7 +190,7 @@ def fetch_openmeteo_hourly(
     timezone: str,
     want_pv: bool,
     want_wind: bool,
-    sleep_s: float = 0.25,
+    sleep_s: float = 0.,
     max_retries: int = 8,
     cache_dir: Optional[Path] = None,
     max_rate_limit_wait: float = 3600.,
@@ -240,13 +244,11 @@ def fetch_openmeteo_hourly(
     if api_key:
         url=CUSTOMER_ARCHIVE_URL
         request_params['apikey']=api_key
-    # Public queries longer than two weeks count as multiple calls. About one
-    # second per estimated call leaves headroom under the public hourly limit.
-    estimated_calls=max(1.,days/14.)*max(1.,len(hourly)/10.)
-    spacing=max(float(sleep_s),estimated_calls if not api_key else 0.)
     waited=0.
     last_err='No usable weather response'
     for k in range(max_retries):
+        if not api_key:
+            reserve_request(params, max_wait=max(0., max_rate_limit_wait-waited), wait=_wait_weather)
         try:
             r=requests.get(url,params=request_params,timeout=60)
         except requests.RequestException as error:
@@ -282,7 +284,7 @@ def fetch_openmeteo_hourly(
                     last_err='Open-Meteo returned an invalid or incomplete hourly response'
                 else:
                     if cache_path is not None:_write_weather_cache(data,cache_path)
-                    if spacing>0:_wait_weather(spacing,'request pacing')
+                    if sleep_s>0:_wait_weather(float(sleep_s),'request spacing')
                     return data
         if k+1<max_retries:
             _wait_weather(min(max(1.,sleep_s)*2**k,60.),f'{last_err}; retry {k+2}/{max_retries}')
@@ -547,7 +549,7 @@ def main():
     ap.add_argument("--wind-cut-out", type=float, default=25.0)
 
     # throttling
-    ap.add_argument("--sleep-s", type=float, default=0.25)
+    ap.add_argument("--sleep-s", type=float, default=0., help="Optional delay after a new download; default uses counted request budgets only")
     ap.add_argument("--max-retries", type=int, default=8)
     ap.add_argument('--openmeteo-max-wait',type=float,default=3600.,help='Maximum seconds spent honoring HTTP 429 delays for a site; daily/monthly limits without a reset delay stop resumably')
     ap.add_argument("--verbose", action="store_true")
@@ -696,7 +698,7 @@ def main():
                 )
                 ok_sites += 1
 
-            except OpenMeteoRateLimitError as e:
+            except (OpenMeteoRateLimitError, OpenMeteoQuotaWaitError) as e:
                 rate_limited=True
                 errs.append(str(e))
                 break
