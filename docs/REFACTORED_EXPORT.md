@@ -34,6 +34,16 @@ Specify `--industry-mode regular`, `categories` or `complex`, and `--efuels` / `
 
 ## Folder and references
 
+Before conversion, the exporter automatically checks required source files and worksheets, selected country/zone keys, generator cost references, planning-year coverage, policy scaling, heat-pump COP profiles, fuel prices and e-fuel recipe keys. Results are saved as `<output directory>/refactored_preflight.json`. Errors are collected together and identify the source sheet, country/zone or year. A failed preflight stops CSV generation and preserves the previous case. Successful cases include `preflight.json` alongside the later full-calendar and cross-reference validation results.
+
+Run these checks separately without generating or replacing a case:
+
+```powershell
+python refactored_input_export.py --bundle outputs_HR/model_inputs --out-root outputs_HR --preflight-only
+```
+
+Country selection is applied consistently to financial tables, policy multipliers and heat-pump profiles. Repeated COP rows can be coalesced only when their values agree; conflicting rows are errors. Fuel prices from different countries/hours are not silently averaged into one global price. Supply a common scenario price if the target's global price table cannot represent the source differences. Finite/nonnegative costs and policy multipliers are required; explicit zero values retain their meaning. Preflight does not replace the subsequent full-calendar, conservation and actual-model-reader checks.
+
 The CSV names and subdirectories match the example model: root `buses.csv`, `fuel_cost.csv`, `transmission_lines.csv`, `policy.csv`, `learning_rates.csv`, `capital_cost_by_year.csv`; and sector directories `electricity`, `heating`, `efuel`, `transport`.
 
 `heating/efficiency.csv` is an additional supported time-series input containing the generated hourly heat-pump COP. The included `load_prepared_case.py` passes it as `efficiency_ts_path`. A model runner that does not expose this path uses the annual-mean COP written in the converter table. Use the supplied loader helper for hourly COP:

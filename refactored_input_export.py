@@ -22,6 +22,7 @@ import numpy as np
 import pandas as pd
 
 from model_input_bundle import selected_workbook
+from refactored_input_checks import select_scope,unique_rows,common_fuel_price,year_value,preflight
 
 ROOT=Path(__file__).resolve().parent
 CONTRACT=ROOT/'refactored_reference/contract.json'
@@ -178,7 +179,7 @@ class CaseExporter:
         table=self.cost_table
         if industry is not None and 'industry_inv_cost_categories' in self.book.sheet_names:
             if self.industry_cost_rows is None:
-                t=self.sheet('industry_inv_cost_categories')
+                t=self.local(self.sheet('industry_inv_cost_categories'))
                 self.industry_cost_rows={}
                 for row in t.to_dict('records'):
                     k=(row['boiler'],row['zone'],row['Industry'],row['category'])
@@ -195,15 +196,15 @@ class CaseExporter:
                 for y in self.years:
                     column=y if y in row else str(y)
                     if column not in row or pd.isna(row[column]):raise ValueError(f'Missing industry cost for {key}/{zone}/{y}')
-                    result[y]=number(row,column)*1e6
+                    value=number(row,column)
+                    if value<0:raise ValueError(f'Invalid industry investment cost {key}/{zone}/{y}: negative value')
+                    result[y]=value*1e6
                 self.cost_curves[cache_key]=result
                 return result
         # A year occurs once per country in native cost sheets. Country-wide
         # sheets may have no zone column at all; select System before testing
         # year uniqueness so foreign reference rows do not create ambiguity.
-        if 'System' in table:
-            table=table.loc[table.System.eq(self.countries[zone])]
-        table=table.loc[table.zone.eq(zone)] if 'zone' in table else table
+        table=select_scope(table,system=self.countries[zone] if 'System' in table else None,zone=zone)
         if key not in table:
             aliases={'fuel_oil_DH':'Oil_DH'}
             wanted=aliases.get(key,key)
@@ -221,7 +222,9 @@ class CaseExporter:
         for y in self.years:
             if y not in lookup or pd.isna(lookup.loc[y]):
                 raise ValueError(f'Missing native investment cost {key}/{zone}/{y}')
-            result[y]=float(lookup.loc[y])*1e6
+            value=float(lookup.loc[y])
+            if not np.isfinite(value) or value<0:raise ValueError(f'Invalid native investment cost {key}/{zone}/{y}: expected a finite nonnegative value')
+            result[y]=value*1e6
         self.cost_curves[cache_key]=result
         return result
 
@@ -241,17 +244,13 @@ class CaseExporter:
             column=year if year in rows else str(year)
             if rows.empty or column not in rows:raise ValueError(f'No native price for {fuel}/{year}')
             values=pd.to_numeric(rows[column],errors='raise')
-            if not np.isfinite(values).all() or not np.allclose(values,values.iloc[0]):
-                raise ValueError(f'Target has system-wide fuel prices; differing country prices for {fuel}/{year} need a common scenario assumption')
-            return float(values.iloc[0])
+            return common_fuel_price(values,f'policy_fuels/import/{fuel}/{year}')
         frame=self.fuel_prices
         if 'System' in frame:frame=frame.loc[frame.System.isin(set(self.countries.values()))]
         if year not in set(frame.year):
             raise ValueError(f'Missing fuel price year {year}')
         values=pd.to_numeric(frame.loc[frame.year.eq(year),choices[0]],errors='raise')
-        if not np.isfinite(values).all() or values.empty:
-            raise ValueError(f'Invalid fuel prices for {fuel}/{year}')
-        return float(values.mean())
+        return common_fuel_price(values,f'fuel_prices/{fuel}/{year}')
 
     def unit(self,row,name,tech,bus_out,*,fuel=None,efficiency=None,cost_key=None,industry=None,category=None):
         zone=str(row.get('zone',row.get('Zone')))
@@ -314,17 +313,28 @@ class CaseExporter:
         cache_key='policy:'+sheet
         if cache_key not in self.cache:self.cache[cache_key]=pd.read_excel(self.policy_book,sheet)
         table=self.cache[cache_key]
-        table=table.loc[table.zone.eq(zone)]
+        table=select_scope(table,system=self.countries[zone],zone=zone)
         if len(table)!=1:raise ValueError(f'Missing/ambiguous {sheet} for {zone}')
         row=table.iloc[0]
-        column=year if year in row else str(year)
-        if column not in row or pd.isna(row[column]):raise ValueError(f'Missing {sheet}/{zone}/{year}')
-        return number(row,column)
+        return year_value(row,year,f'{sheet}/{self.countries[zone]}/{zone}')
+
+    def efficiency_profile(self,key,zone):
+        cache_key=('COP',zone,key)
+        if cache_key not in self.cache:
+            scope_key=('COP samples',zone)
+            if scope_key not in self.cache:
+                self.cache[scope_key]=select_scope(self.sheet('COP_HP'),system=self.countries[zone],zone=zone).copy()
+            samples=self.cache[scope_key]
+            if samples.empty or key not in samples:raise ValueError(f'Missing COP data {key}/{zone}')
+            samples=unique_rows(samples,['period'],f'COP_HP/{self.countries[zone]}/{zone}/{key}',values=[key],allow_identical=True)
+            profile=hourly(samples[['period',key]],f'COP {key}/{zone}')[key]
+            if profile.le(0).any():raise ValueError(f'COP must be strictly positive: {key}/{zone}')
+            self.cache[cache_key]=profile
+        return self.cache[cache_key].copy()
 
     def build_heating(self):
         # Separate networks preserve district losses and prevent CHP supplying
         # individual boilers' demand without a physical heat network.
-        cop=self.sheet('COP_HP')
         for kind,filename,loss in [('INDV','heating_individual.csv',0),('DH','heating_district.csv',self.dh_loss)]:
             demands=hourly(self.series(filename),filename)
             for zone in self.countries:
@@ -336,10 +346,7 @@ class CaseExporter:
                     electric=sheet.startswith('flex_tech')
                     fuel='electricity' if electric else r['fuel_type']
                     if electric:
-                        samples=cop.loc[cop.zone.eq(zone)] if 'zone' in cop else cop
-                        if samples.empty or key not in samples:raise ValueError(f'Missing COP data {key}/{zone}')
-                        samples=samples.drop_duplicates('period')
-                        eff=hourly(samples[['period',key]],f'COP {key}/{zone}')[key]
+                        eff=self.efficiency_profile(key,zone)
                     else:eff=None
                     u=self.unit(r,name,key,self.bus(zone,'heat',kind,loss=loss),fuel=fuel,efficiency=float(eff.mean()) if eff is not None else None)
                     if electric:
@@ -593,7 +600,7 @@ class CaseExporter:
             self.costs.extend(dict(year=y,unit=name,field='capital_cost',capital_cost=v/factor) for y,v in costs.items())
         self.audit['assumptions'].append('Stationary battery stock/cost uses native MWh stock and MW/MWh ratio; native round-trip efficiency is split symmetrically. Electrolyser input ratings and capex are converted to output ratings. DAC uses native electricity-per-tonne intensity; CO2 and nitrogen buses use tonnes/hour and tonne storage despite generic target MW/MWh field names.')
         if not self.efuels:return
-        inputs=self.sheet('efuel_inputs').set_index('fuel')
+        inputs=unique_rows(self.sheet('efuel_inputs'),['fuel'],'efuel_inputs').set_index('fuel')
         for r in self.local(self.sheet('efuel')).to_dict('records'):
             if not enabled(r.get('use','Y')):continue
             key=r['unit_name'];zone=r['zone'];name=identifier(self.countries[zone],zone,r['unit_name_gen'])
@@ -910,19 +917,35 @@ def validate_case(case):
     return result
 
 
-def export_refactored_bundle(bundle,out_root,*,model_root=None,**kwargs):
+def export_refactored_bundle(bundle,out_root,*,model_root=None,preflight_only=False,**kwargs):
     """Stage/validate/archive, then publish atomically with rollback."""
     from native_data_delivery import publish_outputs
     from filesystem_publish import failure_details
     out_root=Path(out_root).resolve();out_root.mkdir(parents=True,exist_ok=True)
-    phase='conversion'
+    phase='preflight'
+    preflight_report=None
+    preflight_path=out_root/'refactored_preflight.json'
     try:
         with TemporaryDirectory(dir=out_root,prefix='_rf_') as tmp:
             stage=Path(tmp);case=stage/'data_refactored'
             exporter=CaseExporter(bundle,case,**kwargs)
-            try:exporter.build()
+            try:
+                print('Refactored export: checking source schemas, country/zone keys and year coverage',flush=True)
+                preflight_report=preflight(exporter,model_root)
+                preflight_path.write_text(json.dumps(preflight_report,indent=2),encoding='utf-8')
+                if not preflight_report['ready']:
+                    messages=[f"{r['source']}: {r['error']}" for r in preflight_report['errors'][:5]]
+                    raise ValueError('Refactored input preflight failed: '+'; '.join(messages)+f'; see {preflight_path}')
+                print(f"Refactored source checks passed: {preflight_report['checks']}",flush=True)
+                if preflight_only:return preflight_report
+                exporter.audit['preflight']=dict(ready=True,checks=preflight_report['checks'],report='preflight.json')
+                phase='conversion'
+                exporter.build()
+                shutil.copy2(preflight_path,case/'preflight.json')
             finally:exporter.close()
             phase='CSV validation';report=validate_case(case)
+            report['preflight_passed']=True
+            (case/'validation.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
             if model_root:
                 phase='actual refactored reader validation'
                 from refactored_case_loader import check_case
@@ -948,6 +971,9 @@ def export_refactored_bundle(bundle,out_root,*,model_root=None,**kwargs):
         print(f'Refactored H2RES case: {out_root / "data_refactored"}\nRefactored input ZIP: {out_root / "H2RES_refactored_inputs.zip"}',flush=True)
         return report
     except Exception as error:
+        if phase=='preflight' and preflight_report is None:
+            preflight_path.write_text(json.dumps(dict(ready=False,phase='refactored input preflight',checks=0,
+                errors=[dict(source=str(bundle),error=str(error))]),indent=2),encoding='utf-8')
         details=failure_details(error,phase);details['previous_refactored_case_retained']=True
         (out_root/'refactored_export_failure.json').write_text(json.dumps(details,indent=2),encoding='utf-8')
         raise
@@ -961,9 +987,11 @@ def main(argv=None):
     parser.add_argument('--years',help='Comma-separated years; default is the native scenario horizon')
     parser.add_argument('--industry-mode',choices=['regular','categories','complex'])
     parser.add_argument('--efuels',action=argparse.BooleanOptionalAction,default=None)
+    parser.add_argument('--preflight-only',action='store_true',help='Check prepared source files, keys and reference coverage without generating or replacing the CSV case')
     args=parser.parse_args(argv)
     try:
         export_refactored_bundle(args.bundle,args.out_root,model_root=args.model_root,
+            preflight_only=args.preflight_only,
             industry_mode=args.industry_mode,efuels=args.efuels,years=[int(y) for y in args.years.split(',')] if args.years else None)
         return 0
     except (OSError,ValueError,KeyError,ImportError) as error:

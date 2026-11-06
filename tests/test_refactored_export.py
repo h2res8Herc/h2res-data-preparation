@@ -143,6 +143,14 @@ class CostsAndPublicationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Ambiguous cost trajectory'):
             e.trajectory('Plant','SI1')
 
+    def test_invalid_investment_values_are_rejected_during_lookup(self):
+        for value in [-1.,np.inf]:
+            e=CaseExporter.__new__(CaseExporter)
+            e.countries={'SI1':'SI'};e.cost_curves={};e.years=[2025]
+            e.cost_table=pd.DataFrame({'year':[2025],'System':['SI'],'Plant':[value]})
+            with self.subTest(value=value),self.assertRaisesRegex(ValueError,'Invalid native investment cost'):
+                e.trajectory('Plant','SI1')
+
     def test_failed_export_retains_existing_case_and_archive(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);case=root/'data_refactored';case.mkdir();(case/'marker').write_text('old')

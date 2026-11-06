@@ -45,7 +45,7 @@ def check(root, dependencies=True):
         if digest(reference/'data'/name)!=record['sha256']:
             raise ValueError('Model reference file differs from the bundled reference: '+name)
     modules=['generate_all_sector_inputs','h2res_input_gui','model_input_bundle','model_variants',
-             'refactored_input_export','refactored_case_loader',
+             'refactored_input_export','refactored_input_checks','refactored_case_loader',
              'power_input_links','native_input_checks','regional_network_inputs','policy_input_links',
              'industry.complex_regional_inputs',
              'industry.generate_complex_industry_inputs','industry.facility_sources',

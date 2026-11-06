@@ -163,12 +163,12 @@
       "sha256": "922bce9ffc4c71ebd74827b5a5d9dfdab6f3ff2242f7caa2995fd6b61ebb3801"
     },
     "docs/REFACTORED_EXPORT.html": {
-      "bytes": 16985,
-      "sha256": "a8b0d4b6a45f99707d195b3107975cbdb95da41599e2bb35bf79825092894c0e"
+      "bytes": 18457,
+      "sha256": "7ce274f53557bdedff3a0fb75282b69270739edee6f608ecc22d48393f65f86b"
     },
     "docs/REFACTORED_EXPORT.md": {
-      "bytes": 13364,
-      "sha256": "1d2d6e1376797b02c5751529865df013002ecfe5bafc3e8d27b65379ea82ff32"
+      "bytes": 14753,
+      "sha256": "b46b5013ac1f05ba40a318ef5b5f7961229c902e8dc47eb97bdab48b658bea3e"
     },
     "docs/REFERENCES.md": {
       "bytes": 42298,
@@ -826,9 +826,13 @@
       "bytes": 5314,
       "sha256": "ed72a17ad55744259b85499ac416c0c9fe6d98246951c53ebe6a1b0f90529de4"
     },
+    "refactored_input_checks.py": {
+      "bytes": 10375,
+      "sha256": "740827961c5f8877499cfd0476f47878f89de30dc3e03009bd34852fc2f2e5e8"
+    },
     "refactored_input_export.py": {
-      "bytes": 70451,
-      "sha256": "309764eedc82da67bb2fd61624763510a4ed5592713ec1dc5436442e4eef6b61"
+      "bytes": 72701,
+      "sha256": "f4e8bffdf4bb6f993f76f43488e0e3adbcf78e24c3bcbc08fcfffc813d7c5a53"
     },
     "refactored_reference/contract.json": {
       "bytes": 13374,
@@ -951,8 +955,12 @@
       "sha256": "ae0b1d3a0696f019c53065102d5fb9d5a7d4b38d2ba44eb217db96a7be9b308d"
     },
     "tests/test_refactored_export.py": {
-      "bytes": 9399,
-      "sha256": "ffd6daf2eb4c9b7369d591b4ffcf04429d81d2e1af51088435678d77fd278cbd"
+      "bytes": 9869,
+      "sha256": "c1615ed9b52581d5894800d6d3a83ef83ac2306aac839f8b581af6e0a4eebaeb"
+    },
+    "tests/test_refactored_preflight.py": {
+      "bytes": 4735,
+      "sha256": "d3599aa353d12f3fc2069d81364695b9aafe7fa5970454c70f5e4aa258aafb9d"
     },
     "tests/test_regional_allocation.py": {
       "bytes": 10411,
@@ -991,8 +999,8 @@
       "sha256": "3f6749692a40d497a115856ea5b2135b0c87da072c6fe3f6be2b4c9e356a4afd"
     },
     "tools/check_portable.py": {
-      "bytes": 3641,
-      "sha256": "3ee7b9ff89c53f9ddaedd2a3eff2e3e984b3afa9d5f2e2c2b50fbe251013b593"
+      "bytes": 3667,
+      "sha256": "75d6cb30d4fb580c11760721ed2a781f6145524ce184c581e6ece7d66bbf60e1"
     },
     "transport/script/activity_units.py": {
       "bytes": 1234,
