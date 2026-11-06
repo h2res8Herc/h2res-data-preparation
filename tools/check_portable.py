@@ -33,6 +33,9 @@ def check(root, dependencies=True):
         if case_output_path(name):
             raise ValueError('Generated country outputs were included in the release: '+name)
         path=root/name
+        if path.is_file():
+            from preparation_assets import check_lfs_pointer
+            check_lfs_pointer(path)
         if not path.resolve().is_relative_to(root) or not path.is_file() or digest(path)!=record['sha256']:
             raise ValueError('Missing or modified release file: '+name)
     for name in ['data_preparation_config.json','h2res_gui_config.json','.env','.cdsapirc']:
@@ -45,7 +48,7 @@ def check(root, dependencies=True):
         if digest(reference/'data'/name)!=record['sha256']:
             raise ValueError('Model reference file differs from the bundled reference: '+name)
     modules=['generate_all_sector_inputs','h2res_input_gui','model_input_bundle','model_variants',
-             'refactored_input_export','refactored_input_checks','refactored_case_loader',
+             'refactored_input_export','refactored_input_checks','refactored_case_loader','preparation_assets',
              'power_input_links','native_input_checks','regional_network_inputs','policy_input_links',
              'industry.complex_regional_inputs',
              'industry.generate_complex_industry_inputs','industry.facility_sources',

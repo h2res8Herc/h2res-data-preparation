@@ -771,6 +771,8 @@ def main(argv: Iterable[str] | None = None) -> int:
             raise ValueError("--zone-map is required with --spatial-level custom")
         from preparation_dependencies import require_for_args
         require_for_args(args)
+        from preparation_assets import validate_assets_for_args
+        validate_assets_for_args(args)
         args.out_root = args.out_root.resolve()
         args.data_root = args.data_root.resolve()
         args.out_root.mkdir(parents=True, exist_ok=True)

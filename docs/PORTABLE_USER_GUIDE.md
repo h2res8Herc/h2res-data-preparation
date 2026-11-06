@@ -8,6 +8,8 @@ This package sources internet data and prepares H2RES inputs. The application wi
 
 ## 1. Copy and set up on another machine
 
+**GitHub download:** choose the attached `H2RES_Data_Preparation_*.zip` portable asset on the repository's **Releases** page. **Code → Download ZIP** can contain a Git LFS pointer for the hydro dataset. A pointer is about 134 bytes; the real `power/hydro/precomputed/runoff_shapes_2020.npz` is 107,182,326 bytes. Setup and generation check for this before starting a data job. If an existing installation contains the pointer, copy the real file from the portable ZIP to that exact relative path and rerun with existing source downloads reused. A Git clone can instead restore it with `git lfs install` and `git lfs pull`.
+
 1. Copy the complete `H2RES_Data_Preparation_2026-11-04` folder, or copy its ZIP and extract it completely. Open files from the extracted folder.
 2. Choose a writable local folder, for example `C:\EnergyTools\H2RES_Data_Preparation_2026-11-04`. The code resolves its bundled data relative to this folder; a `D:\POSAO` installation is not required for data preparation.
 3. Use an existing **64-bit Python 3.10+ / Anaconda installation with Tcl/Tk**, or install **64-bit Python 3.12** from the official Python website, including **Tcl/Tk and IDLE**, the Python launcher and pip. Python 3.12 is the tested offline option. Python is a prerequisite; this release does not contain an embedded interpreter.

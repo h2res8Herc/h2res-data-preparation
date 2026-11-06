@@ -28,6 +28,10 @@ try {
     if ($selected.offline_wheels) { Write-Host 'Dependency mode: tested Python 3.12 lock and bundled wheels.' }
     else { Write-Host 'Dependency mode: online installation for this Python version. Internet access is required.' }
     if ($CheckOnly) { exit 0 }
+    $assetChecker = Join-Path $setupRoot 'preparation_assets.py'
+    if (Test-Path -LiteralPath $assetChecker -PathType Leaf) {
+        Invoke-SetupPython -Executable $python -PythonArguments @($assetChecker,'--check-hydro')
+    }
     $environment = Join-Path $setupRoot '.venv'
     $environmentPython = Join-Path $environment 'Scripts\python.exe'
     if (Test-Path -LiteralPath $environment) {

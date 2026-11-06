@@ -4,6 +4,8 @@ Download public energy data and prepare inputs for the original workbook-based H
 
 ## Start on Windows
 
+For a complete ready-to-copy installation, use the **attached portable ZIP in [Releases](https://github.com/h2res8Herc/h2res-data-preparation/releases)**. GitHub's **Code → Download ZIP** and automatic **Source code (zip)** downloads can contain a small Git LFS pointer instead of the large hydro input. The attached portable ZIP includes the real data and offline Python 3.12 dependency wheels.
+
 1. Install 64-bit Python 3.12 with Tcl/Tk. Compatible Python 3.10+ and Anaconda installations are also supported.
 2. Run `SETUP_WINDOWS.bat` to create the project's Python environment.
 3. Run `START_DATA_PREPARATION.bat`.
@@ -25,6 +27,8 @@ git clone https://github.com/h2res8Herc/h2res-data-preparation.git
 cd h2res-data-preparation
 git lfs pull
 ```
+
+If NumPy reports "This file contains pickled (object) data" while opening `power/hydro/precomputed/runoff_shapes_2020.npz`, check whether that file is only about 134 bytes and begins with `version https://git-lfs.github.com/spec/v1`. Restore the real file from the portable release ZIP, or use Git LFS in a clone. After repair, rerun generation with existing downloads reused. The hydro package is a numeric NPZ archive and does not require enabling pickle loading.
 
 The repository includes the required local reference data. Source observations that are not bundled are downloaded during preparation. The source checkout installs Python dependencies from the internet; dependency wheels and the complete offline installer are provided in the private repository's Releases when available. Download the attached portable ZIP for copying to another machine.
 

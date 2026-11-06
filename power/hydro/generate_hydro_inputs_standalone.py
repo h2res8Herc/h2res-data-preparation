@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import math
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -19,6 +20,8 @@ import pandas as pd
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parents[1]
+sys.path.insert(0,str(PROJECT_ROOT))
+from preparation_assets import PreparationAssetError,validate_hydro_profiles
 DEFAULT_BULK = PROJECT_ROOT / "power" / "hydro_bulk_europe"
 HYDRO_TECHS = {"HDAM", "HPHS", "HROR"}
 
@@ -136,6 +139,9 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    # Reject Git LFS pointers/source-ZIP placeholders before any plant mapping.
+    validate_hydro_profiles(args.profiles)
+
     for path in (
         args.detailed_genco, args.aggregated_genco, args.aggregation_schema,
         args.profiles, args.hydro_units, args.plants,
@@ -167,7 +173,7 @@ def main() -> None:
     if mapping["new_unit_name"].isna().any():
         raise ValueError("At least one hydro GENCO row has no aggregation mapping.")
 
-    package = np.load(args.profiles)
+    package = np.load(args.profiles,allow_pickle=False)
     profile_ids = package["plant_id"].astype(str)
     profile_index = {v: i for i, v in enumerate(profile_ids)}
     shares = package["runoff_share"].astype(np.float64)
@@ -293,4 +299,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except PreparationAssetError as error:
+        print(f'ERROR: {error}',file=sys.stderr)
+        raise SystemExit(2)
