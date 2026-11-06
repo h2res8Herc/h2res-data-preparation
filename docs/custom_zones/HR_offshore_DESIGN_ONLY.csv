@@ -1,0 +1,2 @@
+﻿country,zone,zone_type,connected_land_zone,existing_capacity_MW,electricity_demand_MWh,heating_demand_MWh,industry_demand_MWh,transport_activity,wind_technology,latitude,longitude,max_capacity_MW
+HR,HR_OFFSHORE,offshore,HR_COASTAL,0,0,0,0,0,WTOF,,,

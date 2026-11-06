@@ -1,0 +1,8 @@
+{
+  "preset": "res100",
+  "scope": "all-energy",
+  "years": [2025, 2030, 2035, 2040, 2045, 2050],
+  "target_year": 2050,
+  "investment_multiplier": 1.0,
+  "investment_overrides": []
+}

@@ -1,0 +1,52 @@
+{
+  "jrc_source.py": {
+    "handoff_path": "model/scripts/expand_complex_industry_sectors.py",
+    "source_sha256": "a2aaf109e16ab57e5942960f4bb56f9e1780217892ec5cd61ba58db222aa6801",
+    "extracted_sha256": "aa979582fcf26165fee9d7bd110e62cbe5a86c11d5710382312495fb278d725c",
+    "functions": [
+      "historical_h2_reforming_process_co2",
+      "fuel_observation",
+      "read_fossil_waste_proof",
+      "slug",
+      "read_tree",
+      "leaf_nodes",
+      "leaf_fuel",
+      "output_rows",
+      "extract_source"
+    ],
+    "local_adaptations": [
+      "Optional waste_proof_by_sector overrides only the explicitly supplied sector/year waste proof; strict original behavior is the default.",
+      "Use Python 3.10/3.11-compatible f-string quoting; exception text and the numerical method are unchanged."
+    ]
+  },
+  "fuel_policy.py": {
+    "handoff_path": "model/scripts/update_industry_fuel_compatibility.py",
+    "source_sha256": "7fa3dcafea8eedb22104f1a7fb8333bb3471cd9b41ada6d3ba581bc5a617b42e",
+    "extracted_sha256": "97b8f29fb0c915d8875b11709ead26d36cdcebcfc267cd621a4ab42d6878fd16",
+    "functions": [
+      "classify",
+      "fractions",
+      "service_pools",
+      "ceiling"
+    ],
+    "local_adaptations": []
+  },
+  "electricity_policy.py": {
+    "handoff_path": "preparation_history/analysis/complex_electricity_review_2026_10_31/review_complex_electricity.py",
+    "source_sha256": "c1a19238b3e4e5813b216e1ad5214822e9f7f305bae5d22f1387c3951232bbcf",
+    "extracted_sha256": "cabb2da6577c2c8d254e572dd59fd5a867347223d4becbb7e9eb2757c03cccc7",
+    "functions": [
+      "envelope"
+    ],
+    "local_adaptations": []
+  },
+  "heat_pump_policy.py": {
+    "handoff_path": "preparation_history/scripts/update_all_industry_share_limits.py",
+    "source_sha256": "69b682e39f4b61dfce2a9cd5ee39bc13ea9c5fc0bde870759c9defea44e6de67",
+    "extracted_sha256": "f6aecc7c96950380cf21d5b6ac6da904e47d379f34a6659a76159959d0c3450b",
+    "functions": [
+      "hp_eligibility"
+    ],
+    "local_adaptations": []
+  }
+}

@@ -1,0 +1,4 @@
+# Keep exact reference/package checksums across Windows checkouts.
+* -text
+# Required hydro seed exceeds GitHub's ordinary Git-file size limit.
+power/hydro/precomputed/runoff_shapes_2020.npz filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,3 @@
+# Optional CDS download backend; Open-Meteo does not require CDS credentials.
+-r requirements.txt
+cdsapi

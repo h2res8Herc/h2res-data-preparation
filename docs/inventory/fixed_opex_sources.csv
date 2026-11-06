@@ -1,0 +1,8 @@
+﻿source_id,source_url,rows,example_technology,example_workbook,example_sheet,example_cells,example_price_years
+DEA_HEAT,https://ens.dk/media/8518/download,1144,Air_to_water_HP,flex_tech.xlsx,"207 HP air-water,ex single","C30,D30,E30,F30,G30",
+DEA_POWER,https://ens.dk/media/8615/download,41288,Air_to_water_HP_DH,flex_tech.xlsx,"40 Comp. hp, airsource 3 MW","C37,D37,E37,F37,G37",2025
+DEA_FUELS,https://ens.dk/media/6444/download,1456,PEM_elec,flex_tech.xlsx,80 PEMEC 100 MW,"C38,D38,E38,F38,G38",
+DEA_PROCESS,https://ens.dk/media/7758/download,2288,Gas_industry,flex_tech.xlsx,"6.1 Boiler, gas and oil","C25,D25,E25,F25,G25",2025
+DEA_STORAGE,https://ens.dk/media/6589/download,208,solar_stor,flex_tech.xlsx,141a TTES,"C25,D25,E25,F25,G25",
+DEA_CCS,https://ens.dk/media/5729/download,416,DAC,flex_tech.xlsx,403.b Solid Direct air capture,"C27,D27,E27,F27,G27",2020
+DEA_NETWORK,https://ens.dk/media/7681/download,416,400kV_AC,flex_tech.xlsx,1.6 el trans OH ,"K12,E12,F12,G12,H12,M12",2025

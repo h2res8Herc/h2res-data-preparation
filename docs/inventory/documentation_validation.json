@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "errors": [],
+  "model_and_preparation_source_hashes_verified": 52,
+  "model_input_hashes_verified": 48,
+  "reference_entries": 57,
+  "html_anchors": 278,
+  "constraints_indexed": 692,
+  "variables_indexed": 329,
+  "model_executed": false,
+  "model_files_modified": false
+}

@@ -1,0 +1,17 @@
+# Default internet-source pipelines for power, industry, transport and heating.
+# Install with the same Python executable used to launch data preparation.
+numpy
+pandas
+openpyxl
+requests
+geopandas
+shapely
+pyproj
+pyogrio
+osmium
+rasterio
+rasterstats
+pyxlsb
+pycountry
+xarray
+netCDF4

@@ -1,0 +1,189 @@
+{
+  "model_root": "D:\\POSAO\\H2RES_2.11.2026_novi",
+  "model_version": "H2RES_2.11.2026_novi",
+  "captured_utc": "2026-11-02T15:42:59.984831+00:00",
+  "data_layout": "model-directory-mirror",
+  "directories": [
+    "sources",
+    "variants",
+    "variants/technical_2050"
+  ],
+  "reader_sha256": {
+    "main.py": "9289dc4da2f7d4b76a649b7a7fa472781f85b49484e3b19a7afd3e4c45c6bcd4",
+    "read_process_data.py": "a3d4f741c08a00ee8ebd6741336c9d2c417acd7a22dd00766d21561fb334d571"
+  },
+  "files": {
+    "co2_demand.csv": {
+      "sha256": "6db16cf25a9fe3653e6224598543f180f26b2f7347d3c082c6b767a9d5bc152f",
+      "bytes": 629660
+    },
+    "cooling_district.csv": {
+      "sha256": "2cd4d42eaa92c5bfc3d72cdf0ad7c5988a4db3aaddcf43ffc95e11ec7ff9054a",
+      "bytes": 191661
+    },
+    "cooling_individual.csv": {
+      "sha256": "2cd4d42eaa92c5bfc3d72cdf0ad7c5988a4db3aaddcf43ffc95e11ec7ff9054a",
+      "bytes": 191661
+    },
+    "electricity_demand.csv": {
+      "sha256": "7affe1981ba02262f5776554dc09fe3b4c509ea4240aa39ddc6a5b07aac3fb10",
+      "bytes": 7861967
+    },
+    "electricity_prices.csv": {
+      "sha256": "5eca61df34572c2ece49876b2c64f5ca8a455ffed55446ddcaddc55e7e46859a",
+      "bytes": 2454833
+    },
+    "flex_tech.xlsx": {
+      "sha256": "adb6822d81d2016113e90ab36009edcb4c3cb74617d7481546e492b8a21c3be5",
+      "bytes": 5722571
+    },
+    "flex_tech_categories.xlsx": {
+      "sha256": "e514a5f9bfaf12cfa6f840eb835b76fcbf8a5748eb4fb11b6bd7b77bcfe939db",
+      "bytes": 6861982
+    },
+    "flex_tech_complex_industry.xlsx": {
+      "sha256": "d1826554a428c78c754ee0b58710d06a4f39a16006fa146bc345454147e3d152",
+      "bytes": 6674825
+    },
+    "flex_tech_efuel.xlsx": {
+      "sha256": "4d6a72cf31c8c738e305aae71678c9a6b083c47ffaeba4fad93655c660e11762",
+      "bytes": 5655450
+    },
+    "flex_tech_efuel_categories.xlsx": {
+      "sha256": "96f95979e3ae169c494f24113a21f231675e98907fdfc113f05a736dc1b94fe1",
+      "bytes": 5926707
+    },
+    "flex_tech_efuel_complex_industry.xlsx": {
+      "sha256": "cd528d5cd2b7317f6bcc251b7249101249c94b68f537e4833d7a925daa8b8e54",
+      "bytes": 6479536
+    },
+    "fuel_prices.csv": {
+      "sha256": "3909309ee78a47983ab001d1ee94b1faabf60837dc014147a155afcce2c55a54",
+      "bytes": 96675
+    },
+    "generators.csv": {
+      "sha256": "5b220bd9709ea3847dc4b66447e869d9d8d7b6b7c950a7b9eb862f56f3dd5339",
+      "bytes": 26678
+    },
+    "h2_terminals.xlsx": {
+      "sha256": "d096ccdea4ee23b9c64f57ec7b7e519fdeb1575ee1f006ef4856e7c36b2b05cd",
+      "bytes": 10033
+    },
+    "heating_district.csv": {
+      "sha256": "437650f9fb49cdb41cf2a16062b90801c0cf020528afd35c2614580cac826d45",
+      "bytes": 279537
+    },
+    "heating_electricity.csv": {
+      "sha256": "af0f386ff9f25177a51e13000bf5724927a5a572d208588feb184d5a135b5d0d",
+      "bytes": 1716061
+    },
+    "heating_individual.csv": {
+      "sha256": "278783871d3bbc70667eaedb84f56e8ddaf036f8477401b08fdf9482f97a518e",
+      "bytes": 712533
+    },
+    "hydro_inflows.csv": {
+      "sha256": "b57a80b3973a4d69f68ff3a6dd4b4f824adba04ad9b714e8337e577ecd396921",
+      "bytes": 9427397
+    },
+    "import_prices.csv": {
+      "sha256": "929bbd0527cd4606282ef728977c1ac86755eacef43b7ceb6301781e53da2159",
+      "bytes": 850751
+    },
+    "industry_category_profiles.csv": {
+      "sha256": "c0612eec9cd91c8085533aac3bcf5e98d1f304f186016fbb055c5eca9eef4084",
+      "bytes": 28748111
+    },
+    "industry_complex.xlsx": {
+      "sha256": "001a2334ee78975b2cf5242d7dfbe9dd9d620580f00980df3955e00aad9597d0",
+      "bytes": 224584
+    },
+    "industry_complex_efuel.xlsx": {
+      "sha256": "423affc5d46c83578af699637063c890ff2f086bceed114eaab104ba278baf25",
+      "bytes": 316873
+    },
+    "industry_complex_efuel_electricity_technical_2050.xlsx": {
+      "sha256": "e4845125ae00f5c6fcc8a728a9faedba7871819412374e1eff1e13ea56957683",
+      "bytes": 316585
+    },
+    "industry_complex_electricity_technical_2050.xlsx": {
+      "sha256": "732a030110440d4103a083a3a0f36e619ebec0661d8cd1de6e7b9aa5b5050938",
+      "bytes": 224318
+    },
+    "industry_electricity.csv": {
+      "sha256": "af0f386ff9f25177a51e13000bf5724927a5a572d208588feb184d5a135b5d0d",
+      "bytes": 1716061
+    },
+    "industry_heat.csv": {
+      "sha256": "a0b5a792e25d1f7adc1caed224c83221e3b7c3a0ff9f0609c5e818faa9cabf9f",
+      "bytes": 45897188
+    },
+    "literature_fixed_opex.csv": {
+      "sha256": "ad7c5ac636e33b33f18d9716a10ccff320071fec918101888712559ffecbca14",
+      "bytes": 12738214
+    },
+    "lulucf_removals.csv": {
+      "sha256": "9a29549b6954964d3af6bc656d7104d3d4138813241c8e92e5c09590ac97866c",
+      "bytes": 421
+    },
+    "nh3_demand.csv": {
+      "sha256": "6984cb3671109e25f5b9b1aec990aeae0c2066e00ef43e161c9ddf911e243ce4",
+      "bytes": 799947
+    },
+    "outside_system_normalized_curves.csv": {
+      "sha256": "38a939cdd0e71454f5aa83201f0f9041eec9c87c3dc0a803416d0c46b539eb69",
+      "bytes": 308107
+    },
+    "outside_system_supply_shares.csv": {
+      "sha256": "e34007ccd9c5f7af24a0c0de1b83fc48335e06eb1ce5777bb002337f651b6d4c",
+      "bytes": 200
+    },
+    "policy.xlsx": {
+      "sha256": "4aa9d6579467a8d4881d57be08defaf9b9ee4b50bbeace1f0b4872d8478b79a1",
+      "bytes": 225440
+    },
+    "policy_efuel.xlsx": {
+      "sha256": "4be51a5cc0692a598aacbbdc31b54500cf89f6479a0b63336c5d64250497dac9",
+      "bytes": 233168
+    },
+    "policy_fuels.xlsx": {
+      "sha256": "4a5dd028cf554d5f29aa6f8e44d553cfa1d269d1b25a3cd0a3030e0a5715105f",
+      "bytes": 114429
+    },
+    "README.md": {
+      "sha256": "e22a50e6f7baf01b0f8cc4f3e673be252dc7e3536c56110db224d31c112d675e",
+      "bytes": 10800
+    },
+    "renewable_availability.csv": {
+      "sha256": "78715dda2826d906190fb630ec63642821f3970570cb1a7baf90c8788f2fafc2",
+      "bytes": 14600320
+    },
+    "solar_thermal_availability.csv": {
+      "sha256": "5958cb5ad1573cd998b666b7ecad33b1771cd3058be7f46c6b06fd4c362bb94e",
+      "bytes": 1910941
+    },
+    "sources/JRC-IDEES-2023_EmissionBalance_HR.xlsx": {
+      "sha256": "761a4c76ed49270b2dae2c7bf73976382ea37eb043ed7b0c2701142380982d35",
+      "bytes": 1579169
+    },
+    "sources/JRC-IDEES-2023_EnergyBalance_HR.xlsx": {
+      "sha256": "c72022f62d2394ca13b90ae50bfd45e2aa356a0b57b9d83bbfe23a8c5e58c01c",
+      "bytes": 3147373
+    },
+    "sources/JRC-IDEES-2023_Industry_HR.xlsx": {
+      "sha256": "6413ed5d7908e8b30a4418fb0cc6942cdd88edfefe1876baab00f37080d95cbf",
+      "bytes": 1977612
+    },
+    "transport_demand.csv": {
+      "sha256": "d1c168e00b3e5cd08ac8128194efdf4108d9776d9ba052f0831904f3b91882d9",
+      "bytes": 7631326
+    },
+    "transport_profiles.csv": {
+      "sha256": "9da45a99a8df17b676a838f128987a6f9b0b3340c8dfbbf98f823176b7b9142b",
+      "bytes": 36108321
+    },
+    "variants/technical_2050/flex_tech_efuel_categories.xlsx": {
+      "sha256": "a0feefcb955cec47ebfb3a810b5f06bbb3145d694cfdb2f1dd9217579f12b5ae",
+      "bytes": 5926598
+    }
+  }
+}

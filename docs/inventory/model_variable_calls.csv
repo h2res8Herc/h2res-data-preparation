@@ -1,0 +1,330 @@
+﻿file,line,method,name,vtype,lower_bound,upper_bound,context
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1019,addVars,,Gurobi default continuous,Gurobi default 0,Gurobi default infinity,function _add_vars | not period_positions or not year_positions
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1036,addVars,,Gurobi default continuous,Gurobi default 0,Gurobi default infinity,function _add_vars
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1047,_add_vars,'gen_output',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1048,_add_vars,'hphs_pumpback',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1049,_add_vars,'ceep_period',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1050,_add_vars,'capacity_Investment',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1051,_add_vars,'noloadel',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1053,_add_vars,'import_pay_additional_cost_ETS',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1055,_add_vars,'import_pay_additional_cost_ETS_secc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,include_secc_links == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1057,_add_vars,'generationcapyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1059,_add_vars,'CBAM_cost',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1061,_add_vars,'CBAM_cost_secc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,include_secc_links == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1063,_add_vars,'CBAM_cost_out',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1067,_add_vars,'transfer_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1068,_add_vars,'transfer_cap_hour_prim',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1069,_add_vars,'transfer_cap_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1071,_add_vars,'transfer_cap_outside',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1073,_add_vars,'transfer_cap_outside_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1075,_add_vars,'import_outside',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1076,_add_vars,'export_outside',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1078,_add_vars,'import_zone_system',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1079,_add_vars,'export_zone_system',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1083,_add_vars,'transfer_cap_hour_secc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,include_secc_links == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1086,_add_vars,'ETS_cost',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1087,_add_vars,'national_carbon_cost',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1089,_add_vars,'CO2_total_PP',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1090,_add_vars,'CO2_total_PP_zone',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1092,_add_vars,'CO2_total_elect',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1093,_add_vars,'CO2_total_heat',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1094,_add_vars,'CO2_total_industry',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1095,_add_vars,'CO2_total_refinery',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1096,_add_vars,'CO2_total_refinery_zone',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1097,_add_vars,'CO2_total_transport',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1098,_add_vars,'CO2_total_steamgas',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1101,_add_vars,'Storage_level_Hydro',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1102,_add_vars,'storage_level0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1104,_add_vars,'sto_out_flow_Hydro',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1109,_add_vars,'power_to_h2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1110,_add_vars,'h2_sto_soc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1111,_add_vars,'h2_sto_soc0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1112,_add_vars,'h2_storage_out',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1113,_add_vars,'h2_storage_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1114,_add_vars,'h2_electrolysis_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1115,_add_vars,'h2_electrolysis_gen',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1116,_add_vars,'H2_sto_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1117,_add_vars,'cap_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1118,_add_vars,'FC_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1119,_add_vars,'generation_H2_steam',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1120,_add_vars,'new_H2_steam',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1121,_add_vars,'H2_steamcap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1124,_add_vars,'FC_capacity_Investment',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1125,_add_vars,'gen_output_FuelCell',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1131,_add_vars,'fuel_ind_consumpt',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1132,_add_vars,'boiler_industry_generation',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1133,_add_vars,'boiler_industry_generation_cap_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1136,_add_vars,'industry_share_fuel_annual',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_industry_categories and industry_storage
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1151,_add_vars,'industry_share_fuel',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | else: model_industry_categories and industry_storage
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1155,_add_vars,'boiler_industry_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1156,_add_vars,'elInd',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1159,_add_vars,'CC_industry_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1160,_add_vars,'CC_industry_gen',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1161,_add_vars,'CC_industry_cap_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1162,_add_vars,'CO2_CC_el_dem',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1163,_add_vars,'CO2_CC_el_dem_tot',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1167,_add_vars,'CC_tank_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True | model_CO2_ammine_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1168,_add_vars,'CC_tank_cap_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True | model_CO2_ammine_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1170,_add_vars,'CO2_amine_stor_SOC',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True | model_CO2_ammine_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1171,_add_vars,'CO2_amine_stor_SOC0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True | model_CO2_ammine_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1173,_add_vars,'CC_reboiler_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1174,_add_vars,'CO2_stripper_react',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1175,_add_vars,'CC_reboiler_cap_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1176,_add_vars,'CO2_stripper_react_heat_dem',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1177,_add_vars,'CO2_stripper_react_el_dem',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1178,_add_vars,'CO2_gen_tot',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_CC == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1181,_add_vars,'Carbon_DAC',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1182,_add_vars,'Carbon_DAC_new_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1183,_add_vars,'Carbon_DAC_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1187,_add_vars,'CO2_storage_cap_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CO2_post_gen_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1188,_add_vars,'CO2_storage_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CO2_post_gen_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1189,_add_vars,'CO2_storage_SOC',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CO2_post_gen_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1190,_add_vars,'CO2_storage_SOC0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CO2_post_gen_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1191,_add_vars,'CO2_storage_in',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CO2_post_gen_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1192,_add_vars,'CO2_storage_out',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CO2_post_gen_storeage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1197,_add_vars,'efuel_gen_new_cap_gen',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1201,_add_vars,'veh_energy_prim',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1203,_add_vars,'ICE_energy_transp_prim',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1206,_add_vars,'ICE_energy_transp_primsecc_sum_fuel',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1210,_add_vars,'fuel_industry_hours',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1211,_add_vars,'fuel_industry_hour_CO2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1212,_add_vars,'fuel_dem',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1213,_add_vars,'fuel_demyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1214,_add_vars,'fuel_dem_prod',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1215,_add_vars,'fuel_demand',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1216,_add_vars,'fuel_dem_prod_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1217,_add_vars,'fuel_dem_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1219,_add_vars,'efuelinput1',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1220,_add_vars,'efuelinput2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1221,_add_vars,'efuelinput3',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1223,_add_vars,'feedstock_tot',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1224,_add_vars,'feedstock_tot1',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1225,_add_vars,'feedstock_tot2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1226,_add_vars,'feedstock_tot3',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1230,_add_vars,'fuel_boil',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1231,_add_vars,'fuel_boil_hour',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1233,_add_vars,'fuel_boil_DH',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1234,_add_vars,'fuel_boil_DH_hour',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1236,_add_vars,'fuel_gen_power',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1238,_add_vars,'PE_power_tot',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1240,_add_vars,'PE_power_CHP_tot',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1242,_add_vars,'fuel_SOC',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1243,_add_vars,'fuel_SOC_0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1249,_add_vars,'fuel_storage_cap_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1250,_add_vars,'fuel_storage_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1254,_add_vars,'oil_products_gen',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_oil_and_gas_products_supply == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1255,_add_vars,'oil_gas_storage',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_oil_and_gas_products_supply == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1256,_add_vars,'raf_oil_dem',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_oil_and_gas_products_supply == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1259,_add_vars,'oil_gas_SOC',GRB.CONTINUOUS,0.0,Gurobi default infinity,model_efuel == True | model_oil_and_gas_products_supply == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1260,_add_vars,'oil_gas_SOC0',GRB.CONTINUOUS,0.0,Gurobi default infinity,model_efuel == True | model_oil_and_gas_products_supply == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1262,_add_vars,'oil_gas_extraction',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_oil_and_gas_products_supply == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1263,_add_vars,'oil_gas_reserves',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_oil_and_gas_products_supply == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1266,_add_vars,'generation_H2_steam_gas',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1270,_add_vars,'transfer_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1271,_add_vars,'transfer_cap_hour_prim',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1272,_add_vars,'transfer_cap_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1274,_add_vars,'transfer_cap_outside',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1276,_add_vars,'transfer_cap_outside_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1278,_add_vars,'import_outside',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1279,_add_vars,'export_outside',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1281,_add_vars,'import_zone_system',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1282,_add_vars,'export_zone_system',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1285,_add_vars,'import_zone_system_terminal',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_terminals == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1286,_add_vars,'export_zone_system_terminal',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_terminals == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1287,_add_vars,'import_zone_system_terminal_outside',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_terminals == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1288,_add_vars,'export_zone_system_terminal_outside',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_terminals == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1290,_add_vars,'transfer_cap_terminal',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_terminals == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1291,_add_vars,'transfer_cap_new_terminal',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | model_terminals == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1294,_add_vars,'emiss_generation_transport',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | non_CO2_polutants == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1295,_add_vars,'emiss_generation_industry',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | non_CO2_polutants == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1296,_add_vars,'emiss_generation_power_generation',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | non_CO2_polutants == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1297,_add_vars,'emiss_generation_CHP',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | non_CO2_polutants == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1298,_add_vars,'emiss_generation_individual_heating',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | non_CO2_polutants == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1299,_add_vars,'emiss_generation_DH',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | non_CO2_polutants == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1300,_add_vars,'transport_emiss_cleaning',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | non_CO2_polutants == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1304,_add_vars,'ind_sto_soc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,industry_storage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1305,_add_vars,'ind_sto_soc0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,industry_storage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1306,_add_vars,'ind_sto_capacity',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,industry_storage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1307,_add_vars,'ind_sto_capacity_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,industry_storage == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1315,_add_vars,'import_zone_system_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1316,_add_vars,'export_zone_system_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1318,_add_vars,'h2_comp_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1319,_add_vars,'h2_comp_cap_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1321,_add_vars,'transfer_cap_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1322,_add_vars,'transfer_cap_new_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1324,_add_vars,'transfer_cap_outside_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1325,_add_vars,'transfer_cap_outside_new_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1327,_add_vars,'import_outside_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1328,_add_vars,'export_outside_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1333,_add_vars,'transformer_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1334,_add_vars,'substation_cap_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1342,_add_vars,'stat_sto_in_out',Gurobi default continuous,-GRB.INFINITY,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1350,_add_vars,'stat_charge',Gurobi default continuous,0.0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1351,_add_vars,'stat_discharge',Gurobi default continuous,0.0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1363,_add_vars,'stat_sto_soc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1364,_add_vars,'stat_sto_soc0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1365,_add_vars,'stat_sto_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1368,_add_vars,'stat_sto_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1370,_add_vars,'demand_el_zone_system',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1371,_add_vars,'gen_el_zone_system',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1377,_add_vars,'import_zone_system_secc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,include_secc_links == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1378,_add_vars,'export_zone_system_secc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,include_secc_links == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1384,_add_vars,'veh_sto_soc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1385,_add_vars,'veh_sto_soc0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1387,_add_vars,'veh_sto_max',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1388,_add_vars,'veh_Grid_P_max',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1392,_add_vars,'veh_sto_in_out',Gurobi default continuous,-GRB.INFINITY,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1401,_add_vars,'veh_charge',Gurobi default continuous,0.0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1402,_add_vars,'veh_discharge',Gurobi default continuous,0.0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1422,_add_vars,'veh_transp_num',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1423,_add_vars,'veh_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1424,_add_vars,'veh_decom',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1426,_add_vars,'EV_infr_cap',GRB.CONTINUOUS,Gurobi default 0,0.0 if _disable_transport_infrastructure else GRB.INFINITY,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1427,_add_vars,'H2_infr_cap',GRB.CONTINUOUS,Gurobi default 0,0.0 if _disable_transport_infrastructure else GRB.INFINITY,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1429,_add_vars,'EV_infr_new',GRB.CONTINUOUS,Gurobi default 0,0.0 if _disable_transport_infrastructure else GRB.INFINITY,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1430,_add_vars,'H2_infr_new',GRB.CONTINUOUS,Gurobi default 0,0.0 if _disable_transport_infrastructure else GRB.INFINITY,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1433,_add_vars,'veh_energy_prim',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True | model_efuel == False
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1435,_add_vars,'CO2_transp',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1450,_add_vars,'heat_pump_dh',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1451,_add_vars,'heat_pump_ind',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1454,_add_vars,'heat_pump_out',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,"model_heating == True | bool(globals().get('individual_heat_pump_storage', False))"
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1455,_add_vars,'heat_pump_indstor_capyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,"model_heating == True | bool(globals().get('individual_heat_pump_storage', False))"
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1456,_add_vars,'heatpump_sto_soc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,"model_heating == True | bool(globals().get('individual_heat_pump_storage', False))"
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1457,_add_vars,'heat_pump_sto_soc0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,"model_heating == True | bool(globals().get('individual_heat_pump_storage', False))"
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1464,_add_vars,'Heat_pump_df_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1465,_add_vars,'Heat_pump_ind_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1467,_add_vars,'heat_pump_ind_capyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1468,_add_vars,'heat_pump_dh_capyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1474,_add_vars,'heat_pump_ind_share',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1475,_add_vars,'heat_pump_ind_maxhour',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1476,_add_vars,'heat_pump_dh_share',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1477,_add_vars,'heat_pump_dh_maxhour',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1480,_add_vars,'cool_pump_dh',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | model_cooling == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1481,_add_vars,'cool_pump_ind',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | model_cooling == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1485,_add_vars,'trad_boilers_Heat_dh',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1486,_add_vars,'trad_boilers_Heat_ind',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1487,_add_vars,'capacity_Investment_ind_boiler',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1488,_add_vars,'trad_boiler_dh_cap_inv',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1490,_add_vars,'trad_boiler_ind_capyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1491,_add_vars,'boiler_dh_capyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1495,_add_vars,'boiler_ind_share',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1496,_add_vars,'boiler_ind_maxhour',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1497,_add_vars,'boiler_dh_share',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1498,_add_vars,'boiler_dh_maxhour',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1502,_add_vars,'Res_to_Heat',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1505,_add_vars,'unmet_dh_heat',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,"model_heating == True | bool(globals().get('rolling_dispatch_mode', False))"
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1506,_add_vars,'unmet_indv_heat',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,"model_heating == True | bool(globals().get('rolling_dispatch_mode', False))"
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1518,_add_vars,'unmet_industry_heat',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,"model_heating == True | bool(globals().get('rolling_dispatch_mode', False)) | model_transport_and_industry"
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1533,_add_vars,'solar_gen_heat',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1534,_add_vars,'solar_gen_heat_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1535,_add_vars,'solar_gen_heat_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1536,_add_vars,'solar_gen_heat_year_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1539,_add_vars,'solar_stor_heat_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1540,_add_vars,'solar_stor_soc',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1541,_add_vars,'solar_stor_soc0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1542,_add_vars,'solar_stor_heat_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1544,_add_vars,'solar_stor_output',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1546,_add_vars,'solar_gen_indv_heat',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1547,_add_vars,'solar_gen_heat_indv_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1548,_add_vars,'solar_gen_indv_heat_cap',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1552,_add_vars,'solar_ind_share',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | heating_shares_regulate
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1558,_add_vars,'heat_from_elect_storage_input',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1559,_add_vars,'heat_storage_level',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1560,_add_vars,'heat_sto_level0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1563,_add_vars,'STOCapacity_heat_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1564,_add_vars,'STOCapacity_heat_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1569,_add_vars,'cool_storage_level',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | model_cooling == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1570,_add_vars,'cool_sto_level0',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | model_cooling == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1573,_add_vars,'STOCapacity_cool_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | model_cooling == True
+scripts/reading_prev_and_vars_def_dual_industry_categories1.py,1574,_add_vars,'STOCapacity_cool_new',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating == True | model_cooling == True
+scripts/Build_model_dual_industry_categories_named_debug.py,1560,addVar,'stage2_quantity_guidance_slack_under',GRB.CONTINUOUS,0.0,Gurobi default infinity,function _add_stage2_quantity_guidance_bands
+scripts/Build_model_dual_industry_categories_named_debug.py,1565,addVar,'stage2_quantity_guidance_slack_over',GRB.CONTINUOUS,0.0,Gurobi default infinity,function _add_stage2_quantity_guidance_bands
+scripts/Build_model_dual_industry_categories_named_debug.py,10048,addVar,f'transport_shift_baseline_energy_gwh_{_transport_baseline_annual_var_no}',GRB.CONTINUOUS,0.0,Gurobi default infinity,model_transport_and_industry == True | model_efuel == True | TRANSPORT_ICE_FUEL_SHARE_RAMP_ACTIVE | else: _transport_shift_base is not None
+scripts/Build_model_dual_industry_categories_named_debug.py,10096,addVar,f'transport_fuel_annual_energy_gwh_{_transport_fuel_annual_var_no}',GRB.CONTINUOUS,0.0,Gurobi default infinity,model_transport_and_industry == True | model_efuel == True | TRANSPORT_ICE_FUEL_SHARE_RAMP_ACTIVE
+scripts/Build_model_dual_industry_categories_named_debug.py,11382,addVars,'rolling_terminal_fuel_soc_slack',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True | _rolling_dispatch_mode and _rolling_terminal_fuel_soc_active and (_rolling_terminal_fuel_soc_period in periods) | _rolling_terminal_fuel_soc_soft_keys
+scripts/Build_model_dual_industry_categories_named_debug.py,13551,addVars,'rolling_carbon_budget_slack',GRB.CONTINUOUS,0,Gurobi default infinity,carbonLimit and rolling_dispatch_mode and _rolling_carbon_constraint_active and _rolling_carbon_budget_keys | _stage2_carbon_slack_cost > 0
+scripts/Build_model_dual_industry_categories_named_debug.py,13581,addVars,'fuel_dem_zone',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,'fuel_dem' in globals()
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,202,addVars,'inv_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,203,addVars,'inv_cost_disp_no_CHP_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,204,addVars,'inv_cost_CHP_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,205,addVars,'statCapInvCost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,207,addVars,'CAPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,209,addVars,'el_line_infr_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,210,addVars,'el_line_infr_yearout',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,211,addVars,'product_line_infr_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,212,addVars,'product_line_infr_yearout',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,213,addVars,'terminal_line_infr_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,215,addVars,'el_substation_costyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,216,addVars,'h2_pump_costyear',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,218,addVars,'H2_line_infr_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,219,addVars,'H2_line_infr_yearout',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,221,addVars,'inv_cost_efuel_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,222,addVars,'inv_cost_DAC_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,224,addVars,'inv_cost_solar_heat_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,225,addVars,'inv_cost_solar_stor_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,226,addVars,'inv_cost_solar_indv_heat_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,227,addVars,'ind_boiler_inv_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,228,addVars,'inv_cost_FuelCell_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,229,addVars,'heat_pump_cap_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,230,addVars,'inv_cost_boiler_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,231,addVars,'h2_storage_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,232,addVars,'h2_CAPEX_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,233,addVars,'transport_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,234,addVars,'transport_ev_infr_year',GRB.CONTINUOUS,Gurobi default 0,0.0 if _disable_transport_infrastructure else GRB.INFINITY,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,235,addVars,'transport_fcev_infr_year',GRB.CONTINUOUS,Gurobi default 0,0.0 if _disable_transport_infrastructure else GRB.INFINITY,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,237,addVars,'steam_gas_inv_year_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,238,addVars,'el_substation_inv_year_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,240,addVars,'inv_cost_heatstor_dh_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,241,addVars,'inv_cost_coolstor_dh_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,242,addVars,'ind_sto_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,245,addVars,'ind_CC_inv_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CC == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,246,addVars,'ind_CC_tank_inv_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CC == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,247,addVars,'ind_CC_reboiler_inv_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CC == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,250,addVars,'CO2_storage_inv_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_CO2_post_gen_storeage == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2599,addVars,'generators_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2600,addVars,'statCapInvCost_fix_OPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2606,addVars,'solar_gen_DH_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2607,addVars,'solar_gen_indv_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2608,addVars,'HP_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2609,addVars,'HP_indv_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2610,addVars,'boiler_indv_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2611,addVars,'boiler_DH_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2612,addVars,'heatstor_DH_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_heating
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2619,addVars,'coolstor_DH_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_cooling == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2624,addVars,'industry_boil_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2625,addVars,'FC_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2626,addVars,'veh_transp_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2628,addVars,'CO2_stor_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry | model_CO2_post_gen_storeage == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2632,addVars,'H2_stor_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2633,addVars,'H2_gen_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2637,addVars,'industry_CC_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry | model_CC == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2638,addVars,'CC_tank_cap_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry | model_CC == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2639,addVars,'reboiler_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_transport_and_industry | model_CC == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2643,addVars,'efuel_fOPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_efuel == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2646,addVars,'el_line_infr_fix_OPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2647,addVars,'el_line_infr_out_fix_OPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2648,addVars,'terminal_line_infr_fix_OPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2652,addVars,'H2_line_infr_fix_OPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True | model_transport_and_industry == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2653,addVars,'H2_line_infr_out_fix_OPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True | model_transport_and_industry == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,2657,addVars,'fix_OPEX_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3015,addVars,'per_mw1_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3020,addVars,'ramp_up_cost_var_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3021,addVars,'ramp_down_cost_var_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3022,addVars,'statToPowert_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3023,addVars,'V2G_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3027,addVars,'costCO2per_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3029,addVars,'imp_zone_var_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3030,addVars,'exp_zone_var_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3033,addVars,'imp_zone_secc_var_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,include_secc_links == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3034,addVars,'exp_zone_secc_var_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,include_secc_links == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3038,addVars,'export_cost_year_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3039,addVars,'import_cost_year_H2',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,model_H2_transmission == True
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3207,addVars,'ceep_cost_year',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py,3208,addVars,'noload_el_penalty',GRB.CONTINUOUS,Gurobi default 0,Gurobi default infinity,
+scripts/complex_industry_accounting.py,133,addVar,f'industry_source_CO2_{len(ledger)}',Gurobi default continuous,0,Gurobi default infinity,function add_annual_emission_ledger
+scripts/industry_annual_s_curve.py,125,addVar,f'industry_electric_annual_{suffix}_{service_idx}_{year}',Gurobi default continuous,0.0,1.0,function add_annual_industry_electricity_limits
+scripts/industry_annual_s_curve.py,285,addVar,f'ifs_annual_{suffix}_{index}_{year}',Gurobi default continuous,0.0,1.0,function add_annual_industry_s_curve
+scripts/transport_emissions.py,80,addVars,'transport_co2_block',Gurobi default continuous,0.0,Gurobi default infinity,function add_blocked_transport_co2_constraints
+scripts/h2_terminals.py,112,addVars,name,Gurobi default continuous,Gurobi default 0,Gurobi default infinity,function create_variables
+scripts/h2_terminals.py,114,addVars,name,Gurobi default continuous,Gurobi default 0,Gurobi default infinity,function create_variables
+scripts/h2_terminals.py,116,addVars,name,Gurobi default continuous,Gurobi default 0,Gurobi default infinity,function create_variables

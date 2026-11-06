@@ -1,0 +1,66 @@
+{
+  "actual_gui": true,
+  "generation_started": false,
+  "api_credentials_empty": true,
+  "layouts_checked": [
+    {
+      "width": 850,
+      "height": 650,
+      "run_button_visible": true
+    },
+    {
+      "width": 1020,
+      "height": 760,
+      "run_button_visible": true
+    },
+    {
+      "width": 1120,
+      "height": 880,
+      "run_button_visible": true
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "01_general.png",
+      "tab": "General",
+      "width": 1120,
+      "height": 880
+    },
+    {
+      "file": "02_power_profiles.png",
+      "tab": "Power & profiles",
+      "width": 1120,
+      "height": 880
+    },
+    {
+      "file": "03_heating_advanced.png",
+      "tab": "Heating & advanced",
+      "width": 1120,
+      "height": 880
+    },
+    {
+      "file": "04_output_format.png",
+      "tab": "Output format",
+      "width": 1120,
+      "height": 880
+    },
+    {
+      "file": "05_industry_sources.png",
+      "tab": "Industry sources",
+      "width": 1120,
+      "height": 880
+    },
+    {
+      "file": "06_input_assumptions.png",
+      "tab": "Input assumptions",
+      "width": 1120,
+      "height": 880
+    },
+    {
+      "file": "07_help_documentation.png",
+      "tab": "Help & documentation",
+      "width": 1120,
+      "height": 880
+    }
+  ]
+}

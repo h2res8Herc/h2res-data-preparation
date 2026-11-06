@@ -1,0 +1,23 @@
+Electricity-demand sources and method
+=====================================
+
+National hourly magnitude
+-------------------------
+ENTSO-E Transparency Platform, Actual Total Load.
+API documentType=A65 and processType=A16.
+https://transparency.entsoe.eu/
+
+Spatial weights
+---------------
+European Commission Joint Research Centre, EU energy atlas - energy demand
+2019, electricity_tot_demand_2019.tif.
+https://data.jrc.ec.europa.eu/dataset/76a6b550-253c-44a4-9a4c-d22079e7bf62
+DOI: 10.2905/JRC.XDKBE3R
+
+The original 1 x 1 km raster is expressed in toe per cell. It was summed inside
+NUTS 2021 level-3 polygons and normalized independently within each country.
+Only the normalized spatial shares are packaged. The selected ENTSO-E year sets
+the hourly and annual magnitude.
+
+The generated NUTS3 values sum exactly to national ENTSO-E load in every hour.
+Model-zone values are sums of the corresponding NUTS3 values.

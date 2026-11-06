@@ -1,0 +1,44 @@
+# Python environments and build products
+__pycache__/
+*.py[cod]
+.venv/
+.venv_previous_*/
+venv/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+.cdsapirc
+.aws/
+.codex/
+.agents/
+*.pem
+data_preparation_config.json
+h2res_gui_config.json
+.setup_fix_backups/
+.vscode/
+.idea/
+
+# Prepared datasets, downloads, environments and portable ZIPs
+/data/
+/data_*/
+/outputs*/
+/sve_*/
+/model_inputs/
+/h2res_inputs/
+/releases/
+/github/
+/validation/
+/wheels/
+*_cache/
+/power/generators/genco_built_from_raw/
+*.zip
+*.log
+~$*
+
+# The versioned model_reference* folders and packaged seed data are intentional.
