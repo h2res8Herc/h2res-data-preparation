@@ -112,6 +112,37 @@ class CostsAndPublicationTests(unittest.TestCase):
         self.assertEqual(e.cost('Plant','Plant','HR1'),700000.)
         self.assertEqual(e.costs[1]['capital_cost'],600000.)
 
+    def test_national_cost_sheet_selects_country_before_checking_duplicate_years(self):
+        e=CaseExporter.__new__(CaseExporter)
+        e.countries={'SI1':'SI','HR1':'HR'}
+        e.cost_table=pd.DataFrame({'year':[2025,2030,2025,2030],
+            'System':['HR','HR','SI','SI'],'SI_Sostanj':[.7,.6,1.5,1.4]})
+        e.cost_curves={};e.years=[2025,2030];e.costs=[]
+        self.assertEqual(e.cost('SI_Sostanj','SI_Sostanj','SI1'),1500000.)
+        self.assertEqual(e.costs[1]['capital_cost'],1400000.)
+        self.assertEqual(e.trajectory('SI_Sostanj','HR1'),{2025:700000.,2030:600000.})
+
+    def test_regional_costs_require_both_matching_country_and_zone(self):
+        e=CaseExporter.__new__(CaseExporter)
+        e.countries={'SI1':'SI'};e.cost_curves={};e.years=[2025]
+        e.cost_table=pd.DataFrame({'year':[2025,2025,2025],
+            'System':['HR','SI','SI'],'zone':['SI1','SI1','SI2'],'Plant':[.2,1.5,2.]})
+        self.assertEqual(e.trajectory('Plant','SI1'),{2025:1500000.})
+
+    def test_missing_country_costs_do_not_silently_use_a_foreign_reference(self):
+        e=CaseExporter.__new__(CaseExporter)
+        e.countries={'SI1':'SI'};e.cost_curves={};e.years=[2025]
+        e.cost_table=pd.DataFrame({'year':[2025],'System':['HR'],'Plant':[.7]})
+        with self.assertRaisesRegex(ValueError,'Missing native investment cost'):
+            e.trajectory('Plant','SI1')
+
+    def test_duplicate_years_within_the_selected_country_still_fail(self):
+        e=CaseExporter.__new__(CaseExporter)
+        e.countries={'SI1':'SI'};e.cost_curves={};e.years=[2025]
+        e.cost_table=pd.DataFrame({'year':[2025,2025],'System':['SI','SI'],'Plant':[1.,2.]})
+        with self.assertRaisesRegex(ValueError,'Ambiguous cost trajectory'):
+            e.trajectory('Plant','SI1')
+
     def test_failed_export_retains_existing_case_and_archive(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);case=root/'data_refactored';case.mkdir();(case/'marker').write_text('old')

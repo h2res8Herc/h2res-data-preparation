@@ -198,6 +198,11 @@ class CaseExporter:
                     result[y]=number(row,column)*1e6
                 self.cost_curves[cache_key]=result
                 return result
+        # A year occurs once per country in native cost sheets. Country-wide
+        # sheets may have no zone column at all; select System before testing
+        # year uniqueness so foreign reference rows do not create ambiguity.
+        if 'System' in table:
+            table=table.loc[table.System.eq(self.countries[zone])]
         table=table.loc[table.zone.eq(zone)] if 'zone' in table else table
         if key not in table:
             aliases={'fuel_oil_DH':'Oil_DH'}

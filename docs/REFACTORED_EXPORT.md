@@ -53,6 +53,8 @@ This validates a 24-hour slice of **every exported year**, retaining all zones a
 
 Physical generator names stay unchanged, including their profile and annual investment-cost keys. Derived converter, storage, bus and fleet IDs are deterministic and include their region/service. `unit_mapping.csv` records source units. `FILES.json` records checksums; the ZIP is read back and verified before publication. A failed export retains the previous refactored folder and ZIP and writes `refactored_export_failure.json`. Native workbook export and refactored export have separate publication steps.
 
+Native cost sheets can contain one row per **country and year**, even when they have no zone column. The converter selects the asset's `System` and, where present, its zone before checking year uniqueness. HR reference rows and SI rows for the same year are distinct records, not ambiguous prices. Missing country data and duplicate years within the selected country/zone remain errors; prices are not averaged across countries.
+
 ## Units and accounting
 
 | Quantity | Export rule |
