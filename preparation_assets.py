@@ -1,9 +1,12 @@
 """Check required local assets without loading pickle data or downloading files."""
 from __future__ import annotations
 import argparse
+import hashlib
+import json
 from pathlib import Path
 import re
 import sys
+from tempfile import NamedTemporaryFile
 from zipfile import BadZipFile, ZipFile
 
 ROOT=Path(__file__).resolve().parent
@@ -12,6 +15,58 @@ RELEASE_URL='https://github.com/h2res8Herc/h2res-data-preparation/releases'
 
 class PreparationAssetError(ValueError):
     pass
+
+
+def restore_hydro_profiles(path):
+    """Rebuild a missing source-checkout asset from verified ordinary Git files."""
+    path=Path(path)
+    if path.is_file():
+        with path.open('rb') as source:header=source.read(1024)
+        if not header.startswith(b'version https://git-lfs.github.com/spec/v1'):
+            return False
+    directory=path.with_name(path.name+'.parts')
+    manifest=directory/'manifest.json'
+    if not manifest.is_file():return False
+    try:
+        details=json.loads(manifest.read_text(encoding='utf-8'))
+        if not isinstance(details,dict) or details.get('format_version')!=1 or details['target']!=path.name or not details['parts']:
+            raise ValueError('invalid part manifest')
+        if not isinstance(details['bytes'],int) or details['bytes']<=0 or not re.fullmatch('[0-9a-f]{64}',details['sha256']):
+            raise ValueError('invalid archive size or checksum')
+        parts=[]
+        for record in details['parts']:
+            name=record['file']
+            if not isinstance(record['bytes'],int) or record['bytes']<=0 or not re.fullmatch('[0-9a-f]{64}',record['sha256']):
+                raise ValueError('invalid part size or checksum')
+            if not isinstance(name,str) or Path(name).name!=name or '\\' in name or '/' in name:
+                raise ValueError('part path is not a filename')
+            part=directory/name
+            if not part.resolve().is_relative_to(directory.resolve()) or not part.is_file():
+                raise ValueError('part is missing or outside its directory: '+name)
+            parts.append((part,record))
+        if len({p.name for p,_ in parts})!=len(parts):raise ValueError('duplicate part filenames')
+    except (ValueError,KeyError,TypeError) as error:
+        raise PreparationAssetError(f'Cannot restore hydro data from {manifest}: {error}') from error
+    temporary=None
+    try:
+        digest=hashlib.sha256();total=0
+        with NamedTemporaryFile(dir=path.parent,prefix='.hydro_',suffix='.tmp',delete=False) as target:
+            temporary=Path(target.name)
+            for part,record in parts:
+                part_hash=hashlib.sha256();size=0
+                with part.open('rb') as source:
+                    for chunk in iter(lambda:source.read(1024*1024),b''):
+                        target.write(chunk);part_hash.update(chunk);digest.update(chunk)
+                        size+=len(chunk);total+=len(chunk)
+                if size!=record['bytes'] or part_hash.hexdigest()!=record['sha256']:
+                    raise PreparationAssetError(f'Hydro source part is incomplete or changed: {part}; extract the complete current source ZIP again.')
+        if total!=details['bytes'] or digest.hexdigest()!=details['sha256']:
+            raise PreparationAssetError(f'Reconstructed hydro data checksum differs from {manifest}; original file retained.')
+        temporary.replace(path)
+        print(f'Restored complete hydro data from local source parts: {path} ({total:,} bytes)',flush=True)
+        return True
+    finally:
+        if temporary is not None:temporary.unlink(missing_ok=True)
 
 
 def check_lfs_pointer(path):
@@ -33,6 +88,7 @@ def check_lfs_pointer(path):
 
 def validate_hydro_profiles(path):
     path=Path(path)
+    restore_hydro_profiles(path)
     check_lfs_pointer(path)
     try:
         with ZipFile(path) as archive:

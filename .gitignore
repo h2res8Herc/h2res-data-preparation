@@ -40,6 +40,7 @@ h2res_gui_config.json
 *.zip
 *.log
 .openmeteo_quota.sqlite3*
+/power/hydro/precomputed/runoff_shapes_2020.npz
 ~$*
 
 # The versioned model_reference* folders and packaged seed data are intentional.

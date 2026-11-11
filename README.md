@@ -4,7 +4,7 @@ Download public energy data and prepare inputs for the original workbook-based H
 
 ## Start on Windows
 
-For a complete ready-to-copy installation, use the **attached portable ZIP in [Releases](https://github.com/h2res8Herc/h2res-data-preparation/releases)**. GitHub's **Code → Download ZIP** and automatic **Source code (zip)** downloads can contain a small Git LFS pointer instead of the large hydro input. The attached portable ZIP includes the real data and offline Python 3.12 dependency wheels.
+For a complete ready-to-copy installation, use the **attached portable ZIP in [Releases](https://github.com/h2res8Herc/h2res-data-preparation/releases)**. It includes the complete hydro input and offline Python 3.12 dependency wheels. The current **Code → Download ZIP** source also includes all required local data: setup reconstructs the hydro archive from verified local parts. Source downloads install Python dependencies online.
 
 1. Install 64-bit Python 3.12 with Tcl/Tk. Compatible Python 3.10+ and Anaconda installations are also supported.
 2. Run `SETUP_WINDOWS.bat` to create the project's Python environment.
@@ -17,18 +17,18 @@ Outputs are written to `data/` (original workbooks) and, when enabled, `data_ref
 
 The refactored electricity export reuses the original ENTSO-E hourly curves and normalized JRC regional demand shares. Its totals account for electricity represented explicitly in other sectors. The refactored model's industrial-service and prescribed fleet-pathway adaptations are documented in the export report.
 
-## Clone with Git LFS
+## Download or clone source
 
-One required hydro input uses Git Large File Storage. Install Git LFS before cloning, or run `git lfs pull` afterward:
+Download and extract **Code → Download ZIP**, or clone the repository:
 
 ```powershell
-git lfs install
 git clone https://github.com/h2res8Herc/h2res-data-preparation.git
 cd h2res-data-preparation
-git lfs pull
 ```
 
-If NumPy reports "This file contains pickled (object) data" while opening `power/hydro/precomputed/runoff_shapes_2020.npz`, check whether that file is only about 134 bytes and begins with `version https://git-lfs.github.com/spec/v1`. Restore the real file from the portable release ZIP, or use Git LFS in a clone. After repair, rerun generation with existing downloads reused. The hydro package is a numeric NPZ archive and does not require enabling pickle loading.
+Run `SETUP_WINDOWS.bat`. The 107,182,326-byte hydro archive is stored in ordinary Git parts, each below GitHub's file-size limit, in `power/hydro/precomputed/runoff_shapes_2020.npz.parts`. Setup validates each part and the combined SHA-256 before creating the original NPZ atomically. Git LFS is not required for the current source tree. Keep the parts directory when copying a source download.
+
+Older source ZIPs may contain a 134-byte Git LFS pointer for the NPZ. For an existing installation, copy the actual `power/hydro/precomputed/runoff_shapes_2020.npz` from the complete portable ZIP into the same location and rerun setup. Alternatively download the current source ZIP with its parts. Previously downloaded observations can be reused. The hydro data does not require enabling pickle loading.
 
 The repository includes the required local reference data. Source observations that are not bundled are downloaded during preparation. The source checkout installs Python dependencies from the internet; dependency wheels and the complete offline installer are provided in the private repository's Releases when available. Download the attached portable ZIP for copying to another machine.
 

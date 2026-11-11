@@ -1,5 +1,9 @@
 """Source ZIPs must not mistake Git LFS pointer text for NumPy data."""
 from pathlib import Path
+from contextlib import redirect_stdout
+import hashlib
+import io
+import json
 from types import SimpleNamespace
 import subprocess
 import sys
@@ -14,6 +18,57 @@ from preparation_assets import PreparationAssetError,validate_hydro_profiles,val
 POINTER=b'version https://git-lfs.github.com/spec/v1\noid sha256:'+b'0'*64+b'\nsize 107182326\n'
 
 class AssetChecks(unittest.TestCase):
+    def make_parts(self,root):
+        path=root/'runoff_shapes_2020.npz'
+        np.savez_compressed(path,plant_id=np.array(['A']),runoff_share=np.ones((1,2)),time=np.array([0,1]))
+        payload=path.read_bytes()
+        directory=path.with_name(path.name+'.parts');directory.mkdir()
+        records=[]
+        for i,chunk in enumerate([payload[:50],payload[50:]]):
+            name=f'part-{i}.bin';(directory/name).write_bytes(chunk)
+            records.append(dict(file=name,bytes=len(chunk),sha256=hashlib.sha256(chunk).hexdigest()))
+        manifest=dict(format_version=1,target=path.name,bytes=len(payload),sha256=hashlib.sha256(payload).hexdigest(),parts=records)
+        (directory/'manifest.json').write_text(json.dumps(manifest))
+        return path,directory,payload
+
+    def test_source_zip_missing_asset_and_legacy_pointer_restore_from_parts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path,_,payload=self.make_parts(Path(tmp))
+            for placeholder in (None,POINTER):
+                if placeholder is None:path.unlink()
+                else:path.write_bytes(placeholder)
+                with redirect_stdout(io.StringIO()):self.assertTrue(validate_hydro_profiles(path)['valid_npz'])
+                self.assertEqual(path.read_bytes(),payload)
+                self.assertEqual(list(Path(tmp).glob('.hydro_*.tmp')),[])
+
+    def test_bad_or_missing_part_preserves_previous_pointer(self):
+        for missing in (False,True):
+            with tempfile.TemporaryDirectory() as tmp:
+                path,parts,_=self.make_parts(Path(tmp));path.write_bytes(POINTER)
+                if missing:(parts/'part-1.bin').unlink()
+                else:(parts/'part-1.bin').write_bytes(b'damaged')
+                with self.assertRaises(PreparationAssetError):validate_hydro_profiles(path)
+                self.assertEqual(path.read_bytes(),POINTER)
+                self.assertEqual(list(Path(tmp).glob('.hydro_*.tmp')),[])
+
+    def test_wrong_combined_hash_and_unsafe_paths_are_rejected(self):
+        for unsafe in (False,True):
+            with tempfile.TemporaryDirectory() as tmp:
+                path,parts,_=self.make_parts(Path(tmp));path.write_bytes(POINTER)
+                manifest=parts/'manifest.json';record=json.loads(manifest.read_text())
+                if unsafe:record['parts'][0]['file']='../outside.bin'
+                else:record['sha256']='0'*64
+                manifest.write_text(json.dumps(record))
+                with self.assertRaises(PreparationAssetError):validate_hydro_profiles(path)
+                self.assertEqual(path.read_bytes(),POINTER)
+
+    def test_existing_complete_npz_does_not_require_parts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path,parts,payload=self.make_parts(Path(tmp))
+            (parts/'manifest.json').write_text('not valid JSON')
+            self.assertTrue(validate_hydro_profiles(path)['valid_npz'])
+            self.assertEqual(path.read_bytes(),payload)
+
     def test_lfs_pointer_has_a_specific_recovery_message(self):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/'runoff_shapes_2020.npz';path.write_bytes(POINTER)

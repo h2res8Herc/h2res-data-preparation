@@ -7,12 +7,12 @@
   "native_model_format": "H2RES_2.11.2026_novi",
   "files": {
     ".gitattributes": {
-      "bytes": 227,
-      "sha256": "816b5a5c42a97415ed0edf9603a96040cc816471e9978d0dc03daa3934846948"
+      "bytes": 147,
+      "sha256": "34144479c926bce1532e96d1224e4ee983ea871d65766841d1419d18ad37d540"
     },
     ".gitignore": {
-      "bytes": 665,
-      "sha256": "ff68026d0087112ff5e0fcc76d55c894424f944106ef078555454b29aec5e78f"
+      "bytes": 713,
+      "sha256": "7af199b4b2cbc1f65eae354711ab0140a42aa2d4b3ccf077ba77095ee14a038c"
     },
     "CHECK_PACKAGE.bat": {
       "bytes": 355,
@@ -31,8 +31,8 @@
       "sha256": "f6e8d5ebd77d6b11cb7a73d4ee309fd4d50bbe819772fa623c4f6e81202900bb"
     },
     "README.md": {
-      "bytes": 4159,
-      "sha256": "95253477a34348e9a4c50db4a7fa70f6955b7d006d2b381c46c27d86696a86d8"
+      "bytes": 4463,
+      "sha256": "3a36b1515eeb8fcc06127b5b5852450ac3151df025e864c4de7501795ac3c55f"
     },
     "README_PORTABLE_INPUT_GENERATOR.txt": {
       "bytes": 7702,
@@ -63,8 +63,8 @@
       "sha256": "012daeb5c17538adce4c93b4ff374b3645b4c8f0748ba0e67c7f8d8f04d2142e"
     },
     "TECHNICAL_DOCUMENTATION.md": {
-      "bytes": 24527,
-      "sha256": "f94a593167d5aaf8c53a9d471f4c2ab3ac8093bf7e9a32e15b37359aed6974d9"
+      "bytes": 25120,
+      "sha256": "63c9611eb4d23a2a5e85228a3224628d47c1d1cc4af996df90d1cf9568d4123c"
     },
     "USER_GUIDE.md": {
       "bytes": 19262,
@@ -147,12 +147,12 @@
       "sha256": "b9e089d0a8ea7bdb0aefeb94a02c1094da2833f285ce6055b932801c9005e80a"
     },
     "docs/PORTABLE_USER_GUIDE.html": {
-      "bytes": 34063,
-      "sha256": "03f39d1c22fad877f2069ff9d6069c76e87d24b99ea3d6fc56c0fdf87c37834f"
+      "bytes": 34467,
+      "sha256": "f4dbf4797bad66fdcd4d81bd7f05b506c103a13a300e6196c49c536063d1eb7a"
     },
     "docs/PORTABLE_USER_GUIDE.md": {
-      "bytes": 27637,
-      "sha256": "0c8774f2b49d1020d6659798ef588c400f29177d081f0653d1afcaa849b15924"
+      "bytes": 28021,
+      "sha256": "c89134332ab91d4e3fefade767fa70650629a1b6682b90f0494278f412e95775"
     },
     "docs/PORTABLE_USER_GUIDE.pdf": {
       "bytes": 421903,
@@ -806,6 +806,26 @@
       "bytes": 107182326,
       "sha256": "5455ea93f6d2cee5a204fe0a6203caa3cfcdb46f2d3f61d792eaa678b483382e"
     },
+    "power/hydro/precomputed/runoff_shapes_2020.npz.parts/manifest.json": {
+      "bytes": 812,
+      "sha256": "a121e319116e387b2b1c76ad32d7227f1fa2cb8e2fb18e497030d66d4734462f"
+    },
+    "power/hydro/precomputed/runoff_shapes_2020.npz.parts/part-001.bin": {
+      "bytes": 33554432,
+      "sha256": "967e0854b1f0d242602c17ca83d090594a672c0a1f941e3da3f2bc1969df9f30"
+    },
+    "power/hydro/precomputed/runoff_shapes_2020.npz.parts/part-002.bin": {
+      "bytes": 33554432,
+      "sha256": "ca90fd2beed0611ef0005de90677dd6cc27db347729f6a0850f2fdfbefe2bae5"
+    },
+    "power/hydro/precomputed/runoff_shapes_2020.npz.parts/part-003.bin": {
+      "bytes": 33554432,
+      "sha256": "90a2ed563c7c4bade8c60bc4b8e21a01b2e2a967432fc9e40b55f6c6c6e46073"
+    },
+    "power/hydro/precomputed/runoff_shapes_2020.npz.parts/part-004.bin": {
+      "bytes": 6519030,
+      "sha256": "19191c5044c5a892ee0a981a6908a10a52a496b5f3ac7896d68258c0e807491c"
+    },
     "power_asset_inventory.py": {
       "bytes": 2256,
       "sha256": "3e9abdc64dee57df3fbb1b699633a4a86a306cd3d24ea734b1c6913083d2de52"
@@ -815,8 +835,8 @@
       "sha256": "e5c8d3ed9a58e93b67aabc555dd89a4c71816f7af283b2b7f5d806e3e4bf02a6"
     },
     "preparation_assets.py": {
-      "bytes": 2934,
-      "sha256": "33767f9f8abbf93b7e983b1d6744bc3aefde26e7ef2e4bfb538e022e3f989de7"
+      "bytes": 6146,
+      "sha256": "ab8c445d3a9408c95253d30061dcd555878bb68034d2b01d6f9a66b2d27d7c22"
     },
     "preparation_dependencies.py": {
       "bytes": 5447,
@@ -967,8 +987,8 @@
       "sha256": "20ca674f5cefeb95f4a40faefb2255deedfa3758a9f763d1e858a44868079a97"
     },
     "tests/test_preparation_assets.py": {
-      "bytes": 3265,
-      "sha256": "f8fbc575a8c5170a1bcbdc3353f0f11ca13a5d4a4c29e40d037c123668c0ee79"
+      "bytes": 6321,
+      "sha256": "ef9931a68189ae4ee279fa5f3b109d6d8a36a4e686503271bef262ccd76e8ddc"
     },
     "tests/test_preparation_dependencies.py": {
       "bytes": 6609,
@@ -1023,8 +1043,8 @@
       "sha256": "3f6749692a40d497a115856ea5b2135b0c87da072c6fe3f6be2b4c9e356a4afd"
     },
     "tools/check_portable.py": {
-      "bytes": 3854,
-      "sha256": "9dfa609ca393eed9e614c303a0175706121d90135a725ff15690ea70b73634a4"
+      "bytes": 4030,
+      "sha256": "68075b5e02967439768260330bd7a61d22f8d026a62c79ec4d5a454e6b2c7446"
     },
     "transport/script/activity_units.py": {
       "bytes": 1234,

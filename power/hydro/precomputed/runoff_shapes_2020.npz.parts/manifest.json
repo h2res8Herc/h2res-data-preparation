@@ -1,0 +1,28 @@
+{
+  "format_version": 1,
+  "target": "runoff_shapes_2020.npz",
+  "bytes": 107182326,
+  "sha256": "5455ea93f6d2cee5a204fe0a6203caa3cfcdb46f2d3f61d792eaa678b483382e",
+  "parts": [
+    {
+      "file": "part-001.bin",
+      "bytes": 33554432,
+      "sha256": "967e0854b1f0d242602c17ca83d090594a672c0a1f941e3da3f2bc1969df9f30"
+    },
+    {
+      "file": "part-002.bin",
+      "bytes": 33554432,
+      "sha256": "ca90fd2beed0611ef0005de90677dd6cc27db347729f6a0850f2fdfbefe2bae5"
+    },
+    {
+      "file": "part-003.bin",
+      "bytes": 33554432,
+      "sha256": "90a2ed563c7c4bade8c60bc4b8e21a01b2e2a967432fc9e40b55f6c6c6e46073"
+    },
+    {
+      "file": "part-004.bin",
+      "bytes": 6519030,
+      "sha256": "19191c5044c5a892ee0a981a6908a10a52a496b5f3ac7896d68258c0e807491c"
+    }
+  ]
+}

@@ -33,6 +33,9 @@ def check(root, dependencies=True):
         if case_output_path(name):
             raise ValueError('Generated country outputs were included in the release: '+name)
         path=root/name
+        if name=='power/hydro/precomputed/runoff_shapes_2020.npz':
+            from preparation_assets import validate_hydro_profiles
+            validate_hydro_profiles(path)
         if path.is_file():
             from preparation_assets import check_lfs_pointer
             check_lfs_pointer(path)

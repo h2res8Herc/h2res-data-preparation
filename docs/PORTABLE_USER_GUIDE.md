@@ -8,7 +8,9 @@ This package sources internet data and prepares H2RES inputs. The application wi
 
 ## 1. Copy and set up on another machine
 
-**GitHub download:** choose the attached `H2RES_Data_Preparation_*.zip` portable asset on the repository's **Releases** page. **Code → Download ZIP** can contain a Git LFS pointer for the hydro dataset. A pointer is about 134 bytes; the real `power/hydro/precomputed/runoff_shapes_2020.npz` is 107,182,326 bytes. Setup and generation check for this before starting a data job. If an existing installation contains the pointer, copy the real file from the portable ZIP to that exact relative path and rerun with existing source downloads reused. A Git clone can instead restore it with `git lfs install` and `git lfs pull`.
+**GitHub download:** the attached `H2RES_Data_Preparation_*.zip` portable asset on **Releases** includes the complete hydro file and offline Python 3.12 wheels. The current **Code → Download ZIP** source also contains the required hydro data in `power/hydro/precomputed/runoff_shapes_2020.npz.parts`. Setup reconstructs the original 107,182,326-byte NPZ locally after verifying every part and the full SHA-256. No Git LFS or API token is needed for this reconstruction; source installations still download Python dependencies online. Keep the parts directory when copying the source package.
+
+**Older source ZIPs:** a 134-byte `runoff_shapes_2020.npz` is a Git LFS pointer, not the actual hydro data. Copy the actual file from the working portable ZIP into that same location and rerun `SETUP_WINDOWS.bat`, or download the complete current source with its parts. Existing weather/source caches do not need to be deleted. Current setup also replaces an old pointer when the verified local parts are present.
 
 1. Copy the complete `H2RES_Data_Preparation_2026-11-04` folder, or copy its ZIP and extract it completely. Open files from the extracted folder.
 2. Choose a writable local folder, for example `C:\EnergyTools\H2RES_Data_Preparation_2026-11-04`. The code resolves its bundled data relative to this folder; a `D:\POSAO` installation is not required for data preparation.
