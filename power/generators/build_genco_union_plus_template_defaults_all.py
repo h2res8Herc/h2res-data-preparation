@@ -41,6 +41,7 @@ FINAL REQUIREMENTS:
 """
 
 import argparse
+import sys
 from pathlib import Path
 import re
 import numpy as np
@@ -48,6 +49,9 @@ import pandas as pd
 
 import geopandas as gpd
 from shapely.geometry import Point
+PROJECT_ROOT=Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:sys.path.insert(0,str(PROJECT_ROOT))
+from power_asset_inventory import partition_generator_assets, write_asset_inventory
 
 # -----------------------------
 # Normalization mappings
@@ -470,6 +474,9 @@ def main():
     for c in countries:
         h_c = hydro[hydro["country_code"] == c].copy()
         p_c = pp_non_hydro[pp_non_hydro["country_code"] == c].copy()
+        p_c,excluded=partition_generator_assets(p_c,fuel=args.powerplants_fuel_col,
+                                               technology=args.powerplants_tech_col,capacity=args.powerplants_cap_col)
+        write_asset_inventory(excluded,out_dir/f'genco_{c}_excluded_assets.csv',len(p_c)+len(h_c))
         if h_c.empty and p_c.empty:
             continue
 

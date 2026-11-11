@@ -628,6 +628,15 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
     if "power" in args.sectors:
         generators = read_generated(args.out_root / "power" / "GENCO.csv")
         sector_zones["power"] = set(generators[["System", "Zone"]].drop_duplicates().itertuples(index=False, name=None))
+        from power_asset_inventory import partition_generator_assets, write_asset_inventory
+        generators,excluded=partition_generator_assets(generators)
+        upstream=args.out_root/'power'/'_genco_nuts3_detailed_excluded_assets.csv'
+        if upstream.is_file():
+            excluded=pd.concat([excluded,pd.read_csv(upstream)],ignore_index=True)
+        inventory=write_asset_inventory(excluded,output/'power_asset_inventory.csv',len(generators))
+        if inventory['excluded_records']:
+            print(f"Power asset inventory: retained {len(generators)} electric generators; "
+                  f"{len(excluded)} other/invalid-capacity records preserved in power_asset_inventory.csv",flush=True)
         emit("generators.csv", generators)
         level = "individual" if args.power_output_level == "individual" else "aggregated"
         suffix = "_individual" if level == "individual" else ""
@@ -868,6 +877,13 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
             provenance.append({"file": name, "source": "generated" if name in written else "default model data"})
     (output / "input_provenance.json").write_text(json.dumps(provenance, indent=2), encoding="utf-8")
     report["missing_generated_inputs"] = missing
+    inventory_path=output/'power_asset_inventory.json'
+    if inventory_path.is_file():
+        inventory=json.loads(inventory_path.read_text(encoding='utf-8'))
+        report['power_asset_selection']=inventory
+        if inventory['excluded_records']:
+            report['warnings'].append(f"{inventory['excluded_records']} power-source records retained outside electric GENCO; "
+                                      "see power_asset_inventory.csv and its interpretation in power_asset_inventory.json.")
     for sector, pairs in sector_zones.items():
         if pairs - desired:
             report["errors"].append(f"{sector} outputs contain zones outside the requested selection: {sorted(pairs - desired)}")

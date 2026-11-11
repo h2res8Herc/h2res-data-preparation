@@ -47,6 +47,9 @@ import pandas as pd
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
+if str(PROJECT_ROOT.parent) not in sys.path:
+    sys.path.insert(0,str(PROJECT_ROOT.parent))
+from power_asset_inventory import partition_generator_assets, write_asset_inventory
 
 DEFAULT_EXISTING_BUILT_DIR = SCRIPT_DIR / "genco_built_all"
 DEFAULT_RAW_BUILT_DIR = SCRIPT_DIR / "genco_built_from_raw"
@@ -362,8 +365,13 @@ def combine_built_genco(
     for col in numeric_cols:
         out[col] = pd.to_numeric(out[col], errors="coerce")
 
-    out = out[out["fuel_type"].astype(str).str.strip().str.lower().ne("battery")].copy()
-    out = out[out["technology"].astype(str).str.strip().str.lower().ne("battery")].copy()
+    out,excluded=partition_generator_assets(out)
+    inventories=[excluded]
+    for source in files:
+        inventory=source.with_name(source.stem.removesuffix('_built')+'_excluded_assets.csv')
+        if inventory.is_file():inventories.append(pd.read_csv(inventory))
+    write_asset_inventory(pd.concat(inventories,ignore_index=True),
+                          out_csv.with_name(out_csv.stem+'_excluded_assets.csv'),len(out))
     out = make_unit_names_unique(out)
 
     out = out.sort_values(["System", "Zone", "fuel_type", "technology", "unit_name"])

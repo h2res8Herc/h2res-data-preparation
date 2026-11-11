@@ -300,6 +300,8 @@ The packaged population raster supports population-weighted spatial allocation.
 
 ## 6. Primary CLI options
 
+Generator stock selection is checked before financial linking. `power_asset_inventory.py` keeps carrier/standalone storage inventories and records lacking finite nonnegative electric MW outside electric GENCO, preserving excluded records with their original values and explicit reasons. Hydro pumped storage remains an electric asset. Exporting existing sector results applies the same selection without requiring new source downloads. Audit files are outside the native `data` folder, at `model_inputs/power_asset_inventory.csv` and `.json`; `validation.json` records the selection warning. Inventory records are not silently converted into native storage stocks or power capacities. The financial linker rejects invalid capacity before forming capacity-weighted investment shares, and native validation checks for storage misclassification.
+
 | Option | Values | Purpose |
 |---|---|---|
 | `--countries` | ISO2 CSV | Countries to process |

@@ -49,7 +49,7 @@ def check(root, dependencies=True):
             raise ValueError('Model reference file differs from the bundled reference: '+name)
     modules=['generate_all_sector_inputs','h2res_input_gui','model_input_bundle','model_variants',
              'refactored_input_export','refactored_input_checks','refactored_case_loader','preparation_assets','openmeteo_quota',
-             'power_input_links','native_input_checks','regional_network_inputs','policy_input_links',
+             'power_input_links','power_asset_inventory','native_input_checks','regional_network_inputs','policy_input_links',
              'industry.complex_regional_inputs',
              'industry.generate_complex_industry_inputs','industry.facility_sources',
              'industry.regional_allocation','heating.paper_calculator','heating.paper_weather',

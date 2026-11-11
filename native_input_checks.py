@@ -147,6 +147,16 @@ def generator_checks(generators, costs, limits, years, zones):
         return ['Power financial tables lack year/zone keys'],{}
     plants=generators.loc[generators.Zone.isin(zones)]
     names=set(plants.unit_name)
+    if 'cap_mw' in plants:
+        capacity=pd.to_numeric(plants.cap_mw,errors='coerce')
+        invalid=~np.isfinite(capacity) | capacity.lt(0)
+        if invalid.any():
+            errors.append('Invalid electric generator capacities: '+str(plants.loc[invalid,'unit_name'].tolist()[:8]))
+        from power_asset_inventory import partition_generator_assets
+        _,excluded=partition_generator_assets(plants)
+        storage=excluded.loc[excluded.exclusion_reason.eq('storage_inventory_not_an_electric_generator')]
+        if not storage.empty:
+            errors.append('Non-generator storage in electric generators: '+str(storage.unit_name.tolist()[:8]))
     for label,table in [('tech_cost_years',costs),('cap_inv_lim',limits)]:
         missing=names-set(table)
         if missing:

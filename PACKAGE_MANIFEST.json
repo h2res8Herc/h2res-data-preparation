@@ -63,8 +63,8 @@
       "sha256": "012daeb5c17538adce4c93b4ff374b3645b4c8f0748ba0e67c7f8d8f04d2142e"
     },
     "TECHNICAL_DOCUMENTATION.md": {
-      "bytes": 23681,
-      "sha256": "fc8cb430cbd579203daae51b29eef69588e2ba6bdf6ce4602d826a0f8eb62519"
+      "bytes": 24527,
+      "sha256": "f94a593167d5aaf8c53a9d471f4c2ab3ac8093bf7e9a32e15b37359aed6974d9"
     },
     "USER_GUIDE.md": {
       "bytes": 19262,
@@ -147,12 +147,12 @@
       "sha256": "b9e089d0a8ea7bdb0aefeb94a02c1094da2833f285ce6055b932801c9005e80a"
     },
     "docs/PORTABLE_USER_GUIDE.html": {
-      "bytes": 32865,
-      "sha256": "2092e7a1cafe107c80c29f89335b1ead2252050dc5f52dc1911bfca9c1507b1e"
+      "bytes": 34063,
+      "sha256": "03f39d1c22fad877f2069ff9d6069c76e87d24b99ea3d6fc56c0fdf87c37834f"
     },
     "docs/PORTABLE_USER_GUIDE.md": {
-      "bytes": 26493,
-      "sha256": "c5077a06d9956f996b33447fb6f9c122e36f8dd84ad41c4f34ea19deba0ed488"
+      "bytes": 27637,
+      "sha256": "0c8774f2b49d1020d6659798ef588c400f29177d081f0653d1afcaa849b15924"
     },
     "docs/PORTABLE_USER_GUIDE.pdf": {
       "bytes": 421903,
@@ -423,8 +423,8 @@
       "sha256": "f6e8d5ebd77d6b11cb7a73d4ee309fd4d50bbe819772fa623c4f6e81202900bb"
     },
     "model_input_bundle.py": {
-      "bytes": 69556,
-      "sha256": "684d58fb9f9aaf27b2bef552acf96a935ac5478b8181f06c2cb587a31c3a6a3d"
+      "bytes": 70773,
+      "sha256": "f3f137754b0a2fbccebfc02bdbeadd9f3eabeddf6760c4cdac36c936b876402b"
     },
     "model_ready_package.py": {
       "bytes": 14739,
@@ -619,8 +619,8 @@
       "sha256": "855e243dde749e7e50b6f003b621039cc60c851ecc42b435a2c1692d93558acb"
     },
     "native_input_checks.py": {
-      "bytes": 10956,
-      "sha256": "bf956ebb6b6ed2c3bbf21ca0b2231f92188e43efc148571ee67642ba12d912de"
+      "bytes": 11617,
+      "sha256": "c657432232ffec52adf5b119dff5374f3d3ef8b1a44c52285eee3f8e22fc4e74"
     },
     "openmeteo_quota.py": {
       "bytes": 5567,
@@ -775,16 +775,16 @@
       "sha256": "c24208cf2f69cd6dbd65f9e164f7016fcf7426170994b0ef9f0c7d1ded2e945d"
     },
     "power/generators/build_genco_union_plus_template_defaults_all.py": {
-      "bytes": 27063,
-      "sha256": "01bc0d38837247f134e6b75697dc337678fef136ba2c8c193db91c0e8bff2206"
+      "bytes": 27590,
+      "sha256": "6130de0d7e509b073b155dd46b4a5be5e342a5251d993917927b79c9a1d61567"
     },
     "power/generators/genco_built_all/genco_HR_built.csv": {
       "bytes": 13316,
       "sha256": "290faa1d19da03f891390258335d1248600a74d00a0a22e2bf4b68d28709c335"
     },
     "power/generators/generate_genco_power_sector.py": {
-      "bytes": 21135,
-      "sha256": "c20da28356e4d2c25828869cb48251b7b7b0c76f4089b7126cce2e3f5cdee387"
+      "bytes": 21561,
+      "sha256": "53d20820f919e57b646ec86b73754b48940ef45bf9874d63b105fb194bad8361"
     },
     "power/hydro/generate_hydro_inputs_standalone.py": {
       "bytes": 13250,
@@ -806,9 +806,13 @@
       "bytes": 107182326,
       "sha256": "5455ea93f6d2cee5a204fe0a6203caa3cfcdb46f2d3f61d792eaa678b483382e"
     },
+    "power_asset_inventory.py": {
+      "bytes": 2256,
+      "sha256": "3e9abdc64dee57df3fbb1b699633a4a86a306cd3d24ea734b1c6913083d2de52"
+    },
     "power_input_links.py": {
-      "bytes": 12140,
-      "sha256": "08493a0cac07cfa1b04a12dfd4e7069e19ed95638e6e63c9bf232d2ee08189fb"
+      "bytes": 12815,
+      "sha256": "e5c8d3ed9a58e93b67aabc555dd89a4c71816f7af283b2b7f5d806e3e4bf02a6"
     },
     "preparation_assets.py": {
       "bytes": 2934,
@@ -958,6 +962,10 @@
       "bytes": 1763,
       "sha256": "99e0f06e1836c7e1dda56081d6148f1994cb665984fe2150dd8fcc058682404c"
     },
+    "tests/test_power_asset_inventory.py": {
+      "bytes": 3725,
+      "sha256": "20ca674f5cefeb95f4a40faefb2255deedfa3758a9f763d1e858a44868079a97"
+    },
     "tests/test_preparation_assets.py": {
       "bytes": 3265,
       "sha256": "f8fbc575a8c5170a1bcbdc3353f0f11ca13a5d4a4c29e40d037c123668c0ee79"
@@ -1015,8 +1023,8 @@
       "sha256": "3f6749692a40d497a115856ea5b2135b0c87da072c6fe3f6be2b4c9e356a4afd"
     },
     "tools/check_portable.py": {
-      "bytes": 3830,
-      "sha256": "19360498eda4b434adba1c2a180a8fdebb52d4bf0418149ac4a2a18d966bc9e7"
+      "bytes": 3854,
+      "sha256": "9dfa609ca393eed9e614c303a0175706121d90135a725ff15690ea70b73634a4"
     },
     "transport/script/activity_units.py": {
       "bytes": 1234,

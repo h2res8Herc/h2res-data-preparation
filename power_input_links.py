@@ -59,6 +59,17 @@ def link_tables(generators, reference_generators, costs, limits, current_costs, 
     generated = generators.loc[[tuple(p) in targets for p in generators[['System','Zone']].itertuples(index=False,name=None)]].copy()
     if generated.unit_name.duplicated().any():
         raise ValueError('Generated power plant names must be unique before linking costs')
+    capacity=pd.to_numeric(generated.set_index('unit_name').cap_mw,errors='coerce')
+    invalid=~np.isfinite(capacity) | capacity.lt(0)
+    if invalid.any():
+        raise ValueError(f'Invalid electric generator capacity MW for {list(capacity.index[invalid])[:8]}; '
+                         'capacity-weighted investment allocation requires finite nonnegative MW. '
+                         'Review power_asset_inventory.csv; do not infer power capacity from storage energy.')
+    from power_asset_inventory import partition_generator_assets
+    _,excluded=partition_generator_assets(generated)
+    if not excluded.empty:
+        raise ValueError('Non-generator storage reached generator financial linking: '
+                         +str(excluded.unit_name.tolist()[:8]))
     if not {'year','zone'}.issubset(limits):
         raise ValueError('The native investment table requires year and zone columns')
     records, trajectories, pools = [], {}, {}
@@ -123,7 +134,6 @@ def link_tables(generators, reference_generators, costs, limits, current_costs, 
                             investment_donor_zone=str(budget_zone),investment_donor_columns=list(budget_columns),
                             investment_basis='exact_reference_allowance' if direct else 'national_reference_budget_shared_by_existing_capacity' if budget_columns else 'explicit_existing_only_zero_build_default'))
     limit_columns = {}
-    capacity = pd.to_numeric(generated.set_index('unit_name').cap_mw,errors='raise').clip(lower=0)
     by_name = {r['unit_name']:r for r in records}
     for (system,zone,columns), names in pools.items():
         amounts = capacity.reindex(names)
