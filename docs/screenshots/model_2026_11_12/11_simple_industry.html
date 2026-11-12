@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Product based industry input validation</title><style>
+*{box-sizing:border-box}body{margin:0;background:#edf1f5;color:#142d40;font:16px 'Segoe UI',Arial}
+header{background:#153d54;color:white;padding:22px 30px}header small{color:#b9d7e8;text-transform:uppercase;letter-spacing:1px}
+h1{margin:8px 0;font-size:26px}header p{margin:6px 0;color:#d9e8ef;font-size:14px}.body{margin:22px 30px;background:white;border:1px solid #c8d5de;border-radius:6px;padding:20px}
+.badge{display:inline-block;background:#dceef5;color:#174969;font-size:13px;padding:6px 10px;margin:0 8px 15px 0;border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{border:1px solid #d4dfe7;padding:9px;text-align:left;overflow-wrap:anywhere;vertical-align:top}th{background:#e5eff6}tr:nth-child(even){background:#f5f8fa}
+pre{font:16px/1.62 Consolas,monospace;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}code .num{display:inline-block;width:48px;color:#8697a3;user-select:none}code .comment{color:#537850}.code{background:#f8fafc}
+footer{margin:16px 30px;color:#526d80;font-size:13px}.tabs{font-size:13px;line-height:2.1;margin-top:16px;color:#35617a}.active{background:#d9ebf7;font-weight:bold;padding:3px 6px;border-bottom:3px solid #166996}
+.directory table{font-size:13px}.directory td,.directory th{padding:6px}
+</style></head><body><header><small>H2RES 12 November 2026 · read-only documentation view</small><h1>Product based industry input validation</h1><p>scripts/simple_industry_inputs.py</p><p>Actual local file contents · source excerpt / table preview · no model execution</p></header><div class="body"><div class="badge">Lines 1–23</div><pre><code><span class="num">1</span><span>&quot;&quot;&quot;Inputs for fixed-recipe industrial production, independent of legacy industry.</span>
+<span class="num">2</span><span></span>
+<span class="num">3</span><span>Energy coefficients are GJ fuel/t product and MWh electricity/t product.</span>
+<span class="num">4</span><span>All yearly quantities refer to the full modeled calendar year, not a sample.</span>
+<span class="num">5</span><span>&quot;&quot;&quot;</span>
+<span class="num">6</span><span>from dataclasses import dataclass, field</span>
+<span class="num">7</span><span>from pathlib import Path</span>
+<span class="num">8</span><span>import math</span>
+<span class="num">9</span><span>import hashlib</span>
+<span class="num">10</span><span>import pickle</span>
+<span class="num">11</span><span></span>
+<span class="num">12</span><span>import pandas as pd</span>
+<span class="num">13</span><span></span>
+<span class="num">14</span><span></span>
+<span class="num">15</span><span>@dataclass</span>
+<span class="num">16</span><span>class IndustryData:</span>
+<span class="num">17</span><span>    plants: dict</span>
+<span class="num">18</span><span>    recipes: dict</span>
+<span class="num">19</span><span>    markets: dict</span>
+<span class="num">20</span><span>    market_years: dict</span>
+<span class="num">21</span><span>    economics: dict</span>
+<span class="num">22</span><span>    policies: dict</span>
+<span class="num">23</span><span>    fuel_prices: dict</span>
+</code></pre></div><footer>Source excerpt, lines 1–23. Read the surrounding implementation before editing.<br>Browser documentation view; not an IDE, Excel or the desktop model GUI. Original files are unchanged.</footer></body></html>

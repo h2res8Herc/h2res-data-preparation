@@ -1,8 +1,6 @@
 # References and source register
 
-Documentation/source check date: **2026-11-01**.
-
-**Additional primary sources checked 3–4 November 2026:** the [paper-method audit](PAPER_METHOD_AUDIT.md) documents the pinned [EU ETS installation dataset](https://zenodo.org/records/21414185), [EEA Industrial Emissions Portal](https://industry.eea.europa.eu/industrial-emissions/dataset), [JRC EIGL industrial-site service](https://arcgis.jrc.ec.europa.eu/server/rest/services/eigl/EIGL_SERVICES_Industrial_infrastructure_PUB/MapServer), official Eurostat industrial sector definitions, [GISCO coastal typology](https://ec.europa.eu/eurostat/en/web/coastal-island-outermost-regions/methodology), [historical-weather API](https://open-meteo.com/en/docs/historical-weather-api) and [PyOsmium documentation](https://docs.osmcode.org/pyosmium/latest/). It records the implementation choices and missing-sector assumptions separately from observations.
+Documentation/source check date: **2026-11-12**.
 
 R entries are the curated scientific/data/software references. H entries preserve additional identifiable sources from the supplied industry handoff. T entries preserve the live fixed-OPEX workbook sources. Multiple URLs can describe the same work; entries are not a count of independent validation studies.
 
@@ -411,6 +409,39 @@ H2RES-model contributors. (n.d.). *H2RES-core public source repository*. softwar
 **Use:** Public project code context; it is not asserted to be byte-identical to the local documented copy.
 
 **Verification:** Maintainer repository opened.
+
+<a id="r35"></a>
+### R35 — Assessment of the regionalised demand response potential in Germany using an open source tool and dataset
+
+Heitkoetter, Wilko and Schyska, Bruno U. and Schmidt, Danielle and Medjroubi, Wided and Vogt, Thomas and Agert, Carsten. (2020). *Assessment of the regionalised demand response potential in Germany using an open source tool and dataset*. article.
+
+[Primary/preserved source](https://arxiv.org/abs/2009.05122). DOI: `10.48550/arXiv.2009.05122`.
+
+**Use:** Regional demand-response methods and cost-potential background. German results do not calibrate Croatian residual basic-load DSM or the local 7%/1.5% assumptions.
+
+**Verification:** Primary author preprint landing page, author list and abstract checked 12 November 2026; no numerical transfer or full-text replication claimed.
+
+<a id="r36"></a>
+### R36 — Economic potential for future demand response in Germany – Modeling approach and case study
+
+Gils, Hans Christian. (2016). *Economic potential for future demand response in Germany – Modeling approach and case study*. article.
+
+[Primary/preserved source](https://elib.dlr.de/99320/). DOI: `10.1016/j.apenergy.2015.10.083`.
+
+**Use:** Demand-response modeling and sensitivity background, Applied Energy 162, 401–415. Not a country-specific calibration of local DSM costs.
+
+**Verification:** Primary DLR repository metadata and abstract checked 12 November 2026. Repository lists 2015 publication/deposit metadata; journal volume is conventionally cited as 2016 in the supplied model notes.
+
+<a id="r37"></a>
+### R37 — Objective Function — DIETERpy documentation
+
+DIETERpy project. (n.d.). *Objective Function — DIETERpy documentation*. online.
+
+[Primary/preserved source](https://diw-evu.gitlab.io/dieter_public/dieterpy/model/equations/eq_objective.html).
+
+**Use:** Primary model documentation illustrating annualized DSM enabling/fixed and activation-cost terms. H2RES uses its own moved-energy counting convention.
+
+**Verification:** Primary documentation equations and DSM sections checked 12 November 2026; no assertion that the two models have identical formulations.
 
 ## Additional industry handoff references
 

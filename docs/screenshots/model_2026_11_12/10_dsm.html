@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Electricity demand shifting implementation</title><style>
+*{box-sizing:border-box}body{margin:0;background:#edf1f5;color:#142d40;font:16px 'Segoe UI',Arial}
+header{background:#153d54;color:white;padding:22px 30px}header small{color:#b9d7e8;text-transform:uppercase;letter-spacing:1px}
+h1{margin:8px 0;font-size:26px}header p{margin:6px 0;color:#d9e8ef;font-size:14px}.body{margin:22px 30px;background:white;border:1px solid #c8d5de;border-radius:6px;padding:20px}
+.badge{display:inline-block;background:#dceef5;color:#174969;font-size:13px;padding:6px 10px;margin:0 8px 15px 0;border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{border:1px solid #d4dfe7;padding:9px;text-align:left;overflow-wrap:anywhere;vertical-align:top}th{background:#e5eff6}tr:nth-child(even){background:#f5f8fa}
+pre{font:16px/1.62 Consolas,monospace;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}code .num{display:inline-block;width:48px;color:#8697a3;user-select:none}code .comment{color:#537850}.code{background:#f8fafc}
+footer{margin:16px 30px;color:#526d80;font-size:13px}.tabs{font-size:13px;line-height:2.1;margin-top:16px;color:#35617a}.active{background:#d9ebf7;font-weight:bold;padding:3px 6px;border-bottom:3px solid #166996}
+.directory table{font-size:13px}.directory td,.directory th{padding:6px}
+</style></head><body><header><small>H2RES 12 November 2026 · read-only documentation view</small><h1>Electricity demand shifting implementation</h1><p>scripts/electricity_dsm.py</p><p>Actual local file contents · source excerpt / table preview · no model execution</p></header><div class="body"><div class="badge">Lines 1–22</div><pre><code><span class="num">1</span><span>&quot;&quot;&quot;Energy-neutral basic-electricity DSM, including rolling commitment handoff.</span>
+<span class="num">2</span><span></span>
+<span class="num">3</span><span>Hourly powers are MW, physical energy is MWh, input costs are EUR. Calendar</span>
+<span class="num">4</span><span>blocks are anchored at model hour 1; representative gaps are closed separately.</span>
+<span class="num">5</span><span>&quot;&quot;&quot;</span>
+<span class="num">6</span><span>from collections import defaultdict</span>
+<span class="num">7</span><span>import hashlib</span>
+<span class="num">8</span><span>import json</span>
+<span class="num">9</span><span>import math</span>
+<span class="num">10</span><span>from pathlib import Path</span>
+<span class="num">11</span><span></span>
+<span class="num">12</span><span>import gurobipy as gp</span>
+<span class="num">13</span><span></span>
+<span class="num">14</span><span></span>
+<span class="num">15</span><span>AGGREGATE_GROUPS = (&#x27;dsm_shift&#x27;, &#x27;dsm_abs_shift&#x27;, &#x27;dsm_energy&#x27;)</span>
+<span class="num">16</span><span>CLASS_GROUPS = (&#x27;dsm_class_shift&#x27;, &#x27;dsm_class_abs_shift&#x27;, &#x27;dsm_class_energy&#x27;,</span>
+<span class="num">17</span><span>                &#x27;dsm_class_budget_used&#x27;, &#x27;dsm_class_budget_mwh&#x27;)</span>
+<span class="num">18</span><span>SOLUTION_GROUPS = AGGREGATE_GROUPS + CLASS_GROUPS</span>
+<span class="num">19</span><span>PARAMETERS = (&#x27;dsm_shift_fraction&#x27;, &#x27;dsm_capacity_cost_eur_per_mw_year&#x27;,</span>
+<span class="num">20</span><span>              &#x27;dsm_shift_cost_eur_per_mwh&#x27;, &#x27;dsm_daily_energy_fraction&#x27;,</span>
+<span class="num">21</span><span>              &#x27;dsm_weekly_energy_fraction&#x27;)</span>
+<span class="num">22</span><span></span>
+</code></pre></div><footer>Source excerpt, lines 1–22. Read the surrounding implementation before editing.<br>Browser documentation view; not an IDE, Excel or the desktop model GUI. Original files are unchanged.</footer></body></html>

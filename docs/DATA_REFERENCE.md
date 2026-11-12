@@ -1,6 +1,6 @@
 # Input, output and units reference
 
-**Applies to:** the preparation repository and the documented H2RES local model, 1 November 2026. This chapter explains the core contracts; machine-readable inventories include every examined workbook sheet/header and native CSV header.
+**Applies to:** the preparation repository and the documented H2RES local model, 12 November 2026. This chapter explains the core contracts; machine-readable inventories include every examined workbook sheet/header and native CSV header.
 
 ## 1. Complete schema inventories
 
@@ -60,7 +60,7 @@ For JRC industry extraction, `1 ktoe = 11630 MWh` is the implemented conversion.
 | Mode | No e-fuels | E-fuels |
 |---|---|---|
 | Regular industry | `flex_tech.xlsx` | `flex_tech_efuel.xlsx` |
-| Category industry | `flex_tech_categories.xlsx` | Conservative: `flex_tech_efuel_categories_electricity_review.xlsx`; technical: `flex_tech_efuel_categories_electricity_technical_2050.xlsx` |
+| Category industry | `flex_tech_categories.xlsx` | Conservative: `flex_tech_efuel_categories.xlsx`; technical: `variants/technical_2050/flex_tech_efuel_categories.xlsx` |
 | Complex industry | `flex_tech_complex_industry.xlsx` | `flex_tech_efuel_complex_industry.xlsx` |
 
 Category/complex flags are mutually exclusive. Other retained filenames, including combined category/complex variants and copies, are archived alternatives rather than an instruction to activate them together. Regular and complex technology files can be paired with case-specific process workbooks as described below.
@@ -210,7 +210,7 @@ The model sums calendar-year allowances over the global decision interval; the i
 
 `setup` holds the modeled years and first-row controls (`chunk_size,step_size,first_hour,last_hour`). Other policy sheets can hold RPS, CO2 limits, fuel/import/carbon prices, transport technology floors, biomass supply limits, generation calibration, hydro caps and outside trade targets. Exact names/headers are in the schema inventory. Many policy rows are System-scoped, not country-independent constants.
 
-Scenario JSON supports `preset,scope,years,start_year,end_year,year_step,target_year,start_share,investment_multiplier,investment_overrides`. CLI choices override corresponding JSON fields. Years are increasing/equally spaced and must be supported by costs. A whole-energy RES preset requires the e-fuel representation and a compatible model adapter.
+The separate preparation adapter's scenario JSON supports `preset,scope,years,start_year,end_year,year_step,target_year,start_share,investment_multiplier,investment_overrides`. Native `main.py` does not automatically load this JSON. Preparation CLI choices override corresponding JSON fields. Years are increasing/equally spaced and must be supported by costs. A whole-energy RES preset requires the e-fuel representation and a compatible model adapter; this documentation did not certify the adapter against all 12 November extensions.
 
 Investment overrides select supported sheets, a native column, value, optional row conditions and years. Unsupported sheet names are errors. A reference to `Industry_data` is not automatically an override of the separate `complex_industry` workbook. The supported complex multiplier can scale its build limits; use documented direct editing for unsupported per-row complex changes.
 
@@ -233,3 +233,34 @@ Investment overrides select supported sheets, a native column, value, optional r
 Check requested geography against active/generated keys, unique hourly periods, matching unit/profile names, full sector/year coverage, useful/final-energy distinctions, scenario investment units, non-energy feedstocks, process/combustion carbon separation, finite efficiencies and stock/cost bases. Inspect warnings about fallback allocations and retained reference rows. Preserve the raw data and exact hashes so the handoff can be reproduced.
 
 The model will also require consistent flag selection and any separately implemented whole-energy policy equations. Structural input compatibility is an interface property; historical accuracy and scenario feasibility require additional review.
+
+## 16. New product-industry input contract
+
+`data/simple_industry.xlsx` is read only when `model_simple_industry=True`. It is unrelated to the pooled-remainder worksheet of that name inside a flex-tech workbook. The product mode disables overlapping legacy industry/transport, e-fuel, hydrogen and industrial capture/storage blocks. Active example zones are configured separately in model policy.
+
+| Worksheet | Principal quantities / purpose |
+|---|---|
+| `plants` | Fixed product/route/geography, t/h capacity, MWh/t electricity, MW connection, operating years, flexibility and capital |
+| `inputs_per_tonne` | Non-electric GJ/t recipes, emissions tCO2/GJ; avoid duplicate coke/process carbon |
+| `economics`, `fuel_prices` | Plant/year economics and fuel/year EUR/GJ |
+| `markets`, `market_years` | Eligibility and mandatory/optional markets; annual tonnes, sale/delivery costs and hourly ceilings |
+| `carbon_policy` | Plant/year industrial price, benchmark, allocation and credits |
+| `import_suppliers`, `import_years` | Outside origin/eligibility and year-specific supply limits, prices, embedded footprints and credits |
+| `trade_routes` | Optional enabled supplier/market pairs with delivery costs and hourly limits |
+| `profiles` | Named full-year profiles; `flat` is built in |
+| `baseline_load` | Explicit year-specific MWh to remove from basic electricity before adding product-industry consumption |
+| `metadata` | Example/calibration status, boundaries and provenance |
+
+The example contains illustrative BF-BOF/EAF plants, mandatory domestic/Europe product demand and bounded outside offers. Zero baseline removals mean added electricity demand. Every modeled plant/year, market/year and required fuel/year needs its corresponding input row. Read the [supplied module notes](model_notes_2026_11_12/SIMPLE_INDUSTRY.md) and exact headers in the schema inventory before changing these inputs.
+
+## 17. DSM parameters and additional output contracts
+
+Basic-electricity DSM uses `main.py` switches and `policy/runtime_policy.py` parameters; it does not require a new DSM input workbook. Defaults are documented in model manual section 19 and the [supplied DSM notes](model_notes_2026_11_12/ELECTRICITY_DSM.md). The energy fractions, hourly power cap, rollout and costs are explicit scenario assumptions.
+
+DSM results include `dsm_hourly_YEAR.csv`, `dsm_classes_YEAR.csv`, `dsm_summary_YEAR.csv` and `dsm_assumptions.json`. Product-industry results include hourly production, fuels, sales, markets, summary, imports, demand, fiscal and border-carbon tables. Geography, year, physical/embedded carbon and annualization must be read with their recorded boundaries. These result names describe enabled module outputs, not files created while writing this documentation.
+
+## 18. Formula caches and workbook handling
+
+The screenshots deliberately show stored formulas. The inventory's cached-value read does not recalculate Excel formulas and is not a formula-validity audit. Inspect both formulas and numeric values when editing `Industry_data`, `_remainder_calc`, `simple_industry`, annual limits or dependent policy tables. Preserve the workbook, sheet names, header rows and native stacked-table layout. For missing or stale cached results, recalculate a working copy in a spreadsheet application and verify its saved values with the model reader.
+
+The 12 November model also supplies read-only checking instructions in `data/README.md`, including `python -m scripts.repair_flex_workbooks data/flex_tech_efuel_categories.xlsx --check`. Read that helper's options before using a repair mode. No repair or recalculation was performed as part of this manual update.

@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>How the model selects its input workbooks</title><style>
+*{box-sizing:border-box}body{margin:0;background:#edf1f5;color:#142d40;font:16px 'Segoe UI',Arial}
+header{background:#153d54;color:white;padding:22px 30px}header small{color:#b9d7e8;text-transform:uppercase;letter-spacing:1px}
+h1{margin:8px 0;font-size:26px}header p{margin:6px 0;color:#d9e8ef;font-size:14px}.body{margin:22px 30px;background:white;border:1px solid #c8d5de;border-radius:6px;padding:20px}
+.badge{display:inline-block;background:#dceef5;color:#174969;font-size:13px;padding:6px 10px;margin:0 8px 15px 0;border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{border:1px solid #d4dfe7;padding:9px;text-align:left;overflow-wrap:anywhere;vertical-align:top}th{background:#e5eff6}tr:nth-child(even){background:#f5f8fa}
+pre{font:16px/1.62 Consolas,monospace;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}code .num{display:inline-block;width:48px;color:#8697a3;user-select:none}code .comment{color:#537850}.code{background:#f8fafc}
+footer{margin:16px 30px;color:#526d80;font-size:13px}.tabs{font-size:13px;line-height:2.1;margin-top:16px;color:#35617a}.active{background:#d9ebf7;font-weight:bold;padding:3px 6px;border-bottom:3px solid #166996}
+.directory table{font-size:13px}.directory td,.directory th{padding:6px}
+</style></head><body><header><small>H2RES 12 November 2026 · read-only documentation view</small><h1>How the model selects its input workbooks</h1><p>main.py</p><p>Actual local file contents · source excerpt / table preview · no model execution</p></header><div class="body"><div class="badge">Lines 316–342</div><pre><code><span class="num">316</span><span>flex_tech_directory = &#x27;./data&#x27;</span>
+<span class="num">317</span><span>if model_efuel:</span>
+<span class="num">318</span><span>    flex_tech_name += &#x27;_efuel&#x27;</span>
+<span class="num">319</span><span>if model_complex_non_metallic_minerals:</span>
+<span class="num">320</span><span>    flex_tech_name += &#x27;_complex_industry&#x27;</span>
+<span class="num">321</span><span>if model_industry_categories:</span>
+<span class="num">322</span><span>    flex_tech_name += &#x27;_categories&#x27;</span>
+<span class="num">323</span><span class="comment"># Select the electricity-limit scenario for e-fuel industry categories.</span>
+<span class="num">324</span><span>if model_efuel and model_industry_categories and not model_complex_non_metallic_minerals:</span>
+<span class="num">325</span><span>    if industry_category_electricity_case not in (&quot;conservative&quot;, &quot;technical_2050&quot;):</span>
+<span class="num">326</span><span>        raise ValueError(&quot;industry_category_electricity_case must be conservative or technical_2050&quot;)</span>
+<span class="num">327</span><span>    if industry_category_electricity_case == &quot;technical_2050&quot;:</span>
+<span class="num">328</span><span>        flex_tech_directory += &#x27;/variants/technical_2050&#x27;</span>
+<span class="num">329</span><span>flex_tech_dat = flex_tech_directory + &#x27;/&#x27; + flex_tech_name + &#x27;.xlsx&#x27;</span>
+<span class="num">330</span><span></span>
+<span class="num">331</span><span>heat_dem_industry_dat = (</span>
+<span class="num">332</span><span>    &#x27;./data/industry_category_profiles.csv&#x27;</span>
+<span class="num">333</span><span>    if model_industry_categories</span>
+<span class="num">334</span><span>    else &#x27;./data/industry_heat.csv&#x27;</span>
+<span class="num">335</span><span>)</span>
+<span class="num">336</span><span>if model_efuel:</span>
+<span class="num">337</span><span>    policy_dat_fuels = &#x27;./data/policy_fuels.xlsx&#x27;</span>
+<span class="num">338</span><span>    if exogeneous_NH3_demand:</span>
+<span class="num">339</span><span>        NH3_demand_dat = &#x27;./data/nh3_demand.csv&#x27;</span>
+<span class="num">340</span><span>else:</span>
+<span class="num">341</span><span>    demand_co2 = &#x27;./data/co2_demand.csv&#x27;</span>
+<span class="num">342</span><span></span>
+</code></pre></div><footer>Source excerpt, lines 316–342. Read the surrounding implementation before editing.<br>Browser documentation view; not an IDE, Excel or the desktop model GUI. Original files are unchanged.</footer></body></html>

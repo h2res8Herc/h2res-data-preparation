@@ -1,0 +1,1022 @@
+[
+  {
+    "id": "E01",
+    "latex": "\\min Z=\\sum_{y,z,s} DF_y\\left(C^{cap}_{yzs}+m C^{fix}_{yzs}+C^{var}_{yzs}\\right)+C^{slack}",
+    "source": "scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py",
+    "source_anchor": "total_cost =",
+    "first_line": 3744,
+    "matching_lines": [
+      3744
+    ],
+    "representation": "structural objective, in the source's MEUR basis before numerical scaling.",
+    "source_sha256": "3498ad2408ba3d1004210617d6636fca8525fc79a6af5f3269b3ce008cdf7c40"
+  },
+  {
+    "id": "E02",
+    "latex": "DF_y=(1+r_d)^{-(y-y_d)}",
+    "source": "scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py",
+    "source_anchor": "def _discount_factor",
+    "first_line": 160,
+    "matching_lines": [
+      160
+    ],
+    "representation": "reindexed discount factor.",
+    "source_sha256": "3498ad2408ba3d1004210617d6636fca8525fc79a6af5f3269b3ce008cdf7c40"
+  },
+  {
+    "id": "E03",
+    "latex": "A(L,r_f)=\\left(\\sum_{n=0}^{L-1}(1+r_f)^{-n}\\right)^{-1},\\qquad A(L,0)=1/L",
+    "source": "scripts/simple_industry_policy.py",
+    "source_anchor": "def capital_service",
+    "first_line": 50,
+    "matching_lines": [
+      50
+    ],
+    "representation": "reindexed annuity-due identity, also explaining the capital-service convention.",
+    "source_sha256": "aef34b3a21dfb49702b25ef8c75884f295b99e5d102d27c8c0ac342f0a755a0b"
+  },
+  {
+    "id": "E04",
+    "latex": "C^{cap}_y=\\sum_{a\\leq y<a+L} c^{cap}_a X_a A(L,r_f)",
+    "source": "scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py",
+    "source_anchor": "capital_finance_rate",
+    "first_line": 147,
+    "matching_lines": [
+      147,
+      148,
+      152,
+      170,
+      173,
+      174
+    ],
+    "representation": "structural vintage-payment accounting; paid-back/existing-asset conventions remain asset-specific.",
+    "source_sha256": "3498ad2408ba3d1004210617d6636fca8525fc79a6af5f3269b3ce008cdf7c40"
+  },
+  {
+    "id": "E05",
+    "latex": "m=\\frac{\\max(Y)-\\min(Y)+1}{|Y|}",
+    "source": "scripts/read_process_data.py",
+    "source_anchor": "multip =",
+    "first_line": 219,
+    "matching_lines": [
+      219
+    ],
+    "representation": "reindexed solve-grid multiplier.",
+    "source_sha256": "a377367297085f241a751ae7899c8ebe2295d9ea94a28dbca3cc9b7f5c4374eb"
+  },
+  {
+    "id": "E06",
+    "latex": "C^{flow}_y=10^{-6}\\sum_{t\\in T_y} w_{ty}\\,\\pi_{ty}\\,U_{ty}",
+    "source": "scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py",
+    "source_anchor": "_period_weight",
+    "first_line": 58,
+    "matching_lines": [
+      58,
+      61,
+      62,
+      140,
+      3157,
+      3192,
+      3260,
+      3272,
+      3291,
+      3309,
+      3318,
+      3338,
+      3347,
+      3363,
+      3369,
+      3376,
+      3382,
+      3389,
+      3396,
+      3429,
+      3470,
+      3482,
+      3498,
+      3507,
+      3529,
+      3546,
+      3565,
+      3581,
+      3594,
+      4405
+    ],
+    "representation": "structural EUR-to-MEUR hourly-flow cost term, not the complete variable-OPEX equation.",
+    "source_sha256": "3498ad2408ba3d1004210617d6636fca8525fc79a6af5f3269b3ce008cdf7c40"
+  },
+  {
+    "id": "E07",
+    "latex": "K_{ky}=K^{old}_{ky}+\\sum_{a\\leq y}\\sigma_{kay}X_{ka}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "available_capacity_year",
+    "first_line": 7000,
+    "matching_lines": [
+      7000,
+      7005,
+      7056,
+      7077,
+      7086,
+      7092,
+      7158,
+      7161,
+      7171,
+      7189,
+      7203,
+      7221,
+      7234,
+      7251,
+      7269,
+      7283
+    ],
+    "representation": "structural capacity/vintage accounting; sigma denotes the family's implemented survival rule.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E08",
+    "latex": "X_{ky}\\leq\\sum_{c\\in W(y)}\\overline{x}_{kc},\\qquad K_{ky}\\leq\\overline{K}_{ky}",
+    "source": "scripts/investment_windows.py",
+    "source_anchor": "def investment_windows",
+    "first_line": 4,
+    "matching_lines": [
+      4
+    ],
+    "representation": "structural annual-limit aggregation and installed-capacity bound.",
+    "source_sha256": "a0d95eb5caab40a7df1626dd0b46e015e524ad11ece6b0761787fcae86ad49b3"
+  },
+  {
+    "id": "E09",
+    "latex": "0\\leq P_{gty}\\leq K_{gy}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "max_output_dispatch =",
+    "first_line": 7167,
+    "matching_lines": [
+      7167
+    ],
+    "representation": "reindexed dispatchable output bound.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E10",
+    "latex": "P_{gty}=K_{gy}\\,a_{gt(y)}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "max_output_nondisp =",
+    "first_line": 7185,
+    "matching_lines": [
+      7185,
+      7199
+    ],
+    "representation": "reindexed non-dispatchable generation equality; the year index on a depends on simple_curves.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E11",
+    "latex": "\\sum_g P_{gzty}+I_{zty}+D^{el}_{zty}+L^{unserved}_{zty}=B^{adj}_{zty}+L^{sector}_{zty}+C^{el}_{zty}+E_{zty}+CEEP_{zty}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "name=\"el_balance\"",
+    "first_line": 7448,
+    "matching_lines": [
+      7448
+    ],
+    "representation": "structural zonal balance with sector, carrier, conversion, storage and transfer terms grouped.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E12",
+    "latex": "-R^{down}_{ly}\\leq F^{outside}_{lty}-F^{outside}_{l,t^-,y}\\leq R^{up}_{ly}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "max_transfer_systimpexp_outside_import_ramp_up",
+    "first_line": 6150,
+    "matching_lines": [
+      6150,
+      6198
+    ],
+    "representation": "structural outside-flow ramp envelope; initial-period and route-specific coefficients remain in the source.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E13",
+    "latex": "0\\leq F_{lty}\\leq K^{trans}_{ly},\\qquad F^{delivered}_{lty}=\\frac{F_{lty}}{1+d_l\\lambda_l}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "name=\"el_balance\"",
+    "first_line": 7448,
+    "matching_lines": [
+      7448
+    ],
+    "representation": "structural route-capacity bound with the delivered-flow loss convention appearing in the electricity balance.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E14",
+    "latex": "S_{ty}=S_{t^-,y}-D_{ty}+\\eta^{grid}C_{ty},\\qquad 0\\leq S_{ty}\\leq K^E_y",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "stat_storage_soc =",
+    "first_line": 5274,
+    "matching_lines": [
+      5274
+    ],
+    "representation": "reindexed stationary stock transition with its energy-capacity bound grouped.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E15",
+    "latex": "S^{dam}_{ty}=S^{dam}_{t^-,y}+i_{gt}K^{ref}_g\\eta_g-P_{gty}/\\eta_g-Spill_{gty}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "name=\"storage_level_balance\"",
+    "first_line": 12122,
+    "matching_lines": [
+      12122,
+      12175
+    ],
+    "representation": "reindexed reservoir balance; first-period initialization and year-indexed curves are separate branches.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E16",
+    "latex": "G_N+G_B+G_H\\geq\\rho_{sy}\\left(G_F+G_P+G_D+G_R+G_N\\right)",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "rpscondition",
+    "first_line": 12864,
+    "matching_lines": [
+      12864
+    ],
+    "representation": "reindexed source-set summation; this row uses modeled-period sums rather than an assumed all-energy denominator.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E17",
+    "latex": "Q^{boiler}_{kty}=\\eta_k U_{kty},\\qquad Q^{HP}_{kty}=COP_{kt}P^{HP}_{kty}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "heat_pump_ind",
+    "first_line": 1601,
+    "matching_lines": [
+      1601,
+      7675,
+      7692,
+      7735,
+      7746,
+      7747,
+      7749,
+      7750,
+      7753,
+      7755,
+      7757,
+      7759,
+      7761,
+      7765,
+      7767,
+      7770,
+      7772,
+      7773,
+      7777,
+      7779,
+      7783,
+      7792,
+      7841,
+      7849,
+      8004,
+      8013,
+      8066,
+      8079,
+      8122,
+      8123,
+      8171,
+      8172,
+      8206,
+      8207
+    ],
+    "representation": "structural boiler/heat-pump conversions, with fuel and COP mappings suppressed.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E18",
+    "latex": "\\sum_k Q_{kzty}+Q^{CHP}_{zty}+D^{heat}_{zty}=H_{zty}+C^{heat}_{zty}+Loss^{heat}_{zty}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "heat_balance",
+    "first_line": 62,
+    "matching_lines": [
+      62,
+      8892,
+      8923,
+      13544,
+      13546,
+      13547
+    ],
+    "representation": "structural heat-balance family; separate individual/DH and rolling-shortage branches are grouped.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E19",
+    "latex": "P^{eq}_{gty}=P_{gty}+\\beta_g Q_{gty},\\qquad U^{CHP}_{gty}=P^{eq}_{gty}/\\eta^{el}_g",
+    "source": "scripts/energy_accounting.py",
+    "source_anchor": "def power_fuel_input",
+    "first_line": 28,
+    "matching_lines": [
+      28
+    ],
+    "representation": "reindexed shared CHP fuel accounting.",
+    "source_sha256": "8c6207261befadf26a72f6f3e3eb4b2a58086fd28c46f4eb36bb48299e987633"
+  },
+  {
+    "id": "E20",
+    "latex": "P_{gty}+\\beta_g Q_{gty}\\leq K_{gy}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "gen_heat_extraction_max",
+    "first_line": 8531,
+    "matching_lines": [
+      8531
+    ],
+    "representation": "structural extraction-CHP upper envelope, not its complete feasible region.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E21",
+    "latex": "H^{annual}_{ky}=\\sum_{t\\in T_y}w_{ty}Q_{kty},\\qquad H^{fossil}_{y}\\leq H^{fossil}_{y^-}+\\epsilon",
+    "source": "scripts/fossil_heating_nonincrease.py",
+    "source_anchor": "def add_fossil_heating_nonincrease",
+    "first_line": 168,
+    "matching_lines": [
+      168
+    ],
+    "representation": "structural annual heating/history accounting and nonincrease rule.",
+    "source_sha256": "a9ed68bc0ba34db86e350781adbd11928697fcfcf6a1f7cd73ce601c208d54fd"
+  },
+  {
+    "id": "E22",
+    "latex": "\\sum_k Q_{kity}=H_{ity},\\qquad U_{kity}=Q_{kity}/\\eta_{ki}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "industries_share_fuel",
+    "first_line": 2374,
+    "matching_lines": [
+      2374,
+      2389,
+      2394,
+      2404,
+      2409,
+      2410,
+      2412,
+      2413,
+      2425,
+      2426,
+      2428,
+      2429,
+      2443,
+      2444,
+      2446,
+      2447,
+      4026,
+      4039,
+      4046,
+      4063,
+      4067,
+      4083,
+      4088,
+      4089,
+      4091,
+      4092,
+      4104,
+      4105,
+      4107,
+      4108,
+      4122,
+      4123,
+      4125,
+      4126
+    ],
+    "representation": "structural industrial service/efficiency family; share variables and unit-specific carrier recipes are suppressed.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E23",
+    "latex": "H^{pool}_{zty}=\\sum_{i\\in I^{excluded}}H_{izty},\\qquad H^{total}=H^{detailed}+H^{pool}",
+    "source": "scripts/read_process_data.py",
+    "source_anchor": "simple_industry",
+    "first_line": 2440,
+    "matching_lines": [
+      2440,
+      3253,
+      3255,
+      3441,
+      3442,
+      3443,
+      3444,
+      3445,
+      3449,
+      3450,
+      3456,
+      3457,
+      3465,
+      3466,
+      3625,
+      3627,
+      3628,
+      3629,
+      3630,
+      3631,
+      3634,
+      3694,
+      3721,
+      3722,
+      3723,
+      3943,
+      3944,
+      3950,
+      3952,
+      3953,
+      3954,
+      3955,
+      3956,
+      3959,
+      4087,
+      4110,
+      4111,
+      4112,
+      4113,
+      4117,
+      4118,
+      4119,
+      5042,
+      5166,
+      5800,
+      5801,
+      5802,
+      5803,
+      5804,
+      5807,
+      5841,
+      5864,
+      5865,
+      5866,
+      9984,
+      9985
+    ],
+    "representation": "structural accounting invariant for detailed-versus-pooled services; not a claim that every workbook formula is automatically recalculated.",
+    "source_sha256": "a377367297085f241a751ae7899c8ebe2295d9ea94a28dbca3cc9b7f5c4374eb"
+  },
+  {
+    "id": "E24",
+    "latex": "Q_{kity}\\leq\\overline{s}_{ki}H_{ity},\\qquad \\sum_{k\\in A_i}Q_{kity}\\leq\\overline{H}^{replaceable}_{ity}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "industry_low_carbon_fuel_substitution_cap",
+    "first_line": 2474,
+    "matching_lines": [
+      2474,
+      2532,
+      4165,
+      4243
+    ],
+    "representation": "structural individual/shared service substitution limits.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E25",
+    "latex": "H_{ity}=q_{b(i),ty}\\alpha_i e_i,\\qquad E^{process}_{bty}=\\sum_{i\\in b}q_{bty}\\alpha_i\\gamma_i",
+    "source": "scripts/complex_industry_support.py",
+    "source_anchor": "activity",
+    "first_line": 144,
+    "matching_lines": [
+      144,
+      154,
+      181,
+      182,
+      183,
+      186,
+      316,
+      344,
+      346,
+      348,
+      382,
+      383,
+      405,
+      407,
+      408,
+      459,
+      493,
+      519,
+      620,
+      625,
+      630,
+      632,
+      634,
+      636,
+      637,
+      681,
+      739,
+      744,
+      757,
+      760,
+      784,
+      862,
+      871,
+      872
+    ],
+    "representation": "structural product/component service and process-carbon relationships; native activity may be tonnes or a declared index.",
+    "source_sha256": "ded6351a4c5438079164bfde06eb204d28702624717d8e62881e1dffb2201347"
+  },
+  {
+    "id": "E26",
+    "latex": "s^{el}_{iy}=\\frac{\\sum_{t\\in T_y}w_{ty}\\sum_{k\\in EL\\cup HP}Q_{kity}}{\\sum_{t\\in T_y}w_{ty}H_{ity}}",
+    "source": "scripts/industry_annual_s_curve.py",
+    "source_anchor": "def add_annual_industry_electricity_limits",
+    "first_line": 92,
+    "matching_lines": [
+      92
+    ],
+    "representation": "structural demand-weighted annual electric-service share.",
+    "source_sha256": "691deb71948981037522aa3f6278bb48fe43c8d2ee2bfc437757dd6854dd13e0"
+  },
+  {
+    "id": "E27",
+    "latex": "u_y=\\min\\left(1,\\max\\left(0,\\frac{y-y_0}{y_c-y_0}\\right)\\right),\\qquad p_y=u_y^2(3-2u_y)",
+    "source": "scripts/industry_annual_s_curve.py",
+    "source_anchor": "def completion_progress",
+    "first_line": 6,
+    "matching_lines": [
+      6
+    ],
+    "representation": "reindexed finite completion-progress function.",
+    "source_sha256": "691deb71948981037522aa3f6278bb48fe43c8d2ee2bfc437757dd6854dd13e0"
+  },
+  {
+    "id": "E28",
+    "latex": "s^{el}_{i,y+1}\\geq(1-d)s^{el}_{iy}-\\epsilon",
+    "source": "scripts/industry_annual_s_curve.py",
+    "source_anchor": "industry_electric_share_max_annual_decrease",
+    "first_line": 107,
+    "matching_lines": [
+      107,
+      110
+    ],
+    "representation": "structural one-year interpretation of the combined electric-service decrease bound.",
+    "source_sha256": "691deb71948981037522aa3f6278bb48fe43c8d2ee2bfc437757dd6854dd13e0"
+  },
+  {
+    "id": "E29",
+    "latex": "N_{vy}=N^{old,surv}_{vy}+\\sum_a\\sigma_{vay}X_{va}+R^{in}_{vy}-R^{out}_{vy}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "name=\"veh_stock_balance\"",
+    "first_line": 9132,
+    "matching_lines": [
+      9132
+    ],
+    "representation": "structural fleet/history/conversion accounting.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E30",
+    "latex": "\\sum_v S_{vity}=D^{transport}_{ity},\\qquad U_{fvity}=\\kappa_{fvi}S_{vity}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "name=\"transport_energy_profile\"",
+    "first_line": 9448,
+    "matching_lines": [
+      9448
+    ],
+    "representation": "structural transport service/energy coupling; coefficients and native passenger-km/tonne-km conversions remain explicit in the reader.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E31",
+    "latex": "0\\leq H^{prod}_{kty}\\leq K^{H2}_{ky},\\qquad P^{electrolysis}_{kty}=H^{prod}_{kty}/\\eta^{electrolysis}_k",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "name=\"h2_electrolysis\"",
+    "first_line": 1839,
+    "matching_lines": [
+      1839
+    ],
+    "representation": "structural electrolyser capacity/input relationship.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E32",
+    "latex": "0\\leq V_{kzty}\\leq K^{fuel}_{kzy},\\qquad U^{(j)}_{kf,zty}=a^{(j)}_{kf}V_{kzty}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "efuel_inputs1 =",
+    "first_line": 10470,
+    "matching_lines": [
+      10470
+    ],
+    "representation": "reindexed feedstock-slot proportionality with the separately implemented output-capacity bound grouped.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E33",
+    "latex": "V^{prod}_{fzty}+I_{fzty}+D^f_{zty}=U^{final}_{fzty}+U^{feedstock}_{fzty}+C^f_{zty}+E_{fzty}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "efuelinput1",
+    "first_line": 10470,
+    "matching_lines": [
+      10470,
+      10506
+    ],
+    "representation": "structural carrier-node balance; transport, industry, refinery, terminal and transfer terms depend on the active carrier.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E34",
+    "latex": "S^f_t=(1-\\ell_f)S^f_{t^-}+\\eta^{in}_f C^f_t-D^f_t/\\eta^{out}_f",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "fuel_storage_capacity",
+    "first_line": 965,
+    "matching_lines": [
+      965,
+      968,
+      11046,
+      11118,
+      11129,
+      11132,
+      11154,
+      11201,
+      11210
+    ],
+    "representation": "structural carrier-stock notation; inspect actual family coefficients, initial stock and chronological carryover rules.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E35",
+    "latex": "\\sum_{t\\in T_y}w_{ty}\\left(F^{load}_{ty}+F^{unload}_{ty}\\right)\\leq10^6 K^{terminal}_y",
+    "source": "scripts/h2_terminals.py",
+    "source_anchor": "Terminal capacity is annual TWh",
+    "first_line": 3,
+    "matching_lines": [
+      3
+    ],
+    "representation": "structural aggregate shared-throughput limit; include the source's precise flow collection and scope.",
+    "source_sha256": "ac8962bd48ec153d463c1fae00890d53f3b63c2034e10352b2b21df3e61929da"
+  },
+  {
+    "id": "E36",
+    "latex": "E^{comb}_{kty}=EF^{budget}_k U_{kty},\\qquad CO2^{available}_{kty}=EF^{physical}_k U_{kty}+E^{process}_{kty}",
+    "source": "scripts/complex_industry_accounting.py",
+    "source_anchor": "def combustion_factor",
+    "first_line": 73,
+    "matching_lines": [
+      73
+    ],
+    "representation": "structural distinction between budget and physical capture/feedstock carbon.",
+    "source_sha256": "3ec5bf780ffee36e8af3b71893f70bac65d988ab23038ef6a4c9b870ad3fd308"
+  },
+  {
+    "id": "E37",
+    "latex": "CO2^{process,use}+CO2^{DAC}+CO2^{bio,use}+CO2^{other,eligible}=CO2^{fuel,demand}+CO2^{buffer,net}+CO2^{eligible,geo}",
+    "source": "scripts/industrial_carbon_balances.py",
+    "source_anchor": "def add_industrial_carbon_balances",
+    "first_line": 52,
+    "matching_lines": [
+      52
+    ],
+    "representation": "structural grouped CO2-bus accounting; source restrictions determine which terms may serve each destination.",
+    "source_sha256": "5e8a6c1d153953629a1a781894c6e12a9176bf36152e4ab1fafed2d91c0e6e97"
+  },
+  {
+    "id": "E38",
+    "latex": "0\\leq C^{process}_{kty}\\leq r_k E^{process}_{kty},\\qquad C^{process}_{kty}\\leq C^{total}_{kty}",
+    "source": "scripts/industrial_carbon_balances.py",
+    "source_anchor": "captured[key] <= rate * process",
+    "first_line": 106,
+    "matching_lines": [
+      106
+    ],
+    "representation": "reindexed process-capture upper bounds; shared-source bounds are additional.",
+    "source_sha256": "5e8a6c1d153953629a1a781894c6e12a9176bf36152e4ab1fafed2d91c0e6e97"
+  },
+  {
+    "id": "E39",
+    "latex": "S^{amine,process}_{t}=S^{amine,process}_{t^-}+C^{process}_{t}-R^{strip,process}_{t},\\qquad S^{amine,process}_{t}\\leq S^{amine,total}_{t}",
+    "source": "scripts/industrial_carbon_balances.py",
+    "source_anchor": "inventory[key] == previous",
+    "first_line": 118,
+    "matching_lines": [
+      118
+    ],
+    "representation": "reindexed process-tagged amine stock relation.",
+    "source_sha256": "5e8a6c1d153953629a1a781894c6e12a9176bf36152e4ab1fafed2d91c0e6e97"
+  },
+  {
+    "id": "E40",
+    "latex": "G^{geo}_{zty}\\leq R^{strip,process}_{zty}",
+    "source": "scripts/industrial_carbon_balances.py",
+    "source_anchor": "Only locally",
+    "first_line": 57,
+    "matching_lines": [
+      57
+    ],
+    "representation": "structural provenance upper bound; the exact scoped process balance and competing uses remain in the source.",
+    "source_sha256": "5e8a6c1d153953629a1a781894c6e12a9176bf36152e4ab1fafed2d91c0e6e97"
+  },
+  {
+    "id": "E41",
+    "latex": "E^{nonprocess}_{sy}+E^{process,net}_{sy}\\leq B^{CO2}_{sy}+R^{LULUCF}_{sy}",
+    "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+    "source_anchor": "CO2_total_non_process[year, System] + CO2_net_industry_process",
+    "first_line": 12915,
+    "matching_lines": [
+      12915
+    ],
+    "representation": "reindexed separated planning carbon cap before numerical row scaling.",
+    "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d"
+  },
+  {
+    "id": "E42",
+    "latex": "b^{adj}_{zty}=b_{zty}+\\sum_c x_{czty},\\qquad a_{czty}\\geq x_{czty},\\quad a_{czty}\\geq-x_{czty}",
+    "source": "scripts/electricity_dsm.py",
+    "source_anchor": "dsm_total_absolute",
+    "first_line": 295,
+    "matching_lines": [
+      295
+    ],
+    "representation": "structural aggregation and absolute-adjustment linearization.",
+    "source_sha256": "36242e778cb4efc71983b8260b71e23f4f5121d8458d857f20a7333d2fd88ead"
+  },
+  {
+    "id": "E43",
+    "latex": "\\sum_c a_{czty}\\leq K^{DSM}_{zy},\\qquad \\sum_c a_{czty}\\leq\\phi_{zy}b_{zty}",
+    "source": "scripts/electricity_dsm.py",
+    "source_anchor": "dsm_shared_power_capacity",
+    "first_line": 298,
+    "matching_lines": [
+      298
+    ],
+    "representation": "structural shared available-power and hourly baseline-fraction limits.",
+    "source_sha256": "36242e778cb4efc71983b8260b71e23f4f5121d8458d857f20a7333d2fd88ead"
+  },
+  {
+    "id": "E44",
+    "latex": "\\sum_{t\\in B}x_{ct}=0,\\qquad \\frac{1}{2}\\sum_{t\\in B}a_{ct}\\leq f_{cy}\\sum_{t\\in B}b_t",
+    "source": "scripts/electricity_dsm.py",
+    "source_anchor": "budget",
+    "first_line": 17,
+    "matching_lines": [
+      17,
+      79,
+      80,
+      86,
+      99,
+      101,
+      114,
+      159,
+      167,
+      174,
+      175,
+      178,
+      179,
+      252,
+      261,
+      263,
+      264,
+      269,
+      272,
+      283,
+      304,
+      305,
+      345,
+      357,
+      397,
+      429,
+      433,
+      434,
+      436,
+      437,
+      438,
+      463,
+      465,
+      483,
+      484,
+      511,
+      514,
+      533
+    ],
+    "representation": "structural daily/weekly block closure and moved-energy allowance.",
+    "source_sha256": "36242e778cb4efc71983b8260b71e23f4f5121d8458d857f20a7333d2fd88ead"
+  },
+  {
+    "id": "E45",
+    "latex": "f^{daily}_y=r_y(f_D-f_W),\\qquad f^{weekly}_y=r_y f_W",
+    "source": "scripts/electricity_dsm.py",
+    "source_anchor": "dsm_weekly_energy_fraction",
+    "first_line": 21,
+    "matching_lines": [
+      21,
+      62,
+      104,
+      106
+    ],
+    "representation": "reindexed nested class-potential interpretation when both budgeted classes are active.",
+    "source_sha256": "36242e778cb4efc71983b8260b71e23f4f5121d8458d857f20a7333d2fd88ead"
+  },
+  {
+    "id": "E46",
+    "latex": "r_y=\\min\\left(1,\\max\\left(0,\\frac{y-y_0}{y_{full}-y_0}\\right)\\right)",
+    "source": "scripts/electricity_dsm.py",
+    "source_anchor": "dsm_availability_full_year",
+    "first_line": 40,
+    "matching_lines": [
+      40,
+      41,
+      45
+    ],
+    "representation": "structural linear rollout for a full-availability year after the global base year; boundary validation remains in the helper.",
+    "source_sha256": "36242e778cb4efc71983b8260b71e23f4f5121d8458d857f20a7333d2fd88ead"
+  },
+  {
+    "id": "E47",
+    "latex": "C^{DSM}_y=c_K K^{DSM}_y+c_E\\frac{1}{2}\\sum_{t,c}w_{ty}a_{cty}",
+    "source": "scripts/electricity_dsm.py",
+    "source_anchor": "def operating_cost",
+    "first_line": 313,
+    "matching_lines": [
+      313
+    ],
+    "representation": "structural DSM enabling/activation resource cost in EUR before the model's cost conversions.",
+    "source_sha256": "36242e778cb4efc71983b8260b71e23f4f5121d8458d857f20a7333d2fd88ead"
+  },
+  {
+    "id": "E48",
+    "latex": "0\\leq q_{pty}\\leq\\overline{q}_{py}a_{pt},\\qquad P^{product}_{pty}=e_p q_{pty}",
+    "source": "scripts/simple_industry_model.py",
+    "source_anchor": "simple_industry_electricity_balance",
+    "first_line": 114,
+    "matching_lines": [
+      114,
+      167,
+      169
+    ],
+    "representation": "structural production-capacity/availability bound and reindexed electricity conversion.",
+    "source_sha256": "ade52ee7542f196dac26ad8bb989a4aed4921b315f465c1d0e78f6a9f0bd59ff"
+  },
+  {
+    "id": "E49",
+    "latex": "U^{GJ}_{fpty}=u_{fp}q_{pty},\\qquad E^{direct}_{pty}=q_{pty}\\left(\\gamma^{process}_p+\\sum_f u_{fp}EF_f\\right)",
+    "source": "scripts/simple_industry_inputs.py",
+    "source_anchor": "def direct_factor",
+    "first_line": 35,
+    "matching_lines": [
+      35
+    ],
+    "representation": "reindexed fixed-recipe direct-carbon factor and structural fuel use.",
+    "source_sha256": "b3ac8146e358da011664ef8e1b95409b7e665e2a0329c6f8a64d586110a4cc92"
+  },
+  {
+    "id": "E50",
+    "latex": "S_{pty}=S_{p,t^-,y}+q_{pty}-\\sum_m v_{pmty}",
+    "source": "scripts/simple_industry_model.py",
+    "source_anchor": "stock[key] == previous + output[key]",
+    "first_line": 173,
+    "matching_lines": [
+      173
+    ],
+    "representation": "reindexed plant material balance.",
+    "source_sha256": "ade52ee7542f196dac26ad8bb989a4aed4921b315f465c1d0e78f6a9f0bd59ff"
+  },
+  {
+    "id": "E51",
+    "latex": "\\sum_{p,t}w_{ty}v_{pmty}=M_{my}\\quad(m\\in Mandatory),\\qquad \\sum_{p,t}w_{ty}v_{pmty}\\leq M_{my}\\quad(m\\in Optional)",
+    "source": "scripts/simple_industry_model.py",
+    "source_anchor": "mandatory",
+    "first_line": 124,
+    "matching_lines": [
+      124,
+      210,
+      214,
+      218
+    ],
+    "representation": "structural annual mandatory/optional market interpretation; hourly profile constraints remain additional.",
+    "source_sha256": "ade52ee7542f196dac26ad8bb989a4aed4921b315f465c1d0e78f6a9f0bd59ff"
+  },
+  {
+    "id": "E52",
+    "latex": "\\sum_{m,t}w_{ty}v_{pmty}\\leq\\overline{M}^{supplier}_{py},\\qquad \\sum_m v_{pmty}\\leq\\overline{q}^{supplier}_{py}a_{pt}",
+    "source": "scripts/simple_industry_model.py",
+    "source_anchor": "import_suppliers",
+    "first_line": 121,
+    "matching_lines": [
+      121,
+      225,
+      296
+    ],
+    "representation": "structural outside-supplier annual/hourly shared limits.",
+    "source_sha256": "ade52ee7542f196dac26ad8bb989a4aed4921b315f465c1d0e78f6a9f0bd59ff"
+  },
+  {
+    "id": "E53",
+    "latex": "b^{residual}_{zty}=b^{original}_{zty}-b^{removed}_{zty},\\qquad L^{total}_{zty}=b^{residual}_{zty}+\\sum_{p\\in z}e_p q_{pty}",
+    "source": "scripts/simple_industry_model.py",
+    "source_anchor": "def baseline_removed",
+    "first_line": 29,
+    "matching_lines": [
+      29
+    ],
+    "representation": "structural baseline-removal and added product-electricity accounting; excessive removals are rejected by the input logic.",
+    "source_sha256": "ade52ee7542f196dac26ad8bb989a4aed4921b315f465c1d0e78f6a9f0bd59ff"
+  },
+  {
+    "id": "E54",
+    "latex": "e^{embedded}_p=e^{direct}_p+e^{precursor}_p,\\qquad c^{domestic}_{py}=\\pi^{domestic}_{py}\\max(0,e^{direct}_p-a^{domestic}_{py})",
+    "source": "scripts/simple_industry_policy.py",
+    "source_anchor": "def coefficients",
+    "first_line": 5,
+    "matching_lines": [
+      5
+    ],
+    "representation": "reindexed modeled-plant embedded factor and domestic per-tonne payment; imported suppliers use their entered footprint/cost treatment.",
+    "source_sha256": "aef34b3a21dfb49702b25ef8c75884f295b99e5d102d27c8c0ac342f0a755a0b"
+  },
+  {
+    "id": "E55",
+    "latex": "e^{liable}_{py}=\\max(0,e^{embedded}_p-f^{free}_{py}b^{benchmark}_{py})",
+    "source": "scripts/simple_industry_policy.py",
+    "source_anchor": "liable = max",
+    "first_line": 16,
+    "matching_lines": [
+      16
+    ],
+    "representation": "reindexed exogenous liable-footprint coefficient.",
+    "source_sha256": "aef34b3a21dfb49702b25ef8c75884f295b99e5d102d27c8c0ac342f0a755a0b"
+  },
+  {
+    "id": "E56",
+    "latex": "c^{CBAM}_{py}=\\max(0,\\pi^{EU}_{py}e^{liable}_{py}-credit_{py})",
+    "source": "scripts/simple_industry_policy.py",
+    "source_anchor": "cbam = max",
+    "first_line": 20,
+    "matching_lines": [
+      20
+    ],
+    "representation": "reindexed exogenous CBAM coefficient conditional on origin/start-year/exemption and destination eligibility.",
+    "source_sha256": "aef34b3a21dfb49702b25ef8c75884f295b99e5d102d27c8c0ac342f0a755a0b"
+  },
+  {
+    "id": "E57",
+    "latex": "C^{border}_{y}=\\sum_{l,t}w_{ty}F^{eligible}_{lty}\\,e^{signal}_{origin(l),y}\\,\\pi^{applicable}_{ly}",
+    "source": "scripts/electricity_cbam.py",
+    "source_anchor": "def intensity",
+    "first_line": 42,
+    "matching_lines": [
+      42
+    ],
+    "representation": "structural cost-coefficient interpretation; option-specific price and membership rows remain in the builder/cost script.",
+    "source_sha256": "a3e9a187d5206d18092964b4d23ef3be46a14563d5cc49e8cf1b9e6f6ac867ff"
+  },
+  {
+    "id": "E58",
+    "latex": "Y_j=Y[j:j+c],\\qquad j=0,h,2h,\\ldots",
+    "source": "main.py",
+    "source_anchor": "def _build_myopic_chunks",
+    "first_line": 663,
+    "matching_lines": [
+      663
+    ],
+    "representation": "reindexed ordinary chunk construction with c=chunk_size and h=step_size.",
+    "source_sha256": "6ab5a16ede93b1149ac82d2e74003db06928a9ca4780dab575c14a36d44298b0"
+  },
+  {
+    "id": "E59",
+    "latex": "Y_j^{partial}=\\{y\\in Y:y_j\\leq y\\leq y_j+L\\}",
+    "source": "main.py",
+    "source_anchor": "partial_foresight_lookahead_years",
+    "first_line": 670,
+    "matching_lines": [
+      670,
+      676,
+      678
+    ],
+    "representation": "reindexed finite-lookahead year selection; None uses the remaining tail.",
+    "source_sha256": "6ab5a16ede93b1149ac82d2e74003db06928a9ca4780dab575c14a36d44298b0"
+  },
+  {
+    "id": "E60",
+    "latex": "\\widehat{A}_y=\\frac{8760}{96}\\sum_{t\\in T^{sample}_y}A_{ty}=91.25\\sum_{t\\in T^{sample}_y}A_{ty}",
+    "source": "policy/runtime_policy.py",
+    "source_anchor": "representative_week_hours",
+    "first_line": 25,
+    "matching_lines": [
+      25
+    ],
+    "representation": "derived equal-weight annualization example for four 24-hour blocks; not a universal storage transition multiplier.",
+    "source_sha256": "99c3805c4d221a797b58beaca250ee13a5b3088c3a2b0b8adf40d3931928ac02"
+  },
+  {
+    "id": "E61",
+    "latex": "S^{initial}_{j+1}=S^{committed,end}_{j},\\qquad K^{dispatch}_{y}=K^{accepted,stage1}_{y}",
+    "source": "scripts/run_stage2_rolling_dispatch.py",
+    "source_anchor": "rolling_realized_horizon",
+    "first_line": 22,
+    "matching_lines": [
+      22,
+      65
+    ],
+    "representation": "structural rolling carryover and fixed-capacity principle; stock, route-delay, carbon and checkpoint metadata remain family-specific.",
+    "source_sha256": "8d734144ebbcfbcf5cfce9f30f773eb2c2d7d5e197ac241241eee04959af4500"
+  },
+  {
+    "id": "E62",
+    "latex": "\\widetilde{x}=x/s_x,\\qquad \\widetilde{r}=r/s_r,\\qquad r=s_r\\widetilde{r}",
+    "source": "scripts/numeric_scaling.py",
+    "source_anchor": "def balanced_row_divisor",
+    "first_line": 12,
+    "matching_lines": [
+      12
+    ],
+    "representation": "structural scaling identity; actual divisors vary by family.",
+    "source_sha256": "1619851726ac6c223a9c1a3bebbbe7c3cb65f71e533c4b54db070a2a13675412"
+  }
+]

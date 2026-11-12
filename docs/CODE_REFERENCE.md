@@ -8,7 +8,7 @@ These are static call sites. Loops and flags determine the instantiated optimiza
 
 | Source | Setting | Value |
 |---|---|---|
-| `main.py:20` | `scen` | `'industry_testx'` |
+| `main.py:20` | `scen` | `'industry_CC_5y'` |
 | `main.py:25` | `model_policy_dat` | `'./policy/model_policy.py'` |
 | `main.py:26` | `runtime_policy_dat` | `'./policy/runtime_policy.py'` |
 | `main.py:37` | `rps_inv` | `True` |
@@ -20,7 +20,7 @@ These are static call sites. Loops and flags determine the instantiated optimiza
 | `main.py:43` | `save_csv` | `True` |
 | `main.py:44` | `ceep_limit` | `False` |
 | `main.py:45` | `Myopic` | `True` |
-| `main.py:46` | `partial_perfect_foresight` | `True` |
+| `main.py:46` | `partial_perfect_foresight` | `False` |
 | `main.py:47` | `simple_curves` | `True` |
 | `main.py:48` | `outside_system_availability` | `True` |
 | `main.py:49` | `outside_system_supply_shares_dat` | `'./data/outside_system_supply_shares.csv'` |
@@ -52,295 +52,330 @@ These are static call sites. Loops and flags determine the instantiated optimiza
 | `main.py:82` | `Option_3` | `False` |
 | `main.py:83` | `Option_4` | `False` |
 | `main.py:84` | `include_secc_links` | `False` |
-| `main.py:87` | `model_transport_and_industry` | `True` |
-| `main.py:88` | `industry_single_sector` | `False` |
-| `main.py:89` | `model_industry_categories` | `True` |
-| `main.py:90` | `industry_category_electricity_case` | `'conservative'` |
-| `main.py:91` | `industry_complex_electricity_case` | `'conservative'` |
-| `main.py:92` | `industry_storage` | `True` |
-| `main.py:94` | `industry_fuel_share_ramp_active` | `True` |
-| `main.py:95` | `industry_fuel_share_s_curve_active` | `True` |
-| `main.py:96` | `industry_electric_share_yoy_limit_active` | `True` |
-| `main.py:104` | `model_complex_industry` | `False` |
-| `main.py:106` | `model_complex_non_metallic_minerals` | `False` |
-| `main.py:107` | `model_complex_industry` | `bool(model_complex_industry or model_complex_non_metallic_minerals)` |
-| `main.py:108` | `model_complex_non_metallic_minerals` | `model_complex_industry` |
-| `main.py:115` | `complex_industry_dat_efuel` | `'./data/industry_complex_efuel.xlsx'` |
-| `main.py:116` | `complex_industry_dat_no_efuel` | `'./data/industry_complex.xlsx'` |
-| `main.py:120` | `two_stage_auto_mode` | `False` |
-| `main.py:124` | `lightweight_representative_weeks_mode` | `False` |
-| `main.py:125` | `two_stage_skip_stage1_shadow_exports` | `True` |
-| `main.py:126` | `two_stage_resume_skip_completed_chunks` | `False` |
-| `main.py:127` | `two_stage_resume_reuse_stage1_bundle` | `False` |
-| `main.py:130` | `myopic_resume_from_results` | `False` |
-| `main.py:131` | `validate_completed_heating_policy_history` | `False` |
-| `main.py:132` | `two_stage_timing_logs` | `True` |
-| `main.py:133` | `representative_capacity_mode` | `False` |
-| `main.py:134` | `fixed_capacity_mode` | `False` |
-| `main.py:135` | `dispatch_stage_data_path` | `'./results/' + scen + '/stage2_dispatch_bundle.pkl'` |
-| `main.py:136` | `export_stage2_dispatch_bundle` | `False` |
-| `main.py:137` | `rolling_dispatch_mode` | `False` |
-| `main.py:138` | `rolling_write_solution_quality` | `False` |
-| `main.py:139` | `rolling_write_window_files` | `True` |
-| `main.py:140` | `rolling_keep_results_in_memory` | `False` |
-| `main.py:141` | `data_read_cache_enabled` | `True` |
-| `main.py:142` | `data_read_cache_copy_deep` | `True` |
-| `main.py:143` | `transport_investment_limits_active` | `False` |
-| `main.py:144` | `transport_pathway_corrections_active` | `True` |
-| `main.py:145` | `transport_passenger_car_zero_fossil_2050_sensitivity` | `True` |
-| `main.py:148` | `transport_allow_unconstrained_paid_upgrades_for_test` | `False` |
-| `main.py:149` | `transport_no_base_year_vehicle_investment` | `False` |
-| `main.py:152` | `transport_max_share_limits_active` | `True` |
-| `main.py:157` | `transport_ice_hybrid_stock_share_non_increasing_active` | `False` |
-| `main.py:158` | `transport_electrification_limits_active` | `True` |
-| `main.py:159` | `transport_rail_electrification_link_active` | `False` |
-| `main.py:160` | `rolling_auto_carbon_budget_slack` | `True` |
-| `main.py:161` | `rolling_terminal_fuel_soc` | `True` |
-| `main.py:162` | `rolling_terminal_fuel_soc_hard_balance` | `False` |
-| `main.py:163` | `rolling_terminal_fuel_soc_link_sequential_years` | `True` |
-| `main.py:164` | `rolling_terminal_fuel_soc_ramp_targets` | `True` |
-| `main.py:165` | `rolling_resume_from_window_files` | `False` |
-| `main.py:166` | `rolling_zero_stage1_fuel_soc0` | `True` |
-| `main.py:167` | `rolling_fuel_soc_stage1_floor` | `False` |
-| `main.py:168` | `stage2_quantity_guidance_active` | `True` |
-| `main.py:169` | `oil_refinery_product_generation_decline_active` | `False` |
-| `main.py:170` | `transport_ice_hybrid_fossil_share_decline_active` | `False` |
-| `main.py:171` | `transport_ice_fuel_share_ramp_active` | `True` |
-| `main.py:172` | `biomass_heating_nonincrease_active` | `True` |
-| `main.py:173` | `biomass_feedstock_limit_active` | `True` |
-| `main.py:176` | `model_efuel` | `True` |
-| `main.py:183` | `complex_industry_dat` | `complex_industry_dat_efuel if model_efuel else complex_industry_dat_no_efuel` |
-| `main.py:193` | `use_HVDC` | `False` |
-| `main.py:194` | `model_terminals` | `False` |
-| `main.py:195` | `h2_terminal_dat` | `'./data/h2_terminals.xlsx'` |
-| `main.py:196` | `model_H2_transmission` | `False` |
-| `main.py:197` | `model_oil_and_gas_products_supply` | `True` |
-| `main.py:201` | `allow_fossil_fuel_exports` | `True` |
-| `main.py:202` | `exogeneous_NH3_demand` | `False` |
-| `main.py:204` | `non_CO2_polutants` | `False` |
-| `main.py:205` | `model_H2_supply_demand_balance` | `True` |
-| `main.py:232` | `model_CC` | `False` |
-| `main.py:233` | `model_CO2_ammine_storeage` | `False` |
-| `main.py:234` | `model_CO2_post_gen_storeage` | `True` |
-| `main.py:235` | `complex_industry_process_capture_required` | `False` |
-| `main.py:236` | `separate_industry_process_carbon_balances` | `False` |
-| `main.py:245` | `shadow_prices` | `False` |
-| `main.py:255` | `solver_stage1_auto_retry_suboptimal` | `False` |
-| `main.py:256` | `solver_stage1_annual_pf_aggregation_retry` | `True` |
-| `main.py:257` | `solver_allow_provisional_solution` | `True` |
-| `main.py:258` | `solver_enable_dual_simplex_fallback` | `True` |
-| `main.py:259` | `solver_finalize_stalled_barrier_with_crossover` | `False` |
-| `main.py:260` | `solver_skip_dual_simplex_after_acceptable_stall` | `False` |
-| `main.py:261` | `write_solver_diagnostics` | `True` |
-| `main.py:262` | `solver_diagnostics_on_problem_only` | `True` |
-| `main.py:263` | `solver_diagnostics_compute_kappa_exact` | `False` |
-| `main.py:264` | `disable_transport_infrastructure` | `True` |
-| `main.py:268` | `fuel_price_dat` | `'./data/fuel_prices.csv'` |
-| `main.py:269` | `inflows_dat` | `'./data/hydro_inflows.csv'` |
-| `main.py:270` | `heat_demand_dat_indv` | `'./data/heating_individual.csv'` |
-| `main.py:271` | `cool_demand_dat_indv` | `'./data/cooling_individual.csv'` |
-| `main.py:272` | `heat_demand_dat_DH` | `'./data/heating_district.csv'` |
-| `main.py:273` | `cool_demand_dat_DH` | `'./data/cooling_district.csv'` |
-| `main.py:274` | `ev_transpload_dat` | `'./data/transport_profiles.csv'` |
-| `main.py:275` | `transploaddemand_dat` | `'./data/transport_demand.csv'` |
-| `main.py:276` | `importcost_dat` | `'./data/import_prices.csv'` |
-| `main.py:277` | `heat_dem_industry_dat` | `'./data/industry_heat.csv'` |
-| `main.py:278` | `genco_dat` | `'./data/generators.csv'` |
-| `main.py:279` | `policy_dat` | `'./data/policy_efuel.xlsx' if model_efuel else './data/policy.xlsx'` |
-| `main.py:284` | `demand_dat` | `'./data/electricity_demand.csv'` |
-| `main.py:285` | `demand_industry_el` | `'./data/industry_electricity.csv'` |
-| `main.py:286` | `demand_heating_el` | `'./data/heating_electricity.csv'` |
-| `main.py:287` | `solar_thermal_aval` | `'./data/solar_thermal_availability.csv'` |
-| `main.py:292` | `flex_tech_name` | `'flex_tech'` |
-| `main.py:307` | `flex_tech_dat` | `'./data/' + flex_tech_name + '.xlsx'` |
-| `main.py:309` | `heat_dem_industry_dat` | `'./data/industry_category_profiles.csv' if model_industry_categories else './data/industry_heat.csv'` |
-| `main.py:321` | `el_hourly_cost_dat` | `'./data/electricity_prices.csv'` |
-| `main.py:348` | `_data_read_cache` | `globals().setdefault('_data_read_cache', OrderedDict())` |
-| `main.py:352` | `_excel_file_cache` | `globals().setdefault('_excel_file_cache', OrderedDict())` |
-| `main.py:356` | `_data_read_cache_stats` | `globals().setdefault('_data_read_cache_stats', {'hits': 0, 'misses': 0, 'read_time': 0.0})` |
+| `main.py:90` | `model_simple_industry` | `False` |
+| `main.py:91` | `industry_cbam_active` | `False` |
+| `main.py:92` | `industry_carbon_pricing_active` | `False` |
+| `main.py:93` | `industry_external_imports_active` | `False` |
+| `main.py:94` | `industry_external_exports_active` | `False` |
+| `main.py:95` | `steel_flexible_operation` | `True` |
+| `main.py:96` | `simple_industry_dat` | `'./data/simple_industry.xlsx'` |
+| `main.py:99` | `model_transport_and_industry` | `True` |
+| `main.py:100` | `industry_single_sector` | `False` |
+| `main.py:101` | `model_industry_categories` | `True` |
+| `main.py:102` | `industry_category_electricity_case` | `'conservative'` |
+| `main.py:103` | `industry_complex_electricity_case` | `'conservative'` |
+| `main.py:104` | `industry_storage` | `True` |
+| `main.py:106` | `industry_fuel_share_ramp_active` | `True` |
+| `main.py:107` | `industry_fuel_share_s_curve_active` | `True` |
+| `main.py:108` | `industry_electric_share_yoy_limit_active` | `True` |
+| `main.py:116` | `model_complex_industry` | `False` |
+| `main.py:118` | `model_complex_non_metallic_minerals` | `False` |
+| `main.py:119` | `model_complex_industry` | `bool(model_complex_industry or model_complex_non_metallic_minerals)` |
+| `main.py:120` | `model_complex_non_metallic_minerals` | `model_complex_industry` |
+| `main.py:127` | `complex_industry_dat_efuel` | `'./data/industry_complex_efuel.xlsx'` |
+| `main.py:128` | `complex_industry_dat_no_efuel` | `'./data/industry_complex.xlsx'` |
+| `main.py:132` | `two_stage_auto_mode` | `False` |
+| `main.py:136` | `lightweight_representative_weeks_mode` | `False` |
+| `main.py:137` | `two_stage_skip_stage1_shadow_exports` | `True` |
+| `main.py:138` | `two_stage_resume_skip_completed_chunks` | `True` |
+| `main.py:139` | `two_stage_resume_reuse_stage1_bundle` | `False` |
+| `main.py:142` | `myopic_resume_from_results` | `True` |
+| `main.py:143` | `validate_completed_heating_policy_history` | `False` |
+| `main.py:144` | `two_stage_timing_logs` | `True` |
+| `main.py:145` | `representative_capacity_mode` | `False` |
+| `main.py:146` | `fixed_capacity_mode` | `False` |
+| `main.py:147` | `dispatch_stage_data_path` | `'./results/' + scen + '/stage2_dispatch_bundle.pkl'` |
+| `main.py:148` | `export_stage2_dispatch_bundle` | `False` |
+| `main.py:149` | `rolling_dispatch_mode` | `False` |
+| `main.py:150` | `rolling_write_solution_quality` | `False` |
+| `main.py:151` | `rolling_write_window_files` | `True` |
+| `main.py:152` | `rolling_keep_results_in_memory` | `False` |
+| `main.py:153` | `data_read_cache_enabled` | `True` |
+| `main.py:154` | `data_read_cache_copy_deep` | `True` |
+| `main.py:155` | `transport_investment_limits_active` | `False` |
+| `main.py:156` | `transport_pathway_corrections_active` | `True` |
+| `main.py:157` | `transport_passenger_car_zero_fossil_2050_sensitivity` | `True` |
+| `main.py:160` | `transport_allow_unconstrained_paid_upgrades_for_test` | `False` |
+| `main.py:161` | `transport_no_base_year_vehicle_investment` | `False` |
+| `main.py:164` | `transport_max_share_limits_active` | `True` |
+| `main.py:169` | `transport_ice_hybrid_stock_share_non_increasing_active` | `False` |
+| `main.py:170` | `transport_electrification_limits_active` | `True` |
+| `main.py:171` | `transport_rail_electrification_link_active` | `False` |
+| `main.py:172` | `transport_rail_direct_electric_share_limit_active` | `True` |
+| `main.py:173` | `rolling_auto_carbon_budget_slack` | `True` |
+| `main.py:174` | `rolling_terminal_fuel_soc` | `True` |
+| `main.py:175` | `rolling_terminal_fuel_soc_hard_balance` | `False` |
+| `main.py:176` | `rolling_terminal_fuel_soc_link_sequential_years` | `True` |
+| `main.py:177` | `rolling_terminal_fuel_soc_ramp_targets` | `True` |
+| `main.py:178` | `rolling_resume_from_window_files` | `False` |
+| `main.py:179` | `rolling_zero_stage1_fuel_soc0` | `True` |
+| `main.py:180` | `rolling_fuel_soc_stage1_floor` | `False` |
+| `main.py:181` | `stage2_quantity_guidance_active` | `True` |
+| `main.py:182` | `oil_refinery_product_generation_decline_active` | `False` |
+| `main.py:183` | `transport_ice_hybrid_fossil_share_decline_active` | `False` |
+| `main.py:184` | `transport_ice_fuel_share_ramp_active` | `True` |
+| `main.py:185` | `biomass_heating_nonincrease_active` | `True` |
+| `main.py:186` | `biomass_feedstock_limit_active` | `True` |
+| `main.py:189` | `model_efuel` | `True` |
+| `main.py:196` | `complex_industry_dat` | `complex_industry_dat_efuel if model_efuel else complex_industry_dat_no_efuel` |
+| `main.py:206` | `use_HVDC` | `False` |
+| `main.py:207` | `model_terminals` | `False` |
+| `main.py:208` | `h2_terminal_dat` | `'./data/h2_terminals.xlsx'` |
+| `main.py:209` | `model_H2_transmission` | `False` |
+| `main.py:210` | `model_oil_and_gas_products_supply` | `True` |
+| `main.py:214` | `allow_fossil_fuel_exports` | `True` |
+| `main.py:215` | `exogeneous_NH3_demand` | `False` |
+| `main.py:217` | `non_CO2_polutants` | `False` |
+| `main.py:218` | `model_H2_supply_demand_balance` | `True` |
+| `main.py:245` | `model_CC` | `True` |
+| `main.py:246` | `model_CO2_ammine_storeage` | `True` |
+| `main.py:247` | `model_CO2_post_gen_storeage` | `True` |
+| `main.py:248` | `complex_industry_process_capture_required` | `False` |
+| `main.py:249` | `separate_industry_process_carbon_balances` | `True` |
+| `main.py:259` | `DSM_day` | `False` |
+| `main.py:260` | `DSM_week` | `False` |
+| `main.py:261` | `dsm_energy_budget_active` | `False` |
+| `main.py:262` | `dsm_availability_ramp_active` | `False` |
+| `main.py:265` | `shadow_prices` | `False` |
+| `main.py:275` | `solver_stage1_auto_retry_suboptimal` | `False` |
+| `main.py:276` | `solver_stage1_annual_pf_aggregation_retry` | `True` |
+| `main.py:277` | `solver_allow_provisional_solution` | `True` |
+| `main.py:278` | `solver_postoptimal_checks_warn_only` | `True` |
+| `main.py:279` | `solver_enable_dual_simplex_fallback` | `True` |
+| `main.py:280` | `solver_finalize_stalled_barrier_with_crossover` | `False` |
+| `main.py:281` | `solver_skip_dual_simplex_after_acceptable_stall` | `False` |
+| `main.py:282` | `write_solver_diagnostics` | `True` |
+| `main.py:283` | `solver_diagnostics_on_problem_only` | `True` |
+| `main.py:284` | `solver_diagnostics_compute_kappa_exact` | `False` |
+| `main.py:285` | `disable_transport_infrastructure` | `False` |
+| `main.py:286` | `transport_infrastructure_dat` | `'./data/transport_infrastructure.csv'` |
+| `main.py:287` | `transport_infrastructure_existing_dat` | `'./data/transport_infrastructure_existing.csv'` |
+| `main.py:291` | `fuel_price_dat` | `'./data/fuel_prices.csv'` |
+| `main.py:292` | `inflows_dat` | `'./data/hydro_inflows.csv'` |
+| `main.py:293` | `heat_demand_dat_indv` | `'./data/heating_individual.csv'` |
+| `main.py:294` | `cool_demand_dat_indv` | `'./data/cooling_individual.csv'` |
+| `main.py:295` | `heat_demand_dat_DH` | `'./data/heating_district.csv'` |
+| `main.py:296` | `cool_demand_dat_DH` | `'./data/cooling_district.csv'` |
+| `main.py:297` | `ev_transpload_dat` | `'./data/transport_profiles.csv'` |
+| `main.py:298` | `transploaddemand_dat` | `'./data/transport_demand.csv'` |
+| `main.py:299` | `importcost_dat` | `'./data/import_prices.csv'` |
+| `main.py:300` | `heat_dem_industry_dat` | `'./data/industry_heat.csv'` |
+| `main.py:301` | `genco_dat` | `'./data/generators.csv'` |
+| `main.py:302` | `policy_dat` | `'./data/policy_efuel.xlsx' if model_efuel else './data/policy.xlsx'` |
+| `main.py:307` | `demand_dat` | `'./data/electricity_demand.csv'` |
+| `main.py:308` | `demand_industry_el` | `'./data/industry_electricity.csv'` |
+| `main.py:309` | `demand_heating_el` | `'./data/heating_electricity.csv'` |
+| `main.py:310` | `solar_thermal_aval` | `'./data/solar_thermal_availability.csv'` |
+| `main.py:315` | `flex_tech_name` | `'flex_tech'` |
+| `main.py:316` | `flex_tech_directory` | `'./data'` |
+| `main.py:329` | `flex_tech_dat` | `flex_tech_directory + '/' + flex_tech_name + '.xlsx'` |
+| `main.py:331` | `heat_dem_industry_dat` | `'./data/industry_category_profiles.csv' if model_industry_categories else './data/industry_heat.csv'` |
+| `main.py:343` | `el_hourly_cost_dat` | `'./data/electricity_prices.csv'` |
+| `main.py:370` | `_data_read_cache` | `globals().setdefault('_data_read_cache', OrderedDict())` |
+| `main.py:374` | `_excel_file_cache` | `globals().setdefault('_excel_file_cache', OrderedDict())` |
+| `main.py:378` | `_data_read_cache_stats` | `globals().setdefault('_data_read_cache_stats', {'hits': 0, 'misses': 0, 'read_time': 0.0})` |
 | `policy/model_policy.py:11` | `generation_annual_build_limit_multipliers` | `{'HR_Wind': 2.0, 'HR_Wind_1': 2.0, 'HR_PV': 2.0, 'HR_PV_1': 2.0}` |
 | `policy/model_policy.py:19` | `dh_chp_heat_max_annual_change` | `0.25` |
-| `policy/model_policy.py:20` | `dh_chp_heat_history_tolerance_mwh` | `1.0` |
-| `policy/model_policy.py:21` | `individual_gas_heat_max_annual_change` | `0.25` |
-| `policy/model_policy.py:22` | `individual_gas_heat_reduction_limit_years` | `5` |
-| `policy/model_policy.py:23` | `fossil_heating_history_tolerance_mwh` | `1.0` |
-| `policy/model_policy.py:24` | `fossil_boiler_phaseout_years` | `{'coal': 2030, 'gas': 2035, 'oil': 2035}` |
-| `policy/model_policy.py:25` | `dh_chp_base_year_heat_targets_twh` | `{('TE-TO_Zagreb', 'HR1', 'HR'): 0.9, ('EL-TO_Zagreb', 'HR1', 'HR'): 0.55, ('TE_-TO_Osijek', 'HR1', 'HR'): 0.232}` |
-| `policy/model_policy.py:31` | `lulucf_removals_fixed_tco2e_per_year` | `0.0` |
-| `policy/model_policy.py:32` | `electric_heating_max_annual_decrease` | `0.1` |
-| `policy/model_policy.py:33` | `electric_heating_max_annual_increase` | `0.1` |
-| `policy/model_policy.py:34` | `electric_heating_week_hours` | `24 * 7` |
-| `policy/model_policy.py:35` | `electric_heating_individual_units` | `('Air_to_water_HP', 'Ground_to_water_HP', 'Electric_heater', 'Water_to_water_HP')` |
-| `policy/model_policy.py:43` | `industry_fuel_share_max_change_per_year` | `0.1` |
-| `policy/model_policy.py:44` | `industry_fuel_share_ramp_mode` | `'endogenous_s_curve'` |
-| `policy/model_policy.py:45` | `industry_fuel_share_s_curve_initial_fraction` | `0.02` |
-| `policy/model_policy.py:46` | `industry_fuel_share_s_curve_growth_rate` | `0.5` |
-| `policy/model_policy.py:50` | `industry_fuel_share_s_curve_reference_years` | `5` |
-| `policy/model_policy.py:54` | `industry_fuel_share_s_curve_directions` | `{'Gas': 'decrease', 'Coal': 'decrease', 'Lignite': 'decrease', 'Oil': 'decrease', 'fuel_oil': 'decrease', 'diesel': 'decrease', 'petrol': 'decrease', 'kerosene': 'decrease', 'LPG': 'decrease', 'Biomass': 'decrease', 'lignin': 'increase'}` |
-| `policy/model_policy.py:61` | `industry_electric_share_max_annual_decrease` | `0.1` |
-| `policy/model_policy.py:62` | `industry_electric_share_history_tolerance` | `1e-06` |
-| `policy/model_policy.py:65` | `transport_decom_max_share` | `None` |
-| `policy/model_policy.py:66` | `transport_turnover_years` | `25` |
-| `policy/model_policy.py:67` | `transport_turnover_units` | `('EV_car', 'FCEV_car', 'HYBRID_car', 'ICE_car', 'EV_truck', 'FCEV_truck', 'HYBRID_truck', 'ICE_truck', 'EV_MARINE_SHORT', 'FCEV_MARINE_SHORT', 'ICE_MARINE_SHORT')` |
-| `policy/model_policy.py:80` | `transport_turnover_ramp_start_year` | `2025` |
-| `policy/model_policy.py:81` | `transport_turnover_ramp_full_year` | `2030` |
-| `policy/model_policy.py:82` | `transport_turnover_ramp_initial_share` | `1.5` |
-| `policy/model_policy.py:83` | `TRANSPORT_TURNOVER_MAX_SHARE` | `0.3` |
-| `policy/model_policy.py:84` | `transport_existing_fleet_age_spread_years` | `10` |
-| `policy/model_policy.py:85` | `transport_forbidden_investment_units` | `()` |
-| `policy/model_policy.py:86` | `transport_inv_max_share_by_unit` | `{'all': 0.2, 'EV_car': 0.42, 'FCEV_car': 0.25, 'ICE_AVIO_SHORT': 0.4, 'ICE_AVIO_LONG': 0.4, 'EL_RAIL': 0.4, 'EL_RAIL_CARGO': 0.4, 'ICE_MARINE_LONG': 0.4, 'ICE_MARINE_SHORT': 0.2}` |
-| `policy/model_policy.py:97` | `transport_inv_total_max_by_sector` | `{}` |
-| `policy/model_policy.py:98` | `transport_inv_max_ramp_start_year` | `2025` |
-| `policy/model_policy.py:99` | `transport_inv_max_ramp_full_year` | `2028` |
-| `policy/model_policy.py:100` | `transport_inv_max_ramp_initial_share` | `0.5` |
-| `policy/model_policy.py:101` | `transport_inv_declining_max_share_by_unit` | `{}` |
-| `policy/model_policy.py:102` | `transport_inv_decline_start_year` | `2025` |
-| `policy/model_policy.py:103` | `transport_inv_decline_end_year` | `2050` |
-| `policy/model_policy.py:104` | `transport_inv_decline_final_share` | `0.1` |
-| `policy/model_policy.py:105` | `transport_stock_max_share_year` | `2050` |
-| `policy/model_policy.py:111` | `transport_stock_max_share_by_unit` | `{}` |
-| `policy/model_policy.py:112` | `transport_electrification_target_sectors` | `('Passenger_cars', 'commercial_vehicles', 'Motor_coaches_buses_and_trolley_buses', 'Rail_transport', 'Rail_metro_and_tram', 'Domestic_shipping', 'Domestic_aviation', 'International_aviation')` |
-| `policy/model_policy.py:122` | `transport_non_decreasing_stock_units` | `('EL_RAIL', 'EL_RAIL_CARGO')` |
-| `policy/model_policy.py:128` | `stage2_carbon_budget_mode` | `'cumulative_weighted'` |
-| `policy/model_policy.py:129` | `stage2_carbon_hour_weight` | `0.25` |
-| `policy/model_policy.py:130` | `stage2_carbon_heat_weight` | `0.75` |
-| `policy/model_policy.py:131` | `stage2_carbon_el_weight` | `0.0` |
-| `policy/model_policy.py:132` | `stage2_carbon_auto_slack_cost` | `1000000.0` |
-| `policy/model_policy.py:133` | `stage2_carbon_slack_cost` | `0.0` |
-| `policy/model_policy.py:134` | `rolling_refinery_hourly_cap_multiplier` | `1.0` |
-| `policy/model_policy.py:135` | `rolling_h2_balance_shortage_cost` | `10000000.0` |
-| `policy/model_policy.py:136` | `rolling_industry_cap_shortage_cost` | `10000000.0` |
-| `policy/model_policy.py:137` | `rolling_terminal_fuel_soc_tolerance` | `0.0` |
-| `policy/model_policy.py:138` | `rolling_terminal_fuel_soc_slack_cost` | `10000000.0` |
-| `policy/model_policy.py:139` | `rolling_terminal_fuel_soc_lead_hours` | `8760` |
-| `policy/model_policy.py:140` | `rolling_terminal_fuel_soc_ramp_exponent` | `1.0` |
-| `policy/model_policy.py:141` | `storage_year_continuity_mode` | `'cyclic'` |
-| `policy/model_policy.py:142` | `efuel_dh_heat_feedstock_aliases` | `('heat', 'dh_heat', 'district_heat', 'district heating')` |
-| `policy/model_policy.py:143` | `stage2_quantity_guidance_tolerance` | `0.15` |
-| `policy/model_policy.py:144` | `stage2_quantity_guidance_abs_tolerance` | `1e-06` |
-| `policy/model_policy.py:145` | `stage2_quantity_guidance_slack_cost` | `1000000.0` |
-| `policy/model_policy.py:146` | `oil_refinery_product_generation_change_limit` | `0.1` |
-| `policy/model_policy.py:147` | `refinery_process_fuel_share` | `0.08` |
-| `policy/model_policy.py:148` | `refinery_process_fuel_co2_key` | `'Oil'` |
-| `policy/model_policy.py:149` | `transport_ice_hybrid_fossil_share_decline_scope` | `'annual'` |
-| `policy/model_policy.py:151` | `transport_ice_fuel_share_change_limit` | `0.2` |
-| `policy/model_policy.py:152` | `biomass_heating_fuel_aliases` | `('biomass',)` |
-| `policy/model_policy.py:155` | `h2_transmission_cost_aliases` | `{'H2_pipe': 'H2CH'}` |
-| `policy/model_policy.py:156` | `transmission_transformer_units` | `{'400kV_AC': 'transformer_AC', 'HVDC': 'transformer_HVDC'}` |
-| `policy/model_policy.py:160` | `h2_pipeline_compressor_unit` | `'comp_station'` |
-| `policy/model_policy.py:161` | `transmission_duplicate_policy` | `'first'` |
-| `policy/model_policy.py:163` | `active_zone_overrides` | `None` |
-| `policy/model_policy.py:166` | `co2_storage_capex_input_unit` | `'MEUR/t'` |
-| `policy/model_policy.py:167` | `co2_amine_tank_capex_input_unit` | `'MEUR/t'` |
-| `policy/model_policy.py:168` | `stat_grid_eff` | `0.9` |
-| `policy/model_policy.py:169` | `ceep_price` | `1000` |
-| `policy/model_policy.py:172` | `noload_el_cost` | `100000` |
-| `policy/model_policy.py:173` | `discount_rate` | `0.05` |
-| `policy/model_policy.py:174` | `discount_base_year` | `2025` |
-| `policy/model_policy.py:175` | `capital_finance_rate` | `0.05` |
-| `policy/model_policy.py:181` | `fuel_storage_capex_aliases` | `{'N2_stor': 'Gas_stor'}` |
-| `policy/model_policy.py:182` | `fuel_storage_fixed_opex_fraction` | `0.01` |
-| `policy/model_policy.py:188` | `oil_gas_initial_soc_fraction` | `{'Oil': 0.5, 'Gas': 0.5}` |
-| `policy/model_policy.py:192` | `industry_electrification_full_applicability` | `True` |
-| `policy/model_policy.py:193` | `industry_heat_pumps_active` | `True` |
-| `policy/model_policy.py:194` | `industry_hp_profiles_dat` | `'./data/industry_category_profiles.csv'` |
-| `policy/model_policy.py:200` | `complex_industry_sectors` | `('Non_metallic_minerals',)` |
-| `policy/model_policy.py:203` | `industry_external_steam_efficiency` | `0.9` |
-| `policy/runtime_policy.py:6` | `partial_foresight_representative_days` | `4` |
-| `policy/runtime_policy.py:7` | `partial_foresight_day_hours` | `24` |
-| `policy/runtime_policy.py:8` | `partial_foresight_representative_day_start_hours` | `(337, 2521, 4705, 6889)` |
-| `policy/runtime_policy.py:11` | `partial_foresight_lookahead_years` | `10` |
-| `policy/runtime_policy.py:12` | `representative_full_year_hours` | `8760` |
-| `policy/runtime_policy.py:13` | `two_stage_stage1_export_timing` | `'before_stage2'` |
-| `policy/runtime_policy.py:14` | `representative_weeks_count` | `4` |
-| `policy/runtime_policy.py:16` | `representative_week_hours` | `24` |
-| `policy/runtime_policy.py:17` | `representative_week_start_hours` | `partial_foresight_representative_day_start_hours` |
-| `policy/runtime_policy.py:18` | `long_storage_guidance_default_band` | `0.0` |
-| `policy/runtime_policy.py:19` | `rolling_dispatch_granularity` | `'week'` |
-| `policy/runtime_policy.py:20` | `rolling_window_size` | `48` |
-| `policy/runtime_policy.py:21` | `rolling_step_size` | `24` |
-| `policy/runtime_policy.py:22` | `rolling_realized_horizon` | `24` |
-| `policy/runtime_policy.py:23` | `rolling_forecast_avg_dev_percent` | `5.0` |
-| `policy/runtime_policy.py:24` | `stage1_capacity_reserve_margin` | `0.2` |
-| `policy/runtime_policy.py:25` | `rolling_unmet_industry_heat_cost` | `1000000000.0` |
-| `policy/runtime_policy.py:26` | `rolling_unmet_dh_heat_cost` | `1000000000.0` |
-| `policy/runtime_policy.py:27` | `rolling_unmet_indv_heat_cost` | `1000000000.0` |
-| `policy/runtime_policy.py:28` | `data_read_cache_max_entries` | `256` |
-| `policy/runtime_policy.py:31` | `solver_stage1_method` | `2` |
-| `policy/runtime_policy.py:32` | `rolling_solver_method` | `1` |
-| `policy/runtime_policy.py:35` | `solver_stage1_numeric_focus` | `1` |
-| `policy/runtime_policy.py:39` | `solver_diagnostic_method` | `1` |
-| `policy/runtime_policy.py:43` | `solver_diagnostic_time_limit_s` | `0` |
-| `policy/runtime_policy.py:44` | `solver_diagnostic_numeric_focus` | `3` |
-| `policy/runtime_policy.py:45` | `solver_diagnostic_aggregate` | `0` |
-| `policy/runtime_policy.py:46` | `solver_objective_scale` | `1000.0` |
-| `policy/runtime_policy.py:47` | `solver_stage1_scale_flag` | `2` |
-| `policy/runtime_policy.py:51` | `solver_stage1_aggregate` | `0` |
-| `policy/runtime_policy.py:54` | `solver_stage1_annual_pf_retry_aggregate` | `1` |
-| `policy/runtime_policy.py:55` | `annual_accounting_row_scale` | `1000.0` |
-| `policy/runtime_policy.py:56` | `fuel_storage_balance_row_scale` | `1000.0` |
-| `policy/runtime_policy.py:57` | `fuel_storage_capacity_row_scale` | `1000.0` |
-| `policy/runtime_policy.py:58` | `co2_storage_cost_row_scale` | `1000.0` |
-| `policy/runtime_policy.py:59` | `solver_stage1_bar_homogeneous` | `1` |
-| `policy/runtime_policy.py:62` | `solver_stage1_annual_s_curve_bar_homogeneous` | `0` |
-| `policy/runtime_policy.py:63` | `solver_stage1_homogeneous_recovery` | `True` |
-| `policy/runtime_policy.py:64` | `solver_stage1_bar_conv_tol` | `1e-08` |
-| `policy/runtime_policy.py:65` | `solver_stage1_crossover` | `0` |
-| `policy/runtime_policy.py:66` | `solver_stage1_crossover_basis` | `-1` |
-| `policy/runtime_policy.py:67` | `solver_stage1_time_limit_s` | `0` |
-| `policy/runtime_policy.py:68` | `solver_stage1_auto_extend_attempts` | `0` |
-| `policy/runtime_policy.py:69` | `solver_stage1_auto_extend_s` | `3600` |
-| `policy/runtime_policy.py:70` | `solver_stage1_retry_numeric_focus` | `3` |
-| `policy/runtime_policy.py:71` | `solver_stage1_retry_scale_flag` | `1` |
-| `policy/runtime_policy.py:72` | `solver_stage1_retry_bar_homogeneous` | `1` |
-| `policy/runtime_policy.py:73` | `solver_provisional_max_constr_vio` | `0.2` |
-| `policy/runtime_policy.py:76` | `physical_energy_balance_abs_tolerance` | `0.001` |
-| `policy/runtime_policy.py:77` | `solver_provisional_max_bound_vio` | `0.0001` |
-| `policy/runtime_policy.py:78` | `solver_provisional_max_dual_vio` | `0.0001` |
-| `policy/runtime_policy.py:79` | `solver_provisional_max_dual_residual` | `3.0` |
-| `policy/runtime_policy.py:80` | `solver_provisional_max_barrier_gap` | `0.03` |
-| `policy/runtime_policy.py:81` | `solver_provisional_max_returned_objective_deviation` | `0.02` |
-| `policy/runtime_policy.py:85` | `solver_stage1_bar_iter_limit` | `1000` |
-| `policy/runtime_policy.py:87` | `solver_stage1_threads` | `32` |
-| `policy/runtime_policy.py:88` | `solver_stage1_bar_order` | `-1` |
-| `policy/runtime_policy.py:89` | `solver_auto_iis_max_rows` | `2000000` |
-| `policy/runtime_policy.py:90` | `solver_bar_stall_time_s` | `0` |
-| `policy/runtime_policy.py:91` | `solver_bar_stall_min_runtime_s` | `2400` |
-| `policy/runtime_policy.py:92` | `solver_bar_stall_rel_improve` | `0.05` |
-| `policy/runtime_policy.py:93` | `solver_bar_stall_accept_gap` | `0.002` |
-| `policy/runtime_policy.py:94` | `solver_bar_stall_accept_compl` | `1e-05` |
-| `policy/runtime_policy.py:95` | `solver_bar_stall_accept_primal_inf` | `0.001` |
-| `policy/runtime_policy.py:96` | `solver_bar_stall_accept_dual_inf` | `0.0001` |
-| `policy/runtime_policy.py:97` | `solver_stalled_barrier_finalize_time_s` | `3600` |
-| `policy/runtime_policy.py:98` | `solver_fallback_numeric_focus` | `3` |
-| `policy/runtime_policy.py:99` | `solver_fallback_time_limit_s` | `0` |
-| `policy/runtime_policy.py:100` | `solver_fallback_threads` | `32` |
-| `policy/runtime_policy.py:103` | `electricity_price_zero_threshold_eur_per_mwh` | `1.0` |
-| `policy/runtime_policy.py:104` | `fuel_trade_price_zero_threshold_eur_per_mwh` | `1.0` |
-| `policy/runtime_policy.py:106` | `transport_stock_variable_scale_by_sector` | `{'Passenger_cars': 1000.0, 'commercial_vehicles': 1000.0, 'Motor_coaches_buses_and_trolley_buses': 10.0, 'Domestic_shipping': 1000.0, 'Domestic_aviation': 100.0}` |
-| `policy/runtime_policy.py:115` | `transport_service_variable_scale` | `1000.0` |
-| `policy/runtime_policy.py:116` | `transport_service_variable_scale_by_sector` | `{'Passenger_cars': 1.0, 'commercial_vehicles': 10.0, 'Motor_coaches_buses_and_trolley_buses': 10.0, 'Domestic_aviation': 1.0}` |
-| `policy/runtime_policy.py:122` | `numeric_abs_min` | `1e-09` |
-| `policy/runtime_policy.py:123` | `numeric_abs_max` | `100000000.0` |
-| `policy/runtime_policy.py:124` | `price_abs_max` | `10000.0` |
-| `policy/runtime_policy.py:125` | `var_cost_abs_max` | `100000.0` |
-| `policy/runtime_policy.py:126` | `transmission_km_abs_max` | `100000.0` |
-| `policy/runtime_policy.py:127` | `fuel_storage_eff_min` | `0.0001` |
-| `policy/runtime_policy.py:128` | `fuel_storage_eff_max` | `1.0` |
-| `policy/runtime_policy.py:129` | `cap_inv_limit_active_max` | `500000.0` |
-| `policy/runtime_policy.py:130` | `transport_coeff_eps` | `1e-05` |
-| `policy/runtime_policy.py:131` | `transport_co2_block_hours` | `168` |
-| `policy/runtime_policy.py:132` | `transport_historical_stock_zero_epsilon` | `1e-06` |
-| `policy/runtime_policy.py:134` | `heating_stock_zero_epsilon_mw` | `1e-06` |
-| `policy/runtime_policy.py:135` | `heating_history_zero_epsilon_mwh` | `0.001` |
-| `policy/runtime_policy.py:137` | `transport_physical_bound_tolerance` | `1e-06` |
-| `policy/runtime_policy.py:139` | `levelized_cost_min_annual_output_mwh` | `1.0` |
-| `policy/runtime_policy.py:142` | `transport_inherited_stock_zero_epsilon` | `0.1` |
-| `policy/runtime_policy.py:143` | `INDUSTRY_SHARE_ROUNDING_TOLERANCE` | `0.01` |
-| `policy/runtime_policy.py:144` | `COMPLEX_INDUSTRY_DEMAND_AUDIT_REL_TOL` | `0.01` |
-| `policy/runtime_policy.py:145` | `COMPLEX_INDUSTRY_DEMAND_AUDIT_ABS_TOL` | `0.001` |
-| `policy/runtime_policy.py:147` | `transport_fixed_stock_abs_tolerance` | `0.1` |
-| `policy/runtime_policy.py:150` | `transport_stock_relative_tolerance` | `0.001` |
+| `policy/model_policy.py:20` | `dh_chp_heat_reduction_limit_years` | `10` |
+| `policy/model_policy.py:21` | `dh_chp_heat_history_tolerance_mwh` | `1.0` |
+| `policy/model_policy.py:22` | `individual_gas_heat_max_annual_change` | `0.25` |
+| `policy/model_policy.py:23` | `individual_gas_heat_reduction_limit_years` | `5` |
+| `policy/model_policy.py:24` | `fossil_heating_history_tolerance_mwh` | `1.0` |
+| `policy/model_policy.py:25` | `fossil_boiler_phaseout_years` | `{'coal': 2030, 'gas': 2035, 'oil': 2035}` |
+| `policy/model_policy.py:26` | `dh_chp_base_year_heat_targets_twh` | `{('TE-TO_Zagreb', 'HR1', 'HR'): 0.9, ('EL-TO_Zagreb', 'HR1', 'HR'): 0.55, ('TE_-TO_Osijek', 'HR1', 'HR'): 0.232}` |
+| `policy/model_policy.py:32` | `lulucf_removals_fixed_tco2e_per_year` | `0.0` |
+| `policy/model_policy.py:33` | `electric_heating_max_annual_decrease` | `0.1` |
+| `policy/model_policy.py:34` | `electric_heating_max_annual_increase` | `0.1` |
+| `policy/model_policy.py:35` | `electric_heating_week_hours` | `24 * 7` |
+| `policy/model_policy.py:36` | `electric_heating_individual_units` | `('Air_to_water_HP', 'Ground_to_water_HP', 'Electric_heater', 'Water_to_water_HP')` |
+| `policy/model_policy.py:44` | `industry_fuel_share_max_change_per_year` | `0.1` |
+| `policy/model_policy.py:45` | `industry_fuel_share_ramp_mode` | `'endogenous_s_curve'` |
+| `policy/model_policy.py:46` | `industry_fuel_share_s_curve_initial_fraction` | `0.02` |
+| `policy/model_policy.py:47` | `industry_fuel_share_s_curve_growth_rate` | `0.5` |
+| `policy/model_policy.py:51` | `industry_fuel_share_s_curve_reference_years` | `5` |
+| `policy/model_policy.py:55` | `industry_fuel_share_s_curve_completion_year` | `2045` |
+| `policy/model_policy.py:59` | `industry_fuel_share_s_curve_directions` | `{'Gas': 'decrease', 'Coal': 'decrease', 'Lignite': 'decrease', 'Oil': 'decrease', 'fuel_oil': 'decrease', 'diesel': 'decrease', 'petrol': 'decrease', 'kerosene': 'decrease', 'LPG': 'decrease', 'Biomass': 'decrease', 'lignin': 'increase'}` |
+| `policy/model_policy.py:66` | `industry_electric_share_max_annual_decrease` | `0.1` |
+| `policy/model_policy.py:67` | `industry_electric_share_history_tolerance` | `1e-06` |
+| `policy/model_policy.py:70` | `transport_decom_max_share` | `None` |
+| `policy/model_policy.py:71` | `transport_turnover_years` | `25` |
+| `policy/model_policy.py:72` | `transport_turnover_units` | `('EV_car', 'FCEV_car', 'HYBRID_car', 'ICE_car', 'EV_truck', 'FCEV_truck', 'HYBRID_truck', 'ICE_truck', 'EV_MARINE_SHORT', 'FCEV_MARINE_SHORT', 'ICE_MARINE_SHORT')` |
+| `policy/model_policy.py:85` | `transport_turnover_ramp_start_year` | `2025` |
+| `policy/model_policy.py:86` | `transport_turnover_ramp_full_year` | `2030` |
+| `policy/model_policy.py:87` | `transport_turnover_ramp_initial_share` | `1.5` |
+| `policy/model_policy.py:88` | `TRANSPORT_TURNOVER_MAX_SHARE` | `0.3` |
+| `policy/model_policy.py:89` | `transport_existing_fleet_age_spread_years` | `10` |
+| `policy/model_policy.py:90` | `transport_forbidden_investment_units` | `()` |
+| `policy/model_policy.py:91` | `transport_inv_max_share_by_unit` | `{'all': 0.2, 'EV_car': 0.42, 'FCEV_car': 0.25, 'ICE_AVIO_SHORT': 0.4, 'ICE_AVIO_LONG': 0.4, 'EL_RAIL': 0.4, 'EL_RAIL_CARGO': 0.4, 'ICE_MARINE_LONG': 0.4, 'ICE_MARINE_SHORT': 0.2}` |
+| `policy/model_policy.py:102` | `transport_inv_total_max_by_sector` | `{}` |
+| `policy/model_policy.py:103` | `transport_inv_max_ramp_start_year` | `2025` |
+| `policy/model_policy.py:104` | `transport_inv_max_ramp_full_year` | `2028` |
+| `policy/model_policy.py:105` | `transport_inv_max_ramp_initial_share` | `0.5` |
+| `policy/model_policy.py:106` | `transport_inv_declining_max_share_by_unit` | `{}` |
+| `policy/model_policy.py:107` | `transport_inv_decline_start_year` | `2025` |
+| `policy/model_policy.py:108` | `transport_inv_decline_end_year` | `2050` |
+| `policy/model_policy.py:109` | `transport_inv_decline_final_share` | `0.1` |
+| `policy/model_policy.py:110` | `transport_stock_max_share_year` | `2050` |
+| `policy/model_policy.py:116` | `transport_stock_max_share_by_unit` | `{}` |
+| `policy/model_policy.py:117` | `transport_electrification_target_sectors` | `('Passenger_cars', 'commercial_vehicles', 'Motor_coaches_buses_and_trolley_buses', 'Rail_transport', 'Rail_metro_and_tram', 'Domestic_shipping', 'Domestic_aviation', 'International_aviation')` |
+| `policy/model_policy.py:127` | `transport_non_decreasing_stock_units` | `('EL_RAIL', 'EL_RAIL_CARGO')` |
+| `policy/model_policy.py:133` | `transport_rail_direct_electric_max_share` | `0.9` |
+| `policy/model_policy.py:136` | `transport_rail_battery_specs` | `{'BAT_RAIL': {'average_stor': 700, 'average_ch_rate': 1000}, 'BAT_RAIL_CARGO': {'average_stor': 1400, 'average_ch_rate': 2000}}` |
+| `policy/model_policy.py:142` | `stage2_carbon_budget_mode` | `'cumulative_weighted'` |
+| `policy/model_policy.py:143` | `stage2_carbon_hour_weight` | `0.25` |
+| `policy/model_policy.py:144` | `stage2_carbon_heat_weight` | `0.75` |
+| `policy/model_policy.py:145` | `stage2_carbon_el_weight` | `0.0` |
+| `policy/model_policy.py:146` | `stage2_carbon_auto_slack_cost` | `1000000.0` |
+| `policy/model_policy.py:147` | `stage2_carbon_slack_cost` | `0.0` |
+| `policy/model_policy.py:148` | `rolling_refinery_hourly_cap_multiplier` | `1.0` |
+| `policy/model_policy.py:149` | `rolling_h2_balance_shortage_cost` | `10000000.0` |
+| `policy/model_policy.py:150` | `rolling_industry_cap_shortage_cost` | `10000000.0` |
+| `policy/model_policy.py:151` | `rolling_terminal_fuel_soc_tolerance` | `0.0` |
+| `policy/model_policy.py:152` | `rolling_terminal_fuel_soc_slack_cost` | `10000000.0` |
+| `policy/model_policy.py:153` | `rolling_terminal_fuel_soc_lead_hours` | `8760` |
+| `policy/model_policy.py:154` | `rolling_terminal_fuel_soc_ramp_exponent` | `1.0` |
+| `policy/model_policy.py:155` | `storage_year_continuity_mode` | `'cyclic'` |
+| `policy/model_policy.py:156` | `efuel_dh_heat_feedstock_aliases` | `('heat', 'dh_heat', 'district_heat', 'district heating')` |
+| `policy/model_policy.py:157` | `stage2_quantity_guidance_tolerance` | `0.15` |
+| `policy/model_policy.py:158` | `stage2_quantity_guidance_abs_tolerance` | `1e-06` |
+| `policy/model_policy.py:159` | `stage2_quantity_guidance_slack_cost` | `1000000.0` |
+| `policy/model_policy.py:160` | `oil_refinery_product_generation_change_limit` | `0.1` |
+| `policy/model_policy.py:161` | `refinery_process_fuel_share` | `0.08` |
+| `policy/model_policy.py:162` | `refinery_process_fuel_co2_key` | `'Oil'` |
+| `policy/model_policy.py:163` | `transport_ice_hybrid_fossil_share_decline_scope` | `'annual'` |
+| `policy/model_policy.py:165` | `transport_ice_fuel_share_change_limit` | `0.2` |
+| `policy/model_policy.py:166` | `biomass_heating_fuel_aliases` | `('biomass',)` |
+| `policy/model_policy.py:169` | `h2_transmission_cost_aliases` | `{'H2_pipe': 'H2CH'}` |
+| `policy/model_policy.py:170` | `transmission_transformer_units` | `{'400kV_AC': 'transformer_AC', 'HVDC': 'transformer_HVDC'}` |
+| `policy/model_policy.py:174` | `h2_pipeline_compressor_unit` | `'comp_station'` |
+| `policy/model_policy.py:175` | `transmission_duplicate_policy` | `'first'` |
+| `policy/model_policy.py:177` | `active_zone_overrides` | `None` |
+| `policy/model_policy.py:180` | `simple_industry_active_zones` | `(('HR1', 'HR'), ('RS1', 'RS'), ('BA1', 'BA'))` |
+| `policy/model_policy.py:183` | `simple_industry_grid_fallback_tco2_per_mwh` | `0.6` |
+| `policy/model_policy.py:186` | `electricity_cbam_future_intensity_tco2_per_mwh` | `{}` |
+| `policy/model_policy.py:189` | `co2_storage_capex_input_unit` | `'MEUR/t'` |
+| `policy/model_policy.py:190` | `co2_amine_tank_capex_input_unit` | `'MEUR/t'` |
+| `policy/model_policy.py:191` | `stat_grid_eff` | `0.9` |
+| `policy/model_policy.py:192` | `ceep_price` | `1000` |
+| `policy/model_policy.py:195` | `noload_el_cost` | `100000` |
+| `policy/model_policy.py:196` | `discount_rate` | `0.05` |
+| `policy/model_policy.py:197` | `discount_base_year` | `2025` |
+| `policy/model_policy.py:198` | `capital_finance_rate` | `0.05` |
+| `policy/model_policy.py:204` | `fuel_storage_capex_aliases` | `{'N2_stor': 'Gas_stor'}` |
+| `policy/model_policy.py:205` | `fuel_storage_fixed_opex_fraction` | `0.01` |
+| `policy/model_policy.py:211` | `oil_gas_initial_soc_fraction` | `{'Oil': 0.5, 'Gas': 0.5}` |
+| `policy/model_policy.py:215` | `industry_electrification_full_applicability` | `True` |
+| `policy/model_policy.py:216` | `industry_heat_pumps_active` | `True` |
+| `policy/model_policy.py:217` | `industry_hp_profiles_dat` | `'./data/industry_category_profiles.csv'` |
+| `policy/model_policy.py:223` | `complex_industry_sectors` | `('Non_metallic_minerals',)` |
+| `policy/model_policy.py:226` | `industry_external_steam_efficiency` | `0.9` |
+| `policy/runtime_policy.py:5` | `dsm_availability_full_year` | `2030` |
+| `policy/runtime_policy.py:6` | `dsm_daily_energy_fraction` | `0.07` |
+| `policy/runtime_policy.py:7` | `dsm_weekly_energy_fraction` | `0.015` |
+| `policy/runtime_policy.py:8` | `dsm_shift_fraction` | `0.1` |
+| `policy/runtime_policy.py:9` | `dsm_capacity_cost_eur_per_mw_year` | `10000.0` |
+| `policy/runtime_policy.py:10` | `dsm_shift_cost_eur_per_mwh` | `5.0` |
+| `policy/runtime_policy.py:15` | `partial_foresight_representative_days` | `4` |
+| `policy/runtime_policy.py:16` | `partial_foresight_day_hours` | `24` |
+| `policy/runtime_policy.py:17` | `partial_foresight_representative_day_start_hours` | `(337, 2521, 4705, 6889)` |
+| `policy/runtime_policy.py:20` | `partial_foresight_lookahead_years` | `10` |
+| `policy/runtime_policy.py:21` | `representative_full_year_hours` | `8760` |
+| `policy/runtime_policy.py:22` | `two_stage_stage1_export_timing` | `'before_stage2'` |
+| `policy/runtime_policy.py:23` | `representative_weeks_count` | `4` |
+| `policy/runtime_policy.py:25` | `representative_week_hours` | `24` |
+| `policy/runtime_policy.py:26` | `representative_week_start_hours` | `partial_foresight_representative_day_start_hours` |
+| `policy/runtime_policy.py:27` | `long_storage_guidance_default_band` | `0.0` |
+| `policy/runtime_policy.py:28` | `rolling_dispatch_granularity` | `'day'` |
+| `policy/runtime_policy.py:30` | `rolling_window_size` | `48` |
+| `policy/runtime_policy.py:31` | `rolling_step_size` | `24` |
+| `policy/runtime_policy.py:32` | `rolling_realized_horizon` | `24` |
+| `policy/runtime_policy.py:33` | `rolling_forecast_avg_dev_percent` | `5.0` |
+| `policy/runtime_policy.py:34` | `stage1_capacity_reserve_margin` | `0.0` |
+| `policy/runtime_policy.py:35` | `rolling_unmet_industry_heat_cost` | `1000000000.0` |
+| `policy/runtime_policy.py:36` | `rolling_unmet_dh_heat_cost` | `1000000000.0` |
+| `policy/runtime_policy.py:37` | `rolling_unmet_indv_heat_cost` | `1000000000.0` |
+| `policy/runtime_policy.py:38` | `data_read_cache_max_entries` | `256` |
+| `policy/runtime_policy.py:41` | `solver_stage1_method` | `2` |
+| `policy/runtime_policy.py:42` | `rolling_solver_method` | `1` |
+| `policy/runtime_policy.py:45` | `solver_stage1_numeric_focus` | `1` |
+| `policy/runtime_policy.py:49` | `solver_diagnostic_method` | `1` |
+| `policy/runtime_policy.py:53` | `solver_diagnostic_time_limit_s` | `0` |
+| `policy/runtime_policy.py:54` | `solver_diagnostic_numeric_focus` | `3` |
+| `policy/runtime_policy.py:55` | `solver_diagnostic_aggregate` | `0` |
+| `policy/runtime_policy.py:56` | `solver_objective_scale` | `1000.0` |
+| `policy/runtime_policy.py:57` | `solver_stage1_scale_flag` | `2` |
+| `policy/runtime_policy.py:61` | `solver_stage1_aggregate` | `0` |
+| `policy/runtime_policy.py:64` | `solver_stage1_annual_pf_retry_aggregate` | `1` |
+| `policy/runtime_policy.py:65` | `annual_accounting_row_scale` | `1000.0` |
+| `policy/runtime_policy.py:66` | `fuel_storage_balance_row_scale` | `1000.0` |
+| `policy/runtime_policy.py:67` | `fuel_storage_capacity_row_scale` | `1000.0` |
+| `policy/runtime_policy.py:68` | `co2_storage_cost_row_scale` | `1000.0` |
+| `policy/runtime_policy.py:69` | `solver_stage1_bar_homogeneous` | `1` |
+| `policy/runtime_policy.py:72` | `solver_stage1_annual_s_curve_bar_homogeneous` | `0` |
+| `policy/runtime_policy.py:73` | `solver_stage1_homogeneous_recovery` | `True` |
+| `policy/runtime_policy.py:74` | `solver_stage1_bar_conv_tol` | `1e-08` |
+| `policy/runtime_policy.py:77` | `solver_stage1_annual_cc_bar_conv_tol` | `1e-06` |
+| `policy/runtime_policy.py:78` | `solver_stage1_crossover` | `0` |
+| `policy/runtime_policy.py:79` | `solver_stage1_crossover_basis` | `-1` |
+| `policy/runtime_policy.py:80` | `solver_stage1_bundle_feasibility_tol` | `1e-09` |
+| `policy/runtime_policy.py:81` | `solver_stage1_time_limit_s` | `0` |
+| `policy/runtime_policy.py:82` | `solver_stage1_auto_extend_attempts` | `0` |
+| `policy/runtime_policy.py:83` | `solver_stage1_auto_extend_s` | `3600` |
+| `policy/runtime_policy.py:84` | `solver_stage1_retry_numeric_focus` | `3` |
+| `policy/runtime_policy.py:85` | `solver_stage1_retry_scale_flag` | `1` |
+| `policy/runtime_policy.py:86` | `solver_stage1_retry_bar_homogeneous` | `1` |
+| `policy/runtime_policy.py:87` | `solver_provisional_max_constr_vio` | `0.2` |
+| `policy/runtime_policy.py:92` | `physical_energy_balance_abs_tolerance` | `0.1` |
+| `policy/runtime_policy.py:93` | `solver_provisional_max_bound_vio` | `0.0001` |
+| `policy/runtime_policy.py:94` | `solver_provisional_max_dual_vio` | `0.0001` |
+| `policy/runtime_policy.py:95` | `solver_provisional_max_dual_residual` | `3.0` |
+| `policy/runtime_policy.py:96` | `solver_provisional_max_barrier_gap` | `0.03` |
+| `policy/runtime_policy.py:97` | `solver_provisional_max_returned_objective_deviation` | `0.02` |
+| `policy/runtime_policy.py:100` | `solver_require_annual_cc_quality` | `True` |
+| `policy/runtime_policy.py:101` | `amine_mass_balance_abs_tolerance_t` | `0.001` |
+| `policy/runtime_policy.py:105` | `solver_stage1_bar_iter_limit` | `1000` |
+| `policy/runtime_policy.py:107` | `solver_stage1_threads` | `32` |
+| `policy/runtime_policy.py:108` | `solver_stage1_bar_order` | `-1` |
+| `policy/runtime_policy.py:109` | `solver_auto_iis_max_rows` | `2000000` |
+| `policy/runtime_policy.py:110` | `solver_bar_stall_time_s` | `0` |
+| `policy/runtime_policy.py:111` | `solver_bar_stall_min_runtime_s` | `2400` |
+| `policy/runtime_policy.py:112` | `solver_bar_stall_rel_improve` | `0.05` |
+| `policy/runtime_policy.py:113` | `solver_bar_stall_accept_gap` | `0.002` |
+| `policy/runtime_policy.py:114` | `solver_bar_stall_accept_compl` | `1e-05` |
+| `policy/runtime_policy.py:115` | `solver_bar_stall_accept_primal_inf` | `0.001` |
+| `policy/runtime_policy.py:116` | `solver_bar_stall_accept_dual_inf` | `0.0001` |
+| `policy/runtime_policy.py:117` | `solver_stalled_barrier_finalize_time_s` | `3600` |
+| `policy/runtime_policy.py:118` | `solver_fallback_numeric_focus` | `3` |
+| `policy/runtime_policy.py:119` | `solver_fallback_time_limit_s` | `0` |
+| `policy/runtime_policy.py:120` | `solver_fallback_threads` | `32` |
+| `policy/runtime_policy.py:123` | `electricity_price_zero_threshold_eur_per_mwh` | `1.0` |
+| `policy/runtime_policy.py:124` | `fuel_trade_price_zero_threshold_eur_per_mwh` | `1.0` |
+| `policy/runtime_policy.py:126` | `transport_stock_variable_scale_by_sector` | `{'Passenger_cars': 1000.0, 'commercial_vehicles': 1000.0, 'Motor_coaches_buses_and_trolley_buses': 10.0, 'Domestic_shipping': 1000.0, 'Domestic_aviation': 100.0}` |
+| `policy/runtime_policy.py:135` | `transport_service_variable_scale` | `1000.0` |
+| `policy/runtime_policy.py:136` | `transport_service_variable_scale_by_sector` | `{'Passenger_cars': 1.0, 'commercial_vehicles': 10.0, 'Motor_coaches_buses_and_trolley_buses': 10.0, 'Domestic_aviation': 1.0}` |
+| `policy/runtime_policy.py:142` | `numeric_abs_min` | `1e-09` |
+| `policy/runtime_policy.py:143` | `numeric_abs_max` | `100000000.0` |
+| `policy/runtime_policy.py:144` | `price_abs_max` | `10000.0` |
+| `policy/runtime_policy.py:145` | `var_cost_abs_max` | `100000.0` |
+| `policy/runtime_policy.py:146` | `transmission_km_abs_max` | `100000.0` |
+| `policy/runtime_policy.py:147` | `fuel_storage_eff_min` | `0.0001` |
+| `policy/runtime_policy.py:148` | `fuel_storage_eff_max` | `1.0` |
+| `policy/runtime_policy.py:149` | `cap_inv_limit_active_max` | `500000.0` |
+| `policy/runtime_policy.py:150` | `transport_coeff_eps` | `1e-05` |
+| `policy/runtime_policy.py:151` | `transport_co2_block_hours` | `168` |
+| `policy/runtime_policy.py:152` | `transport_historical_stock_zero_epsilon` | `1e-06` |
+| `policy/runtime_policy.py:154` | `heating_stock_zero_epsilon_mw` | `1e-06` |
+| `policy/runtime_policy.py:155` | `heating_history_zero_epsilon_mwh` | `0.001` |
+| `policy/runtime_policy.py:158` | `rolling_storage_state_roundoff_tolerance` | `1e-06` |
+| `policy/runtime_policy.py:160` | `rolling_h2_reserve_margin_mwh` | `0.001` |
+| `policy/runtime_policy.py:162` | `transport_physical_bound_tolerance` | `1e-06` |
+| `policy/runtime_policy.py:164` | `levelized_cost_min_annual_output_mwh` | `1.0` |
+| `policy/runtime_policy.py:167` | `transport_inherited_stock_zero_epsilon` | `0.1` |
+| `policy/runtime_policy.py:168` | `INDUSTRY_SHARE_ROUNDING_TOLERANCE` | `0.01` |
+| `policy/runtime_policy.py:169` | `COMPLEX_INDUSTRY_DEMAND_AUDIT_REL_TOL` | `0.01` |
+| `policy/runtime_policy.py:170` | `COMPLEX_INDUSTRY_DEMAND_AUDIT_ABS_TOL` | `0.001` |
+| `policy/runtime_policy.py:172` | `transport_fixed_stock_abs_tolerance` | `0.1` |
+| `policy/runtime_policy.py:175` | `transport_stock_relative_tolerance` | `0.001` |
 | `policy/transport_pathways.py:9` | `transport_marine_capex_multiplier` | `{'methanol': 1.09, 'ammonia': 1.1}` |
 | `policy/transport_pathways.py:10` | `transport_marine_pilot_energy_share` | `0.05` |
 | `policy/transport_pathways.py:13` | `transport_marine_retrofit_capex_fraction` | `{'methanol': 0.16, 'ammonia': 0.24}` |
@@ -361,679 +396,680 @@ See [full constraint inventory](inventory/model_constraint_calls.csv) for flag/f
 
 | Source | Line | Name / naming expression |
 |---|---:|---|
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1353 | `(unnamed)` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1404 | `(unnamed)` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1527 | `(unnamed)` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1528 | `(unnamed)` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1326 | `(unnamed)` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1377 | `(unnamed)` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1496 | `(unnamed)` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1497 | `(unnamed)` |
 | `scripts/scoped_policy.py` | 184 | `f'{family}[{','.join(map(str, key))}]'` |
 | `scripts/scoped_policy.py` | 202 | `f'biomass_feedstock_annual_limit[{','.join(map(str, key))}]'` |
 | `scripts/network_checks.py` | 101 | `f'h2_balance[{z},{s},{year},{p}]'` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 19 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 232 | `f'ifsru_{suffix}_{idx}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 236 | `f'ifsrd_{suffix}_{idx}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1104 | `f'{name}_carry_previous'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1334 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1342 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1390 | `f'{var_name}_fixed_zero'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1413 | `f'{var_name}_fixed_pin_upper'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1418 | `f'{var_name}_fixed_pin_cap'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1428 | `f'{var_name}_fixed_pin'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1466 | `f'{var_name}_guide_lb'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1474 | `f'{var_name}_guide_ub'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1570 | `f'stage2_quantity_guidance_lb_{var_name}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1574 | `f'stage2_quantity_guidance_ub_{var_name}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1696 | `f'{_soc_var_name}_rolling_terminal_soc_balance'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1753 | `'h2_electrolysiscap_fixed'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1765 | `'h2_electrolysiscap_unpinned'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1780 | `'h2_electrolysiscap'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1795 | `'h2_steamcapacity_fixed'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1803 | `'h2_steamcapacity'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1818 | `'Power_to_h2eq'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1828 | `'h2_electrolysis'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1835 | `'h2_steam'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1849 | `'steam_h2_generation_nonincrease'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1895 | `'steam_h2_generation_nonincrease_from_previous'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1913 | `'h2_storage_maxcap_fixed'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1924 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1940 | `'FC_capacity_fixed'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1951 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1972 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1977 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1982 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1989 | `'h2_storage_initial_soc_zero'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2026 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2034 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2035 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2036 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2037 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2039 | `'h2_electrolysis_base_year_investment_zero'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2145 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2155 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2189 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2202 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2227 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2245 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2262 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2295 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2317 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2339 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2360 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2368 | `'industries_share_fuel'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2388 | `'industries_share_fuel_init2020'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2408 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2424 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2442 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2468 | `'industry_low_carbon_fuel_substitution_cap'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2580 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2590 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2615 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2625 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2647 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2657 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2668 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2681 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2704 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2725 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2735 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2746 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2758 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2769 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2781 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2793 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2809 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2828 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2838 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2855 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2872 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2896 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2908 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2920 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2931 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2941 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2952 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2961 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2981 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3006 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3028 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3046 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3068 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3109 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3150 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3206 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3220 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3233 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3258 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3267 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3285 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3309 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3328 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3350 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3370 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3396 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3419 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3447 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3465 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3480 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3497 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3512 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3568 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3578 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3611 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3624 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3649 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3667 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3682 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3724 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3746 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3784 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3823 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3835 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3847 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3882 | `'industry_storage_annual_investment_limit'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3899 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3909 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3918 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3927 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3942 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3957 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3978 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4009 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4020 | `'industries_share_fuel_annual_cat'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4040 | `'industries_share_fuel_cat'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4061 | `'industries_share_fuel_init2020_cat'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4087 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4103 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4121 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4159 | `'industry_low_carbon_fuel_substitution_cap_cat'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4249 | `'industries_increase_H2_cat'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4282 | `'industries_increase_H2_cat'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4323 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4333 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4358 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4368 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4390 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4400 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4411 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4424 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4448 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4469 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4479 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4490 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4502 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4513 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4525 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4537 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4553 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4572 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4600 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4617 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4633 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4655 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4667 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4679 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4690 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4700 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4711 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4739 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4762 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4787 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4809 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4827 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4845 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4862 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4879 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4935 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4949 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4962 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4987 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4996 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5014 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5040 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5063 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5083 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5109 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5132 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5160 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5178 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5193 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5210 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5225 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5249 | `'stat_storage_soc_0'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5268 | `'stat_storage_soc'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5340 | `'stat_storage_soc_cycle'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5360 | `'stat_storage_maxcap_fixed'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5376 | `'stat_storage_maxcap'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5403 | `'stat_storage_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5414 | `'stat_storage_inv_max_period'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5423 | `'stat_storage_inv_min_period'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5432 | `'stat_storage_inv_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5443 | `'stat_storage_inputmax'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5461 | `'stat_storage_outputmax'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5487 | `'max_transfer_systexpimp_pos_all'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5501 | `'max_transfer_systexpimp_pos_all'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5515 | `'max_transfer_systexpimp_pos_all_products'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5533 | `'max_transfer_systexpimp_pos'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5551 | `'max_transfer_systexpimp_neg'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5566 | `'max_transfer_corridor_total'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5594 | `'max_transfercap_terminal'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5637 | `'max_transfercap_terminal_maxperiod'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5656 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5663 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5670 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5677 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5708 | `'max_transfer_terminal_annual_pos'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5728 | `'max_transfer_terminal_annual_neg'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5776 | `'terminal_ship_route_fuel_export'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5787 | `'terminal_ship_route_fuel_import'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5827 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5863 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5872 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5912 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5979 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5996 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6013 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6030 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6050 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6061 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6072 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6084 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6100 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6113 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6124 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6144 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6156 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6168 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6180 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6192 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6204 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6216 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6228 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6241 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6254 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6303 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6336 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6345 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6372 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6381 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6395 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6404 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6419 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6430 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6441 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6453 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6468 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6482 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6496 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6544 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6558 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6571 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6624 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6643 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6680 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6687 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6711 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6737 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6758 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6773 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6795 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6804 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6813 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6825 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 234 | `f'ifsru_{suffix}_{idx}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 238 | `f'ifsrd_{suffix}_{idx}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1110 | `f'{name}_carry_previous'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1340 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1348 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1396 | `f'{var_name}_fixed_zero'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1419 | `f'{var_name}_fixed_pin_upper'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1424 | `f'{var_name}_fixed_pin_cap'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1434 | `f'{var_name}_fixed_pin'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1472 | `f'{var_name}_guide_lb'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1480 | `f'{var_name}_guide_ub'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1576 | `f'stage2_quantity_guidance_lb_{var_name}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1580 | `f'stage2_quantity_guidance_ub_{var_name}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1702 | `f'{_soc_var_name}_rolling_terminal_soc_balance'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1759 | `'h2_electrolysiscap_fixed'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1771 | `'h2_electrolysiscap_unpinned'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1786 | `'h2_electrolysiscap'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1801 | `'h2_steamcapacity_fixed'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1809 | `'h2_steamcapacity'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1824 | `'Power_to_h2eq'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1834 | `'h2_electrolysis'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1841 | `'h2_steam'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1855 | `'steam_h2_generation_nonincrease'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1901 | `'steam_h2_generation_nonincrease_from_previous'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1919 | `'h2_storage_maxcap_fixed'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1930 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1946 | `'FC_capacity_fixed'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1957 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1978 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1983 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1988 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1995 | `'h2_storage_initial_soc_zero'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2032 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2040 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2041 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2042 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2043 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2045 | `'h2_electrolysis_base_year_investment_zero'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2151 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2161 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2195 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2208 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2233 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2251 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2268 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2301 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2323 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2345 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2366 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2374 | `'industries_share_fuel'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2394 | `'industries_share_fuel_init2020'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2414 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2430 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2448 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2474 | `'industry_low_carbon_fuel_substitution_cap'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2586 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2596 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2621 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2631 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2653 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2663 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2674 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2687 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2710 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2731 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2741 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2752 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2764 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2775 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2787 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2799 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2815 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2834 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2844 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2861 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2878 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2902 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2914 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2926 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2937 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2947 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2958 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2967 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 2987 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3012 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3034 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3052 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3074 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3115 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3156 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3212 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3226 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3239 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3264 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3273 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3291 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3315 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3334 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3356 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3376 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3402 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3425 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3453 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3471 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3486 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3503 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3518 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3574 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3584 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3617 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3630 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3655 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3673 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3688 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3730 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3752 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3790 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3829 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3841 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3853 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3888 | `'industry_storage_annual_investment_limit'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3905 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3915 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3924 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3933 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3948 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3963 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 3984 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4015 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4026 | `'industries_share_fuel_annual_cat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4046 | `'industries_share_fuel_cat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4067 | `'industries_share_fuel_init2020_cat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4093 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4109 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4127 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4165 | `'industry_low_carbon_fuel_substitution_cap_cat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4255 | `'industries_increase_H2_cat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4288 | `'industries_increase_H2_cat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4329 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4339 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4364 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4374 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4396 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4406 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4417 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4430 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4454 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4475 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4485 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4496 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4508 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4519 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4531 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4543 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4559 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4578 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4606 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4623 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4639 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4661 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4673 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4685 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4696 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4706 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4717 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4745 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4768 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4793 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4815 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4833 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4851 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4868 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4885 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4941 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4955 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4968 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 4993 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5002 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5020 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5046 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5069 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5089 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5115 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5138 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5166 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5184 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5199 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5216 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5231 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5255 | `'stat_storage_soc_0'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5274 | `'stat_storage_soc'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5346 | `'stat_storage_soc_cycle'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5366 | `'stat_storage_maxcap_fixed'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5382 | `'stat_storage_maxcap'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5409 | `'stat_storage_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5420 | `'stat_storage_inv_max_period'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5429 | `'stat_storage_inv_min_period'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5438 | `'stat_storage_inv_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5449 | `'stat_storage_inputmax'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5467 | `'stat_storage_outputmax'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5493 | `'max_transfer_systexpimp_pos_all'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5507 | `'max_transfer_systexpimp_pos_all'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5521 | `'max_transfer_systexpimp_pos_all_products'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5539 | `'max_transfer_systexpimp_pos'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5557 | `'max_transfer_systexpimp_neg'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5572 | `'max_transfer_corridor_total'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5600 | `'max_transfercap_terminal'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5643 | `'max_transfercap_terminal_maxperiod'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5662 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5669 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5676 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5683 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5714 | `'max_transfer_terminal_annual_pos'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5734 | `'max_transfer_terminal_annual_neg'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5782 | `'terminal_ship_route_fuel_export'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5793 | `'terminal_ship_route_fuel_import'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5833 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5869 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5878 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5918 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 5985 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6002 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6019 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6036 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6056 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6067 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6078 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6090 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6106 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6119 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6130 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6150 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6162 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6174 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6186 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6198 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6210 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6222 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6234 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6247 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6260 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6309 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6342 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6351 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6378 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6387 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6401 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6410 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6425 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6436 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6447 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6459 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6474 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6488 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6502 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6550 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6564 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6577 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6630 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6649 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6686 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6693 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6717 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6743 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6764 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6779 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6801 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6810 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6819 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 6831 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6841 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6856 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6890 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6837 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6847 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6862 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 6896 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6904 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6913 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6964 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6973 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7078 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7161 | `'max_output_dispatch'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7179 | `'max_output_nondisp'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7193 | `'max_output_nondisp'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7211 | `'max_output_hphs_gen'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7224 | `'max_output_hphs_pump'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7241 | `'max_output_hdam'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7259 | `'max_output_hror'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7273 | `'max_output_hror'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7291 | `'max_capacityyear'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7312 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7333 | `'el_balance'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7442 | `'equalityimpexp'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7461 | `'equalityimpexp_secc'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7491 | `'total_dem_zone_system'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7568 | `'total_gen_zone_system'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7609 | `'ceep_demand'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7651 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7669 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7685 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7698 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7713 | `'heat_pump_soc_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7725 | `'heat_pump_ind_capyear_balance_fixed'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7735 | `'heat_pump_ind_capyear_balance'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7748 | `'heat_pump_indstor_capyear_link'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7761 | `'heat_pump_ind_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7816 | `'electric_heat_ind_yoy_min'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7897 | `f'{constraint_name}[{zone},{System},{unit},{year},{week_periods[0]}]'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7928 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7938 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7950 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7960 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7975 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7989 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7999 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8009 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6902 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6910 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6919 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6970 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 6979 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7084 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7167 | `'max_output_dispatch'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7185 | `'max_output_nondisp'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7199 | `'max_output_nondisp'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7217 | `'max_output_hphs_gen'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7230 | `'max_output_hphs_pump'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7247 | `'max_output_hdam'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7265 | `'max_output_hror'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7279 | `'max_output_hror'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7297 | `'max_capacityyear'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7318 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7347 | `'el_balance'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7456 | `'equalityimpexp'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7475 | `'equalityimpexp_secc'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7508 | `'total_dem_zone_system'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7590 | `'total_gen_zone_system'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7631 | `'ceep_demand'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7673 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7691 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7707 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7720 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7735 | `'heat_pump_soc_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7747 | `'heat_pump_ind_capyear_balance_fixed'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7757 | `'heat_pump_ind_capyear_balance'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7770 | `'heat_pump_indstor_capyear_link'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7783 | `'heat_pump_ind_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7838 | `'electric_heat_ind_yoy_min'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7880 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7890 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7902 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7912 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7927 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7941 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7951 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7961 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7976 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7985 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 7994 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8004 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8013 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 8024 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8033 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8042 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8052 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8061 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8072 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8085 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8112 | `'heat_pump_soc_balance'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8125 | `'heat_pump_soc_balance_0'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8139 | `'heat_pump_soc_cycle'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8152 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8037 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8064 | `'heat_pump_soc_balance'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8077 | `'heat_pump_soc_balance_0'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8091 | `'heat_pump_soc_cycle'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8104 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8113 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8122 | `'heat_pump_cap_share'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8132 | `'heat_pump_dh_cap_share'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8142 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8151 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 8161 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8170 | `'heat_pump_cap_share'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8180 | `'heat_pump_dh_cap_share'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8171 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8181 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 8190 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8199 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8209 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8219 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8229 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8238 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8254 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8264 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8281 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8292 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8306 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8313 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8318 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8325 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8378 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8391 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8416 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8459 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8476 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8492 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8526 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8556 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8567 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8577 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8603 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8640 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8717 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8206 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8216 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8233 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8244 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8258 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8265 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8270 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8277 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8330 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8343 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8368 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8411 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8428 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8444 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8478 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8510 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8521 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8531 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8557 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8594 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8671 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8688 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8703 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 8734 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8749 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8780 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8794 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8810 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8824 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8839 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8850 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8861 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8901 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8912 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8925 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8938 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8973 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8990 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9010 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9125 | `'veh_transp_num_fixed_pin_lb'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9141 | `'veh_transp_num_fixed_pin_ub'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9155 | `'veh_stock_balance'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9186 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9211 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8748 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8764 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8778 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8793 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8804 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8815 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8855 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8866 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8879 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8892 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8927 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8944 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 8964 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9079 | `'veh_transp_num_fixed_pin_lb'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9095 | `'veh_transp_num_fixed_pin_ub'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9109 | `'veh_stock_balance'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9140 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9165 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9175 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9205 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 9221 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9251 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9236 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 9267 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9282 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9313 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9344 | `'veh_sector_total'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9398 | `f'transport_ice_hybrid_stock_share_non_increasing_{unit}_{sector}_{zone}_{System}_{year}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9411 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9480 | `'transport_energy_profile'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9519 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9623 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9636 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9649 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9675 | `f'transport_electrification_prev_floor_{sector}_{zone}_{System}_{year}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9711 | `f'transport_rail_electrification_link_{_base_sector}_{_other_sector}_{zone}_{System}_{year}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9733 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9753 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9808 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9856 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9883 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10060 | `f'transport_shift_baseline_energy_link_{_transport_baseline_annual_var_no}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10109 | `f'transport_fuel_annual_energy_link_{_transport_fuel_annual_var_no}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10148 | `f'transport_fuel_shift_{_transport_fuel_share_constr_no}_up'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10155 | `f'transport_fuel_shift_{_transport_fuel_share_constr_no}_down'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10217 | `f'transport_ice_hybrid_fossil_share_decline_{unit}_{sector}_{zone}_{System}_{period}_{year}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10245 | `f'transport_ice_hybrid_fossil_share_decline_annual_{unit}_{sector}_{zone}_{System}_{year}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10268 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10325 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10334 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9298 | `'veh_sector_total'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9352 | `f'transport_ice_hybrid_stock_share_non_increasing_{unit}_{sector}_{zone}_{System}_{year}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9365 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9434 | `'transport_energy_profile'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9473 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9582 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9595 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9608 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9634 | `f'transport_electrification_prev_floor_{sector}_{zone}_{System}_{year}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9670 | `f'transport_rail_electrification_link_{_base_sector}_{_other_sector}_{zone}_{System}_{year}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9692 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9712 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9767 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9815 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 9842 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10019 | `f'transport_shift_baseline_energy_link_{_transport_baseline_annual_var_no}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10068 | `f'transport_fuel_annual_energy_link_{_transport_fuel_annual_var_no}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10107 | `f'transport_fuel_shift_{_transport_fuel_share_constr_no}_up'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10114 | `f'transport_fuel_shift_{_transport_fuel_share_constr_no}_down'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10176 | `f'transport_ice_hybrid_fossil_share_decline_{unit}_{sector}_{zone}_{System}_{period}_{year}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10204 | `f'transport_ice_hybrid_fossil_share_decline_annual_{unit}_{sector}_{zone}_{System}_{year}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10227 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10324 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10336 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 10344 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10353 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10402 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10414 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10422 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10450 | `'efuel_genx'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10473 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10372 | `'efuel_genx'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10395 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10450 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10470 | `'efuel_inputs1'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10482 | `'efuel_inputs2'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10494 | `'efuel_inputs3'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10506 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10517 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 10528 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10548 | `'efuel_inputs1'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10560 | `'efuel_inputs2'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10572 | `'efuel_inputs3'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10584 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10595 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10539 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10553 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10579 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 10606 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 10617 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10631 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10657 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10684 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10695 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10706 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10729 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10746 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10760 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10774 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10815 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10829 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10839 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10848 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10878 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10628 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10651 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10668 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10682 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10696 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10737 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10751 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10761 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10770 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10800 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10821 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10840 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10859 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10879 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 10899 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10918 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10937 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10957 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10977 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11092 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11100 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11109 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11129 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11196 | `'fuel_storage_capacity_year_fixed'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11210 | `'fuel_storage_capacity_year'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11235 | `'fuel_storage_inv_period_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11245 | `'fuel_storage_inv_missing_limit_zero'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11255 | `'fuel_storage_total_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11270 | `'fuel_storage_initial_soc_zero'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11279 | `'fuel_storage_capacity'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11290 | `'fuel_storage_initial_capacity'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11368 | `'fuel_storage_terminal_balance'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11387 | `'fuel_storage_terminal_lb'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11396 | `'fuel_storage_terminal_ub'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11415 | `'fuel_boiler'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11426 | `'fuel_boiler_hour'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11443 | `'fuel_boiler_DH'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11455 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11475 | `'biomass_heating_nonincrease'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11500 | `'biomass_heating_nonincrease_from_previous'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11524 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11532 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11550 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11559 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11626 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11633 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11673 | `'raff_prod_gen_min'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11690 | `'raff_prod_gen_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11707 | `'raff_prod_gen_zero_missing'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11724 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11741 | `'raff_prod_gen_sum_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11816 | `f'oil_refinery_product_generation_change_up_{product}_{zone}_{system}_{year}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11826 | `f'oil_refinery_product_generation_change_down_{product}_{zone}_{system}_{year}'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11871 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11878 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11886 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11891 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11898 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11906 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11961 | `'oil_gas_storage_capacity'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11971 | `'oil_gas_initial_soc'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12002 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11014 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11022 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11031 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11051 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11118 | `'fuel_storage_capacity_year_fixed'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11132 | `'fuel_storage_capacity_year'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11157 | `'fuel_storage_inv_period_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11167 | `'fuel_storage_inv_missing_limit_zero'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11177 | `'fuel_storage_total_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11192 | `'fuel_storage_initial_soc_zero'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11201 | `'fuel_storage_capacity'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11212 | `'fuel_storage_initial_capacity'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11290 | `'fuel_storage_terminal_balance'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11309 | `'fuel_storage_terminal_lb'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11318 | `'fuel_storage_terminal_ub'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11337 | `'fuel_boiler'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11348 | `'fuel_boiler_hour'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11365 | `'fuel_boiler_DH'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11377 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11397 | `'biomass_heating_nonincrease'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11422 | `'biomass_heating_nonincrease_from_previous'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11446 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11454 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11472 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11481 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11548 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11555 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11595 | `'raff_prod_gen_min'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11612 | `'raff_prod_gen_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11629 | `'raff_prod_gen_zero_missing'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11646 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11663 | `'raff_prod_gen_sum_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11738 | `f'oil_refinery_product_generation_change_up_{product}_{zone}_{system}_{year}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11748 | `f'oil_refinery_product_generation_change_down_{product}_{zone}_{system}_{year}'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11793 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11800 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11808 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11813 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11820 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11828 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11883 | `'oil_gas_storage_capacity'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11893 | `'oil_gas_initial_soc'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11924 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11953 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11970 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11994 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12017 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 12031 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12048 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12072 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12095 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12109 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12139 | `'storage_level_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12165 | `'storage_level_cap_0'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12184 | `'storage_level_balance'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12203 | `'hdam_storage_gen_cap'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12222 | `'storage_level_cap_0'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12239 | `'storage_level_balance'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12256 | `'hdam_storage_gen_cap'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12276 | `'hphs_storage_level_max'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12287 | `'hphs_storage_level_cap_0'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12306 | `'hphs_storage_level_period'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12325 | `'hphs_storage_gen_cap'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12342 | `'hphs_storage_level_cap_0'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12362 | `'hphs_storage_level_period'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12381 | `'hphs_storage_gen_cap'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12443 | `'hydro_soc_cycle'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12624 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12645 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12667 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12689 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12710 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12730 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12751 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12773 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12061 | `'storage_level_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12087 | `'storage_level_cap_0'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12106 | `'storage_level_balance'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12125 | `'hdam_storage_gen_cap'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12144 | `'storage_level_cap_0'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12161 | `'storage_level_balance'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12178 | `'hdam_storage_gen_cap'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12198 | `'hphs_storage_level_max'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12209 | `'hphs_storage_level_cap_0'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12228 | `'hphs_storage_level_period'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12247 | `'hphs_storage_gen_cap'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12264 | `'hphs_storage_level_cap_0'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12284 | `'hphs_storage_level_period'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12303 | `'hphs_storage_gen_cap'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12365 | `'hydro_soc_cycle'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12548 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12569 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12591 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12613 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12634 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12654 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12675 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12697 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12719 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12742 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12758 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12775 | `(unnamed)` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 12795 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12818 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12834 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12851 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12871 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12892 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12913 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12940 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12960 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12967 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12974 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12988 | `'CO2_emissions_limit'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12997 | `'CO2_emissions_limit'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13026 | `'CO2_emissions_limit'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13096 | `'CO2_emissions_power'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13105 | `'CO2_emissions_power_zone'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13114 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13126 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13144 | `'CO2_emissions_heat'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13169 | `'CO2_emissions_heat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12816 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12837 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12864 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12884 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12891 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12898 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12914 | `'CO2_emissions_limit'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12923 | `'CO2_emissions_limit'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 12952 | `'CO2_emissions_limit'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13022 | `'CO2_emissions_power'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13031 | `'CO2_emissions_power_zone'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13040 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13052 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13070 | `'CO2_emissions_heat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13095 | `'CO2_emissions_heat'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13253 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13262 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13271 | `'CO2_emissions_industry'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13287 | `'CO2_emissions_industry'` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13309 | `'co2_emissions_transport_total'` |
 | `scripts/Build_model_dual_industry_categories_named_debug.py` | 13327 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13336 | `'CO2_emissions_industry'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13352 | `'CO2_emissions_industry'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13374 | `'co2_emissions_transport_total'` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13392 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13546 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13558 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13567 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13582 | `(unnamed)` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13611 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 289 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 316 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 344 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 375 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 403 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 457 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 515 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 572 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 607 | `'h2_terminal_capital_cost'` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 611 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 647 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 681 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 718 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 751 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 785 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 813 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 842 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 875 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 916 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 964 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1008 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1101 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1144 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1187 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1257 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1304 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1340 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1384 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1428 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1458 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1486 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1522 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1560 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1568 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1578 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1616 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1653 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1686 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1720 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1749 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1777 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1813 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1850 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1858 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1868 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1904 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1950 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1978 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2007 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2044 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2088 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2138 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2170 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2201 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2249 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2286 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2320 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2373 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2432 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2491 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2545 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2687 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2688 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2693 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2694 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2695 | `'HP_fOPEX_years'` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2696 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2697 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2698 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2700 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2704 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2708 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13483 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13495 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13504 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13519 | `(unnamed)` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13548 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 303 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 330 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 358 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 389 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 417 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 471 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 529 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 586 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 621 | `'h2_terminal_capital_cost'` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 625 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 661 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 695 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 732 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 765 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 799 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 827 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 856 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 889 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 930 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 978 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1022 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1115 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1158 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1201 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1271 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1318 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1354 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1398 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1442 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1472 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1500 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1536 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1574 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1582 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1592 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1630 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1667 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1700 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1734 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1763 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1791 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1827 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1864 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1872 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1882 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1918 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1964 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 1992 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2021 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2058 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2102 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2152 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2184 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2215 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2263 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2300 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2334 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2387 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2446 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2505 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2559 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2675 | `'transport_infrastructure_fixed_opex'` |
 | `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2709 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2710 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2715 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2716 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2717 | `'HP_fOPEX_years'` |
 | `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2718 | `(unnamed)` |
 | `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2719 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2720 | `(unnamed)` |
 | `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2722 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2739 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2757 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2776 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2794 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2812 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2831 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2862 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2883 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2899 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2919 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2920 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2922 | `'h2_terminal_fixed_cost'` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2926 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2946 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2957 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2971 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3230 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3338 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3344 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3351 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3357 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3364 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2726 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2730 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2731 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2740 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2741 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2744 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2761 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2779 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2798 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2816 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2834 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2853 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2884 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2905 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2921 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2941 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2942 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2944 | `'h2_terminal_fixed_cost'` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2948 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2968 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2979 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2993 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3255 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3363 | `(unnamed)` |
 | `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3369 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3386 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3402 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3428 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3440 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3376 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3382 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3389 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3394 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3411 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3427 | `(unnamed)` |
 | `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3453 | `(unnamed)` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3498 | `'noloadel_penalty_cost_scaled'` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3465 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3478 | `(unnamed)` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3523 | `'noloadel_penalty_cost_scaled'` |
 | `scripts/complex_industry_accounting.py` | 135 | `f'industry_source_CO2_annual_{len(ledger)}'` |
 | `scripts/complex_industry_investment_limits.py` | 87 | `f'complex_{variable_name}_limit_{sha1(repr(key).encode()).hexdigest()[:12]}'` |
 | `scripts/industry_heat_pumps.py` | 183 | `f'industry_hp_capacity_{index}_{period}_{year}'` |
 | `scripts/industry_heat_pumps.py` | 206 | `f'industry_hp_eligible_{index}_{threshold}_{wi}_{year}'` |
 | `scripts/industry_heat_pumps.py` | 210 | `f'industry_hp_source_{index}_{period}_{year}'` |
-| `scripts/industry_annual_s_curve.py` | 134 | `f'industry_electric_annual_link_{suffix}_{service_idx}_{year}'` |
-| `scripts/industry_annual_s_curve.py` | 150 | `f'industry_electric_annual_decrease_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 164 | `f'industry_electric_annual_growth_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 167 | `f'industry_electric_annual_taper_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 171 | `f'industry_electric_annual_growth_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 287 | `f'ifs_annual_link_{suffix}_{index}_{year}'` |
-| `scripts/industry_annual_s_curve.py` | 323 | `f'ifs_adoption_floor_{suffix}_{idx}_{year}'` |
-| `scripts/industry_annual_s_curve.py` | 328 | `f'ifs_phaseout_ceiling_{suffix}_{idx}_{year}'` |
-| `scripts/industry_annual_s_curve.py` | 351 | `f'ifsra_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 355 | `f'ifsrt_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 357 | `f'ifsrn_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 359 | `f'ifsrd_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 363 | `f'ifsrz_{suffix}_{idx}'` |
-| `scripts/industry_annual_s_curve.py` | 365 | `f'ifsri_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 156 | `f'industry_electric_annual_link_{suffix}_{service_idx}_{year}'` |
+| `scripts/industry_annual_s_curve.py` | 172 | `f'industry_electric_annual_decrease_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 178 | `f'industry_electric_completion_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 194 | `f'industry_electric_annual_growth_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 197 | `f'industry_electric_annual_taper_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 201 | `f'industry_electric_annual_growth_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 339 | `f'ifs_annual_link_{suffix}_{index}_{year}'` |
+| `scripts/industry_annual_s_curve.py` | 369 | `f'ifs_completion_{suffix}_{idx}_{year}'` |
+| `scripts/industry_annual_s_curve.py` | 378 | `f'ifsri_{suffix}_{idx}_{year}'` |
+| `scripts/industry_annual_s_curve.py` | 381 | `f'ifsrn_{suffix}_{idx}_{year}'` |
+| `scripts/industry_annual_s_curve.py` | 406 | `f'ifs_adoption_floor_{suffix}_{idx}_{year}'` |
+| `scripts/industry_annual_s_curve.py` | 411 | `f'ifs_phaseout_ceiling_{suffix}_{idx}_{year}'` |
+| `scripts/industry_annual_s_curve.py` | 434 | `f'ifsra_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 438 | `f'ifsrt_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 440 | `f'ifsrn_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 442 | `f'ifsrd_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 446 | `f'ifsrz_{suffix}_{idx}'` |
+| `scripts/industry_annual_s_curve.py` | 448 | `f'ifsri_{suffix}_{idx}'` |
 | `scripts/transport_pathways.py` | 330 | `f'retrofit_source_exit_{parent}_{zone}_{system}_{year}'` |
 | `scripts/transport_pathways.py` | 340 | `f'retrofit_existing_stock_{parent}_{zone}_{system}_{year}'` |
 | `scripts/transport_pathways.py` | 482 | `f'compat_annual_{label}_{unit}_{zone}_{system}_{year}'` |
@@ -1053,6 +1089,52 @@ See [full constraint inventory](inventory/model_constraint_calls.csv) for flag/f
 | `scripts/h2_terminals.py` | 225 | `f'h2_terminal_ship_departure[{y},{p},{r}]'` |
 | `scripts/h2_terminals.py` | 229 | `f'h2_terminal_ship_average[{y},{p},{r}]'` |
 | `scripts/h2_terminals.py` | 244 | `f'h2_terminal_fleet_capacity[{y},{p},{fleet}]'` |
+| `scripts/electricity_dsm.py` | 178 | `'dsm_budget_positive' + label` |
+| `scripts/electricity_dsm.py` | 179 | `'dsm_budget_negative' + label` |
+| `scripts/electricity_dsm.py` | 198 | `'dsm_repayment_abs_positive' + label` |
+| `scripts/electricity_dsm.py` | 199 | `'dsm_repayment_abs_negative' + label` |
+| `scripts/electricity_dsm.py` | 207 | `f'dsm_shared_repayment[{end},{deadline},{year},{zone},{system}]'` |
+| `scripts/electricity_dsm.py` | 244 | `f'dsm_fixed_capacity[{zone},{system},{year}]'` |
+| `scripts/electricity_dsm.py` | 265 | `'dsm_abs_positive' + label` |
+| `scripts/electricity_dsm.py` | 266 | `'dsm_abs_negative' + label` |
+| `scripts/electricity_dsm.py` | 267 | `'dsm_energy_balance' + label` |
+| `scripts/electricity_dsm.py` | 269 | `'dsm_budget_accumulation' + label` |
+| `scripts/electricity_dsm.py` | 274 | `f'dsm_block_closure[{name},{end},{year},{zone},{system}]'` |
+| `scripts/electricity_dsm.py` | 278 | `'dsm_weighted_closure'` |
+| `scripts/electricity_dsm.py` | 281 | `'dsm_weighted_budget'` |
+| `scripts/electricity_dsm.py` | 292 | `'dsm_total_shift' + label` |
+| `scripts/electricity_dsm.py` | 294 | `'dsm_total_absolute' + label` |
+| `scripts/electricity_dsm.py` | 296 | `'dsm_total_energy' + label` |
+| `scripts/electricity_dsm.py` | 298 | `'dsm_shared_power_capacity' + label` |
+| `scripts/industrial_carbon_balances.py` | 42 | `f'CO2_source_storage_balance[{unit},{zone},{system},{period},{year}]'` |
+| `scripts/industrial_carbon_balances.py` | 95 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 106 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 107 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 108 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 109 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 113 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 118 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 119 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 122 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 124 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 145 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 146 | `(unnamed)` |
+| `scripts/industrial_carbon_balances.py` | 159 | `f'CO2_process_routing[{zone},{system},{period},{year}]'` |
+| `scripts/industrial_carbon_balances.py` | 191 | `f'CO2_process_gross[{year},{system}]'` |
+| `scripts/industrial_carbon_balances.py` | 192 | `f'CO2_non_process_balance[{year},{system}]'` |
+| `scripts/industrial_carbon_balances.py` | 194 | `f'CO2_process_net_balance[{year},{system}]'` |
+| `scripts/simple_industry_model.py` | 167 | `f'simple_industry_electricity_balance[{p},{h},{y}]'` |
+| `scripts/simple_industry_model.py` | 170 | `f'simple_industry_direct_emissions[{p},{h},{y}]'` |
+| `scripts/simple_industry_model.py` | 172 | `f'simple_industry_material_balance[{p},{h},{y}]'` |
+| `scripts/simple_industry_model.py` | 181 | `f'simple_industry_profile[{p},{h},{y}]'` |
+| `scripts/simple_industry_model.py` | 186 | `'simple_industry_ramp_up'` |
+| `scripts/simple_industry_model.py` | 187 | `'simple_industry_ramp_down'` |
+| `scripts/simple_industry_model.py` | 191 | `'simple_industry_terminal_stock'` |
+| `scripts/simple_industry_model.py` | 212 | `name` |
+| `scripts/simple_industry_model.py` | 216 | `name` |
+| `scripts/simple_industry_model.py` | 222 | `f'simple_industry_export_limit[{m},{y}]'` |
+| `scripts/simple_industry_model.py` | 232 | `f'simple_industry_import_hour_limit[{p},{h},{y}]'` |
+| `scripts/simple_industry_model.py` | 238 | `f'simple_industry_import_year_limit[{p},{y}]'` |
 
 ## Variable definitions
 
@@ -1060,332 +1142,352 @@ See [variable inventory](inventory/model_variable_calls.csv) for bounds, types a
 
 | Source | Line | Name / naming expression | Type |
 |---|---:|---|---|
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1019 | `(unnamed)` | `Gurobi default continuous` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1036 | `(unnamed)` | `Gurobi default continuous` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1047 | `'gen_output'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1048 | `'hphs_pumpback'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1049 | `'ceep_period'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1050 | `'capacity_Investment'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1051 | `'noloadel'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1053 | `'import_pay_additional_cost_ETS'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1055 | `'import_pay_additional_cost_ETS_secc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1057 | `'generationcapyear'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1059 | `'CBAM_cost'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1061 | `'CBAM_cost_secc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1063 | `'CBAM_cost_out'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1067 | `'transfer_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1068 | `'transfer_cap_hour_prim'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1069 | `'transfer_cap_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1071 | `'transfer_cap_outside'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1073 | `'transfer_cap_outside_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1075 | `'import_outside'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1076 | `'export_outside'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1078 | `'import_zone_system'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1079 | `'export_zone_system'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1083 | `'transfer_cap_hour_secc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1086 | `'ETS_cost'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1087 | `'national_carbon_cost'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1089 | `'CO2_total_PP'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1090 | `'CO2_total_PP_zone'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1092 | `'CO2_total_elect'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1093 | `'CO2_total_heat'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1094 | `'CO2_total_industry'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1095 | `'CO2_total_refinery'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1096 | `'CO2_total_refinery_zone'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1097 | `'CO2_total_transport'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1098 | `'CO2_total_steamgas'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1101 | `'Storage_level_Hydro'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1102 | `'storage_level0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1104 | `'sto_out_flow_Hydro'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1109 | `'power_to_h2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1110 | `'h2_sto_soc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1111 | `'h2_sto_soc0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1112 | `'h2_storage_out'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1113 | `'h2_storage_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1114 | `'h2_electrolysis_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1115 | `'h2_electrolysis_gen'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1116 | `'H2_sto_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1117 | `'cap_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1118 | `'FC_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1119 | `'generation_H2_steam'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1120 | `'new_H2_steam'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1121 | `'H2_steamcap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1124 | `'FC_capacity_Investment'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1125 | `'gen_output_FuelCell'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1131 | `'fuel_ind_consumpt'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1132 | `'boiler_industry_generation'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1133 | `'boiler_industry_generation_cap_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1136 | `'industry_share_fuel_annual'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1151 | `'industry_share_fuel'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1155 | `'boiler_industry_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1156 | `'elInd'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1159 | `'CC_industry_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1160 | `'CC_industry_gen'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1161 | `'CC_industry_cap_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1162 | `'CO2_CC_el_dem'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1163 | `'CO2_CC_el_dem_tot'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1167 | `'CC_tank_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1168 | `'CC_tank_cap_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1170 | `'CO2_amine_stor_SOC'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1171 | `'CO2_amine_stor_SOC0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1173 | `'CC_reboiler_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1174 | `'CO2_stripper_react'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1175 | `'CC_reboiler_cap_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1176 | `'CO2_stripper_react_heat_dem'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1177 | `'CO2_stripper_react_el_dem'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1178 | `'CO2_gen_tot'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1181 | `'Carbon_DAC'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1182 | `'Carbon_DAC_new_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1183 | `'Carbon_DAC_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1187 | `'CO2_storage_cap_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1188 | `'CO2_storage_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1189 | `'CO2_storage_SOC'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1190 | `'CO2_storage_SOC0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1191 | `'CO2_storage_in'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1192 | `'CO2_storage_out'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1197 | `'efuel_gen_new_cap_gen'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1201 | `'veh_energy_prim'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1203 | `'ICE_energy_transp_prim'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1206 | `'ICE_energy_transp_primsecc_sum_fuel'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1210 | `'fuel_industry_hours'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1211 | `'fuel_industry_hour_CO2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1212 | `'fuel_dem'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1213 | `'fuel_demyear'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1214 | `'fuel_dem_prod'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1215 | `'fuel_demand'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1216 | `'fuel_dem_prod_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1217 | `'fuel_dem_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1219 | `'efuelinput1'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1220 | `'efuelinput2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1221 | `'efuelinput3'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1223 | `'feedstock_tot'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1224 | `'feedstock_tot1'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1225 | `'feedstock_tot2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1226 | `'feedstock_tot3'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1230 | `'fuel_boil'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1231 | `'fuel_boil_hour'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1233 | `'fuel_boil_DH'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1234 | `'fuel_boil_DH_hour'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1236 | `'fuel_gen_power'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1238 | `'PE_power_tot'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1240 | `'PE_power_CHP_tot'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1242 | `'fuel_SOC'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1243 | `'fuel_SOC_0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1249 | `'fuel_storage_cap_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1250 | `'fuel_storage_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1254 | `'oil_products_gen'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1255 | `'oil_gas_storage'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1256 | `'raf_oil_dem'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1259 | `'oil_gas_SOC'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1260 | `'oil_gas_SOC0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1262 | `'oil_gas_extraction'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1263 | `'oil_gas_reserves'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1266 | `'generation_H2_steam_gas'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1270 | `'transfer_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1271 | `'transfer_cap_hour_prim'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1272 | `'transfer_cap_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1274 | `'transfer_cap_outside'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1276 | `'transfer_cap_outside_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1278 | `'import_outside'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1279 | `'export_outside'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1281 | `'import_zone_system'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1282 | `'export_zone_system'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1285 | `'import_zone_system_terminal'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1286 | `'export_zone_system_terminal'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1287 | `'import_zone_system_terminal_outside'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1288 | `'export_zone_system_terminal_outside'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1290 | `'transfer_cap_terminal'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1291 | `'transfer_cap_new_terminal'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1294 | `'emiss_generation_transport'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1295 | `'emiss_generation_industry'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1296 | `'emiss_generation_power_generation'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1297 | `'emiss_generation_CHP'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1298 | `'emiss_generation_individual_heating'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1299 | `'emiss_generation_DH'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1300 | `'transport_emiss_cleaning'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1304 | `'ind_sto_soc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1305 | `'ind_sto_soc0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1306 | `'ind_sto_capacity'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1307 | `'ind_sto_capacity_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1315 | `'import_zone_system_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1316 | `'export_zone_system_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1318 | `'h2_comp_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1319 | `'h2_comp_cap_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1321 | `'transfer_cap_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1322 | `'transfer_cap_new_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1324 | `'transfer_cap_outside_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1325 | `'transfer_cap_outside_new_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1327 | `'import_outside_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1328 | `'export_outside_H2'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1333 | `'transformer_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1334 | `'substation_cap_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1342 | `'stat_sto_in_out'` | `Gurobi default continuous` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1350 | `'stat_charge'` | `Gurobi default continuous` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1351 | `'stat_discharge'` | `Gurobi default continuous` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1363 | `'stat_sto_soc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1364 | `'stat_sto_soc0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1365 | `'stat_sto_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1368 | `'stat_sto_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1370 | `'demand_el_zone_system'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1371 | `'gen_el_zone_system'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1377 | `'import_zone_system_secc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1378 | `'export_zone_system_secc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1384 | `'veh_sto_soc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1385 | `'veh_sto_soc0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1387 | `'veh_sto_max'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1388 | `'veh_Grid_P_max'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1392 | `'veh_sto_in_out'` | `Gurobi default continuous` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1401 | `'veh_charge'` | `Gurobi default continuous` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1402 | `'veh_discharge'` | `Gurobi default continuous` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1422 | `'veh_transp_num'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1423 | `'veh_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1424 | `'veh_decom'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1426 | `'EV_infr_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1427 | `'H2_infr_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1429 | `'EV_infr_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1430 | `'H2_infr_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1433 | `'veh_energy_prim'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1435 | `'CO2_transp'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1450 | `'heat_pump_dh'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1451 | `'heat_pump_ind'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1454 | `'heat_pump_out'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1455 | `'heat_pump_indstor_capyear'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1456 | `'heatpump_sto_soc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1457 | `'heat_pump_sto_soc0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1464 | `'Heat_pump_df_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1465 | `'Heat_pump_ind_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1467 | `'heat_pump_ind_capyear'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1468 | `'heat_pump_dh_capyear'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1474 | `'heat_pump_ind_share'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1475 | `'heat_pump_ind_maxhour'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1476 | `'heat_pump_dh_share'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1477 | `'heat_pump_dh_maxhour'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1480 | `'cool_pump_dh'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1481 | `'cool_pump_ind'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1485 | `'trad_boilers_Heat_dh'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1486 | `'trad_boilers_Heat_ind'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1487 | `'capacity_Investment_ind_boiler'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1488 | `'trad_boiler_dh_cap_inv'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1490 | `'trad_boiler_ind_capyear'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1491 | `'boiler_dh_capyear'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1495 | `'boiler_ind_share'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1496 | `'boiler_ind_maxhour'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1497 | `'boiler_dh_share'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1498 | `'boiler_dh_maxhour'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1502 | `'Res_to_Heat'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1505 | `'unmet_dh_heat'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1506 | `'unmet_indv_heat'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1518 | `'unmet_industry_heat'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1533 | `'solar_gen_heat'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1534 | `'solar_gen_heat_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1535 | `'solar_gen_heat_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1536 | `'solar_gen_heat_year_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1539 | `'solar_stor_heat_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1540 | `'solar_stor_soc'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1541 | `'solar_stor_soc0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1542 | `'solar_stor_heat_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1544 | `'solar_stor_output'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1546 | `'solar_gen_indv_heat'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1547 | `'solar_gen_heat_indv_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1548 | `'solar_gen_indv_heat_cap'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1552 | `'solar_ind_share'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1558 | `'heat_from_elect_storage_input'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1559 | `'heat_storage_level'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1560 | `'heat_sto_level0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1563 | `'STOCapacity_heat_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1564 | `'STOCapacity_heat_new'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1569 | `'cool_storage_level'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1570 | `'cool_sto_level0'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1573 | `'STOCapacity_cool_year'` | `GRB.CONTINUOUS` |
-| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1574 | `'STOCapacity_cool_new'` | `GRB.CONTINUOUS` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1560 | `'stage2_quantity_guidance_slack_under'` | `GRB.CONTINUOUS` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1565 | `'stage2_quantity_guidance_slack_over'` | `GRB.CONTINUOUS` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10048 | `f'transport_shift_baseline_energy_gwh_{_transport_baseline_annual_var_no}'` | `GRB.CONTINUOUS` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10096 | `f'transport_fuel_annual_energy_gwh_{_transport_fuel_annual_var_no}'` | `GRB.CONTINUOUS` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11382 | `'rolling_terminal_fuel_soc_slack'` | `GRB.CONTINUOUS` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13551 | `'rolling_carbon_budget_slack'` | `GRB.CONTINUOUS` |
-| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13581 | `'fuel_dem_zone'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 202 | `'inv_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 203 | `'inv_cost_disp_no_CHP_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 204 | `'inv_cost_CHP_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 205 | `'statCapInvCost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 207 | `'CAPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 209 | `'el_line_infr_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 210 | `'el_line_infr_yearout'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 211 | `'product_line_infr_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 212 | `'product_line_infr_yearout'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 213 | `'terminal_line_infr_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 215 | `'el_substation_costyear'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 216 | `'h2_pump_costyear'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 218 | `'H2_line_infr_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 219 | `'H2_line_infr_yearout'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 221 | `'inv_cost_efuel_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 222 | `'inv_cost_DAC_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 224 | `'inv_cost_solar_heat_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 225 | `'inv_cost_solar_stor_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 226 | `'inv_cost_solar_indv_heat_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 227 | `'ind_boiler_inv_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 228 | `'inv_cost_FuelCell_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 229 | `'heat_pump_cap_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 230 | `'inv_cost_boiler_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 231 | `'h2_storage_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 232 | `'h2_CAPEX_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 233 | `'transport_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 234 | `'transport_ev_infr_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 235 | `'transport_fcev_infr_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 237 | `'steam_gas_inv_year_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 238 | `'el_substation_inv_year_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 240 | `'inv_cost_heatstor_dh_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 241 | `'inv_cost_coolstor_dh_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 242 | `'ind_sto_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 245 | `'ind_CC_inv_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 246 | `'ind_CC_tank_inv_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 247 | `'ind_CC_reboiler_inv_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 250 | `'CO2_storage_inv_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2599 | `'generators_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2600 | `'statCapInvCost_fix_OPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2606 | `'solar_gen_DH_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2607 | `'solar_gen_indv_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2608 | `'HP_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2609 | `'HP_indv_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2610 | `'boiler_indv_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2611 | `'boiler_DH_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2612 | `'heatstor_DH_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2619 | `'coolstor_DH_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2624 | `'industry_boil_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2625 | `'FC_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2626 | `'veh_transp_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2628 | `'CO2_stor_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2632 | `'H2_stor_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2633 | `'H2_gen_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2637 | `'industry_CC_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2638 | `'CC_tank_cap_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2639 | `'reboiler_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2643 | `'efuel_fOPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2646 | `'el_line_infr_fix_OPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2647 | `'el_line_infr_out_fix_OPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2648 | `'terminal_line_infr_fix_OPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2652 | `'H2_line_infr_fix_OPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2653 | `'H2_line_infr_out_fix_OPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2657 | `'fix_OPEX_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3015 | `'per_mw1_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3020 | `'ramp_up_cost_var_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3021 | `'ramp_down_cost_var_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3022 | `'statToPowert_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3023 | `'V2G_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3027 | `'costCO2per_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3029 | `'imp_zone_var_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3030 | `'exp_zone_var_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3033 | `'imp_zone_secc_var_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3034 | `'exp_zone_secc_var_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3038 | `'export_cost_year_H2'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3039 | `'import_cost_year_H2'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3207 | `'ceep_cost_year'` | `GRB.CONTINUOUS` |
-| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3208 | `'noload_el_penalty'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 992 | `(unnamed)` | `Gurobi default continuous` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1009 | `(unnamed)` | `Gurobi default continuous` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1020 | `'gen_output'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1021 | `'hphs_pumpback'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1022 | `'ceep_period'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1023 | `'capacity_Investment'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1024 | `'noloadel'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1026 | `'import_pay_additional_cost_ETS'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1028 | `'import_pay_additional_cost_ETS_secc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1030 | `'generationcapyear'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1032 | `'CBAM_cost'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1034 | `'CBAM_cost_secc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1036 | `'CBAM_cost_out'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1040 | `'transfer_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1041 | `'transfer_cap_hour_prim'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1042 | `'transfer_cap_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1044 | `'transfer_cap_outside'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1046 | `'transfer_cap_outside_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1048 | `'import_outside'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1049 | `'export_outside'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1051 | `'import_zone_system'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1052 | `'export_zone_system'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1056 | `'transfer_cap_hour_secc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1059 | `'ETS_cost'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1060 | `'national_carbon_cost'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1062 | `'CO2_total_PP'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1063 | `'CO2_total_PP_zone'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1065 | `'CO2_total_elect'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1066 | `'CO2_total_heat'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1067 | `'CO2_total_industry'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1068 | `'CO2_total_refinery'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1069 | `'CO2_total_refinery_zone'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1070 | `'CO2_total_transport'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1071 | `'CO2_total_steamgas'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1074 | `'Storage_level_Hydro'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1075 | `'storage_level0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1077 | `'sto_out_flow_Hydro'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1082 | `'power_to_h2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1083 | `'h2_sto_soc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1084 | `'h2_sto_soc0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1085 | `'h2_storage_out'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1086 | `'h2_storage_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1087 | `'h2_electrolysis_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1088 | `'h2_electrolysis_gen'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1089 | `'H2_sto_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1090 | `'cap_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1091 | `'FC_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1092 | `'generation_H2_steam'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1093 | `'new_H2_steam'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1094 | `'H2_steamcap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1097 | `'FC_capacity_Investment'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1098 | `'gen_output_FuelCell'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1104 | `'fuel_ind_consumpt'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1105 | `'boiler_industry_generation'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1106 | `'boiler_industry_generation_cap_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1109 | `'industry_share_fuel_annual'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1124 | `'industry_share_fuel'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1128 | `'boiler_industry_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1129 | `'elInd'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1132 | `'CC_industry_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1133 | `'CC_industry_gen'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1134 | `'CC_industry_cap_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1135 | `'CO2_CC_el_dem'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1136 | `'CO2_CC_el_dem_tot'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1140 | `'CC_tank_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1141 | `'CC_tank_cap_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1143 | `'CO2_amine_stor_SOC'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1144 | `'CO2_amine_stor_SOC0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1146 | `'CC_reboiler_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1147 | `'CO2_stripper_react'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1148 | `'CC_reboiler_cap_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1149 | `'CO2_stripper_react_heat_dem'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1150 | `'CO2_stripper_react_el_dem'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1151 | `'CO2_gen_tot'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1154 | `'Carbon_DAC'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1155 | `'Carbon_DAC_new_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1156 | `'Carbon_DAC_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1160 | `'CO2_storage_cap_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1161 | `'CO2_storage_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1162 | `'CO2_storage_SOC'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1163 | `'CO2_storage_SOC0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1164 | `'CO2_storage_in'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1165 | `'CO2_storage_out'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1170 | `'efuel_gen_new_cap_gen'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1174 | `'veh_energy_prim'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1176 | `'ICE_energy_transp_prim'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1179 | `'ICE_energy_transp_primsecc_sum_fuel'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1183 | `'fuel_industry_hours'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1184 | `'fuel_industry_hour_CO2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1185 | `'fuel_dem'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1186 | `'fuel_demyear'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1187 | `'fuel_dem_prod'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1188 | `'fuel_demand'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1189 | `'fuel_dem_prod_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1190 | `'fuel_dem_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1192 | `'efuelinput1'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1193 | `'efuelinput2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1194 | `'efuelinput3'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1196 | `'feedstock_tot'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1197 | `'feedstock_tot1'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1198 | `'feedstock_tot2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1199 | `'feedstock_tot3'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1203 | `'fuel_boil'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1204 | `'fuel_boil_hour'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1206 | `'fuel_boil_DH'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1207 | `'fuel_boil_DH_hour'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1209 | `'fuel_gen_power'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1211 | `'PE_power_tot'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1213 | `'PE_power_CHP_tot'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1215 | `'fuel_SOC'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1216 | `'fuel_SOC_0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1222 | `'fuel_storage_cap_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1223 | `'fuel_storage_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1227 | `'oil_products_gen'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1228 | `'oil_gas_storage'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1229 | `'raf_oil_dem'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1232 | `'oil_gas_SOC'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1233 | `'oil_gas_SOC0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1235 | `'oil_gas_extraction'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1236 | `'oil_gas_reserves'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1239 | `'generation_H2_steam_gas'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1243 | `'transfer_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1244 | `'transfer_cap_hour_prim'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1245 | `'transfer_cap_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1247 | `'transfer_cap_outside'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1249 | `'transfer_cap_outside_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1251 | `'import_outside'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1252 | `'export_outside'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1254 | `'import_zone_system'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1255 | `'export_zone_system'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1258 | `'import_zone_system_terminal'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1259 | `'export_zone_system_terminal'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1260 | `'import_zone_system_terminal_outside'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1261 | `'export_zone_system_terminal_outside'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1263 | `'transfer_cap_terminal'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1264 | `'transfer_cap_new_terminal'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1267 | `'emiss_generation_transport'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1268 | `'emiss_generation_industry'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1269 | `'emiss_generation_power_generation'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1270 | `'emiss_generation_CHP'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1271 | `'emiss_generation_individual_heating'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1272 | `'emiss_generation_DH'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1273 | `'transport_emiss_cleaning'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1277 | `'ind_sto_soc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1278 | `'ind_sto_soc0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1279 | `'ind_sto_capacity'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1280 | `'ind_sto_capacity_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1288 | `'import_zone_system_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1289 | `'export_zone_system_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1291 | `'h2_comp_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1292 | `'h2_comp_cap_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1294 | `'transfer_cap_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1295 | `'transfer_cap_new_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1297 | `'transfer_cap_outside_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1298 | `'transfer_cap_outside_new_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1300 | `'import_outside_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1301 | `'export_outside_H2'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1306 | `'transformer_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1307 | `'substation_cap_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1315 | `'stat_sto_in_out'` | `Gurobi default continuous` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1323 | `'stat_charge'` | `Gurobi default continuous` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1324 | `'stat_discharge'` | `Gurobi default continuous` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1336 | `'stat_sto_soc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1337 | `'stat_sto_soc0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1338 | `'stat_sto_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1341 | `'stat_sto_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1343 | `'demand_el_zone_system'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1344 | `'gen_el_zone_system'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1350 | `'import_zone_system_secc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1351 | `'export_zone_system_secc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1357 | `'veh_sto_soc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1358 | `'veh_sto_soc0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1360 | `'veh_sto_max'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1361 | `'veh_Grid_P_max'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1365 | `'veh_sto_in_out'` | `Gurobi default continuous` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1374 | `'veh_charge'` | `Gurobi default continuous` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1375 | `'veh_discharge'` | `Gurobi default continuous` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1395 | `'veh_transp_num'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1396 | `'veh_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1397 | `'veh_decom'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1402 | `'veh_energy_prim'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1404 | `'CO2_transp'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1419 | `'heat_pump_dh'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1420 | `'heat_pump_ind'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1423 | `'heat_pump_out'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1424 | `'heat_pump_indstor_capyear'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1425 | `'heatpump_sto_soc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1426 | `'heat_pump_sto_soc0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1433 | `'Heat_pump_df_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1434 | `'Heat_pump_ind_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1436 | `'heat_pump_ind_capyear'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1437 | `'heat_pump_dh_capyear'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1443 | `'heat_pump_ind_share'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1444 | `'heat_pump_ind_maxhour'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1445 | `'heat_pump_dh_share'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1446 | `'heat_pump_dh_maxhour'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1449 | `'cool_pump_dh'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1450 | `'cool_pump_ind'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1454 | `'trad_boilers_Heat_dh'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1455 | `'trad_boilers_Heat_ind'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1456 | `'capacity_Investment_ind_boiler'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1457 | `'trad_boiler_dh_cap_inv'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1459 | `'trad_boiler_ind_capyear'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1460 | `'boiler_dh_capyear'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1464 | `'boiler_ind_share'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1465 | `'boiler_ind_maxhour'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1466 | `'boiler_dh_share'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1467 | `'boiler_dh_maxhour'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1471 | `'Res_to_Heat'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1474 | `'unmet_dh_heat'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1475 | `'unmet_indv_heat'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1487 | `'unmet_industry_heat'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1502 | `'solar_gen_heat'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1503 | `'solar_gen_heat_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1504 | `'solar_gen_heat_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1505 | `'solar_gen_heat_year_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1508 | `'solar_stor_heat_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1509 | `'solar_stor_soc'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1510 | `'solar_stor_soc0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1511 | `'solar_stor_heat_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1513 | `'solar_stor_output'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1515 | `'solar_gen_indv_heat'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1516 | `'solar_gen_heat_indv_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1517 | `'solar_gen_indv_heat_cap'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1521 | `'solar_ind_share'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1527 | `'heat_from_elect_storage_input'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1528 | `'heat_storage_level'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1529 | `'heat_sto_level0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1532 | `'STOCapacity_heat_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1533 | `'STOCapacity_heat_new'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1538 | `'cool_storage_level'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1539 | `'cool_sto_level0'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1542 | `'STOCapacity_cool_year'` | `GRB.CONTINUOUS` |
+| `scripts/reading_prev_and_vars_def_dual_industry_categories1.py` | 1543 | `'STOCapacity_cool_new'` | `GRB.CONTINUOUS` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1566 | `'stage2_quantity_guidance_slack_under'` | `GRB.CONTINUOUS` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 1571 | `'stage2_quantity_guidance_slack_over'` | `GRB.CONTINUOUS` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10007 | `f'transport_shift_baseline_energy_gwh_{_transport_baseline_annual_var_no}'` | `GRB.CONTINUOUS` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 10055 | `f'transport_fuel_annual_energy_gwh_{_transport_fuel_annual_var_no}'` | `GRB.CONTINUOUS` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 11304 | `'rolling_terminal_fuel_soc_slack'` | `GRB.CONTINUOUS` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13488 | `'rolling_carbon_budget_slack'` | `GRB.CONTINUOUS` |
+| `scripts/Build_model_dual_industry_categories_named_debug.py` | 13518 | `'fuel_dem_zone'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 216 | `'inv_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 217 | `'inv_cost_disp_no_CHP_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 218 | `'inv_cost_CHP_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 219 | `'statCapInvCost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 221 | `'CAPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 223 | `'el_line_infr_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 224 | `'el_line_infr_yearout'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 225 | `'product_line_infr_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 226 | `'product_line_infr_yearout'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 227 | `'terminal_line_infr_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 229 | `'el_substation_costyear'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 230 | `'h2_pump_costyear'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 232 | `'H2_line_infr_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 233 | `'H2_line_infr_yearout'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 235 | `'inv_cost_efuel_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 236 | `'inv_cost_DAC_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 238 | `'inv_cost_solar_heat_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 239 | `'inv_cost_solar_stor_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 240 | `'inv_cost_solar_indv_heat_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 241 | `'ind_boiler_inv_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 242 | `'inv_cost_FuelCell_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 243 | `'heat_pump_cap_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 244 | `'inv_cost_boiler_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 245 | `'h2_storage_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 246 | `'h2_CAPEX_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 247 | `'transport_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 248 | `'transport_ev_infr_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 249 | `'transport_fcev_infr_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 251 | `'steam_gas_inv_year_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 252 | `'el_substation_inv_year_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 254 | `'inv_cost_heatstor_dh_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 255 | `'inv_cost_coolstor_dh_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 256 | `'ind_sto_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 259 | `'ind_CC_inv_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 260 | `'ind_CC_tank_inv_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 261 | `'ind_CC_reboiler_inv_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 264 | `'CO2_storage_inv_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2613 | `'generators_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2614 | `'statCapInvCost_fix_OPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2620 | `'solar_gen_DH_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2621 | `'solar_gen_indv_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2622 | `'HP_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2623 | `'HP_indv_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2624 | `'boiler_indv_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2625 | `'boiler_DH_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2626 | `'heatstor_DH_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2633 | `'coolstor_DH_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2638 | `'industry_boil_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2639 | `'FC_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2640 | `'veh_transp_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2642 | `'CO2_stor_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2646 | `'H2_stor_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2647 | `'H2_gen_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2651 | `'industry_CC_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2652 | `'CC_tank_cap_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2653 | `'reboiler_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2657 | `'efuel_fOPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2660 | `'el_line_infr_fix_OPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2661 | `'el_line_infr_out_fix_OPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2662 | `'terminal_line_infr_fix_OPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2666 | `'H2_line_infr_fix_OPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2667 | `'H2_line_infr_out_fix_OPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2671 | `'fix_OPEX_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 2673 | `'transport_infrastructure_fOPEX_year'` | `Gurobi default continuous` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3040 | `'per_mw1_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3045 | `'ramp_up_cost_var_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3046 | `'ramp_down_cost_var_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3047 | `'statToPowert_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3048 | `'V2G_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3052 | `'costCO2per_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3054 | `'imp_zone_var_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3055 | `'exp_zone_var_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3058 | `'imp_zone_secc_var_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3059 | `'exp_zone_secc_var_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3063 | `'export_cost_year_H2'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3064 | `'import_cost_year_H2'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3232 | `'ceep_cost_year'` | `GRB.CONTINUOUS` |
+| `scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py` | 3233 | `'noload_el_penalty'` | `GRB.CONTINUOUS` |
 | `scripts/complex_industry_accounting.py` | 133 | `f'industry_source_CO2_{len(ledger)}'` | `Gurobi default continuous` |
-| `scripts/industry_annual_s_curve.py` | 125 | `f'industry_electric_annual_{suffix}_{service_idx}_{year}'` | `Gurobi default continuous` |
-| `scripts/industry_annual_s_curve.py` | 285 | `f'ifs_annual_{suffix}_{index}_{year}'` | `Gurobi default continuous` |
+| `scripts/industry_annual_s_curve.py` | 147 | `f'industry_electric_annual_{suffix}_{service_idx}_{year}'` | `Gurobi default continuous` |
+| `scripts/industry_annual_s_curve.py` | 337 | `f'ifs_annual_{suffix}_{index}_{year}'` | `Gurobi default continuous` |
 | `scripts/transport_emissions.py` | 80 | `'transport_co2_block'` | `Gurobi default continuous` |
 | `scripts/h2_terminals.py` | 112 | `name` | `Gurobi default continuous` |
 | `scripts/h2_terminals.py` | 114 | `name` | `Gurobi default continuous` |
 | `scripts/h2_terminals.py` | 116 | `name` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 196 | `f'dsm_repayment_abs[{name},{end},{year},{zone},{system}]'` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 235 | `f'dsm_capacity[{zone},{system},{year}]'` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 258 | `'dsm_class_shift' + label` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 259 | `'dsm_class_abs_shift' + label` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 260 | `'dsm_class_energy' + label` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 261 | `'dsm_class_budget_used' + label` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 288 | `'dsm_shift' + label` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 289 | `'dsm_abs_shift' + label` | `Gurobi default continuous` |
+| `scripts/electricity_dsm.py` | 290 | `'dsm_energy' + label` | `Gurobi default continuous` |
+| `scripts/industrial_carbon_balances.py` | 72 | `'CC_industry_process_gen'` | `Gurobi default continuous` |
+| `scripts/industrial_carbon_balances.py` | 73 | `'CO2_process_stripper_react'` | `Gurobi default continuous` |
+| `scripts/industrial_carbon_balances.py` | 78 | `'CO2_process_amine_SOC'` | `Gurobi default continuous` |
+| `scripts/industrial_carbon_balances.py` | 79 | `'CO2_process_amine_SOC0'` | `Gurobi default continuous` |
+| `scripts/industrial_carbon_balances.py` | 156 | `'CO2_process_to_use'` | `Gurobi default continuous` |
+| `scripts/industrial_carbon_balances.py` | 170 | `'CO2_total_industry_process'` | `Gurobi default continuous` |
+| `scripts/industrial_carbon_balances.py` | 171 | `'CO2_total_non_process'` | `Gurobi default continuous` |
+| `scripts/industrial_carbon_balances.py` | 174 | `'CO2_net_industry_process'` | `Gurobi default continuous` |
+| `scripts/simple_industry_model.py` | 131 | `'simple_industry_output'` | `Gurobi default continuous` |
+| `scripts/simple_industry_model.py` | 132 | `'simple_industry_stock'` | `Gurobi default continuous` |
+| `scripts/simple_industry_model.py` | 133 | `'simple_industry_electricity'` | `Gurobi default continuous` |
+| `scripts/simple_industry_model.py` | 134 | `'simple_industry_direct_co2'` | `Gurobi default continuous` |
+| `scripts/simple_industry_model.py` | 135 | `'simple_industry_sales'` | `Gurobi default continuous` |
+| `scripts/simple_industry_model.py` | 180 | `f'simple_industry_day_rate[{p},{day_key},{y}]'` | `Gurobi default continuous` |

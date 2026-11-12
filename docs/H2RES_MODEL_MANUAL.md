@@ -1,6 +1,8 @@
 # H2RES model manual
 
-**Documented model:** `D:\POSAO\H2RES_1.11.2026`. **Documentation edition:** 1 November 2026. The [source/version inventory](inventory/documented_version.json) identifies the exact files reviewed. The model is separate from the data-preparation interface.
+**Documented model:** `D:\POSAO\H2RES_12.11.2026`. **Documentation edition:** 12 November 2026. The [source/version inventory](inventory/documented_version.json) identifies the exact files reviewed. The model is separate from the data-preparation interface.
+
+The expanded [mathematical formulation](MATHEMATICAL_FORMULATION.md) supplies 62 numbered equations with source anchors and physical interpretation. Use the [main configuration guide](MAIN_CONFIGURATION_GUIDE.md) for detailed workflow/combination instructions and the [complete option reference](MODEL_OPTION_REFERENCE.md) for every recorded main/policy setting. The equations below retain the original narrative overview and complement the more detailed formulation chapter.
 
 ## 1. Model purpose, lineage and scientific use
 
@@ -59,9 +61,9 @@ The [configuration reference](CODE_REFERENCE.md) lists source assignments and li
 
 ### 3.1 Observed local selection
 
-The reviewed `main.py` uses scenario name `industry_testx`, `Myopic=True`, `partial_perfect_foresight=True`, heating and transport/industry enabled, e-fuels enabled, category industry enabled and complex industry disabled. Category electricity is `conservative`, industrial category storage is enabled, and industry fuel-share/S-curve controls are enabled. Solar individual/DH heating and cooling switches are disabled in this snapshot; model availability and a currently enabled option are different matters.
+The reviewed `main.py` uses scenario name `industry_CC_5y`, `Myopic=True`, `partial_perfect_foresight=False`, heating and transport/industry enabled, e-fuels enabled, category industry enabled and complex industry disabled. Category electricity is `conservative`, industrial category storage is enabled, and industry fuel-share/S-curve controls are enabled. Solar individual/DH heating and cooling switches are disabled in this snapshot; model availability and a currently enabled option are different matters.
 
-The snapshot also has transport pathway corrections/electrification/share ceilings enabled, standalone H2 transmission and standalone terminals disabled, and `disable_transport_infrastructure=True`. The latter is labelled a debugging setting in the source: do not describe EV/FCEV infrastructure investment as active in a study using that setting.
+The snapshot also has transport pathway corrections/electrification/share ceilings enabled, standalone H2 transmission and standalone terminals disabled, and `disable_transport_infrastructure=False`. Transport infrastructure is therefore not suppressed by that debug switch. Product based simple industry and both daily/weekly electricity DSM are disabled in the delivered selection; they are documented in sections 19 and 20.
 
 ### 3.2 Mutually exclusive or dependent modes
 
@@ -71,7 +73,7 @@ The model policy defaults complex sector selection to `Non_metallic_minerals`; p
 
 ### 3.3 Input workbook selection
 
-Technology file selection follows regular/category/complex and e-fuel flags. Category e-fuel conservative mode selects `flex_tech_efuel_categories_electricity_review.xlsx`; its technical alternative selects the corresponding `_electricity_technical_2050.xlsx`. Complex electricity variants change the complex workbook name. The retained legacy combined category/complex workbooks are not a supported simultaneous mode. See [data reference](DATA_REFERENCE.md) for the exact mapping.
+Technology file selection follows regular/category/complex and e-fuel flags. Category e-fuel conservative mode now selects `data/flex_tech_efuel_categories.xlsx`; its technical alternative selects `data/variants/technical_2050/flex_tech_efuel_categories.xlsx`. Complex electricity variants select the corresponding `industry_complex*_electricity_technical_2050.xlsx` process workbook while retaining their normal flex-tech filename. Categories and complex industry are alternatives. See the [visual user guide](H2RES_USER_GUIDE.md) and [data reference](DATA_REFERENCE.md) for the exact mapping.
 
 ## 4. Spatial and temporal representation
 
@@ -337,7 +339,7 @@ Exact coefficients/scaling and alternate branches are in the carbon-limit rows. 
 
 Capture capacity, rate, heat/electricity demand, reboiler capacity and optional intermediate storage impose technical and economic constraints. `model_CC`, post-generation CO2 storage and e-fuel CO2 feedstock are different switches. One can retain parts of the e-fuel CO2 handling even when a broader CC setting is disabled.
 
-An optional separated industry-process/other-carbon representation restricts which captured streams can enter geological storage. It is disabled in the reviewed snapshot. Untagged imported CO2 does not automatically become a certified process stream. Reuse of CO2 in e-fuels should not be described as permanent sequestration.
+The separated industry-process/other-carbon representation restricts which captured streams can enter geological storage. It is enabled in this snapshot through `separate_industry_process_carbon_balances=True`; `model_CC`, amine storage and post-generation CO2 storage are also enabled. `complex_industry_process_capture_required=False` leaves process-capture deployment to the applicable carbon and technical constraints rather than universally forcing it. Untagged imported CO2 does not automatically become a certified process stream. Reuse of CO2 in e-fuels should not be described as permanent sequestration.
 
 ### 13.3 Renewable electricity share
 
@@ -369,16 +371,17 @@ For a native model run, work in the model's own folder, set a fresh scenario nam
 
 For a preparation-generated bundle, read `bundle_manifest.json`, `validation.json`, `scenario.json` and process-generation metadata. The generated integration launcher points at an existing model installation. Its default is input-reader-only; `--solve` explicitly requests construction/optimization. The preparation GUI does not invoke it.
 
-### 15.2 Separate integration example
+### 15.2 Separate preparation integration
 
-These commands belong to the model integration workflow, after preparation:
+This validation command belongs to the model integration workflow, after preparation:
 
 ```powershell
-python outputs_complex_HR/model_inputs/run_model_scenario.py --model-root "D:\POSAO\H2RES_1.11.2026"
-python outputs_complex_HR/model_inputs/run_model_scenario.py --model-root "D:\POSAO\H2RES_1.11.2026" --solve
+python outputs_all_HR/data/run_model_scenario.py --model-root "D:\POSAO\H2RES_12.11.2026"
 ```
 
-The first command reads inputs. The second builds and solves, using the configured model workflow and a fresh scenario name. Do not substitute a stale bundle merely because filenames exist. Adapter compatibility is version-specific; inspect model/source hashes when moving to another release.
+This command reads inputs without requesting optimization. Do not substitute a stale bundle merely because filenames exist. Adapter compatibility is version-specific; inspect model/source hashes when moving to another release.
+
+The preparation contract was developed against the 2 November native layout. A current legacy bundle is not evidence that the new product-industry workbook, DSM assumptions or every later model extension has been generated or validated. Use the adapter validation output before considering a solve; this documentation did not validate that adapter against a full 12 November solve. Run the native model directly for the script-based workflow described in the visual guide.
 
 ### 15.3 Resume and historical decisions
 
@@ -393,6 +396,8 @@ The cost script selects the primary solver method and applies numerical scaling/
 Solver status and engineering quality must be reported separately. `OPTIMAL` means the solver's optimality criteria were met for the constructed problem and tolerances; it does not validate input realism. `TIME_LIMIT` or `SUBOPTIMAL` may have a usable incumbent but are not equivalent to a certified optimum. `INFEASIBLE`, `INF_OR_UNBD` and numerical failures require different diagnoses [R28](REFERENCES.md#r28), [R29](REFERENCES.md#r29).
 
 Inspect primal constraint/bound violations, dual/residual information where meaningful, objective/bound gap and the model's physical balance audit. Numerical row scaling can make a small solver residual correspond to a different MW/MWh/tCO2 violation. Read the physical-unit gates before accepting exports. Do not use a higher tolerance merely to remove an inconvenient policy or stock inconsistency.
+
+The delivered `main.py` has `solver_allow_provisional_solution=True` and `solver_postoptimal_checks_warn_only=True`. Consequently, a finished export can contain warnings or a provisional solution: completion alone is not a strict quality certificate. Runtime policy also requires annual capture-quality checks and sets a 0.1 physical-energy tolerance and a 0.001-tonne amine-mass tolerance in their applicable checks. Read the exported status and physical audits together with the actual branch that produced them; a warning is not proof that a gate stopped the run.
 
 A barrier solution without crossover can lack a conventional simplex basis; shadow prices or recovery behavior need careful interpretation. Memory exhaustion can occur during building, presolve, factorization or export, and should not be labelled proof of physical infeasibility. Gurobi's numerical guidelines explain the general distinctions; the local configured thresholds are in the configuration inventory.
 
@@ -418,10 +423,50 @@ Check that representative-period additive quantities are annualized exactly once
 
 This documentation was produced by static source/input review and reference checking. It did not execute a fresh national solve. Local preparation reports establish bounded reader/schema/source-reconciliation results; they do not independently establish all model modes or years.
 
-The supplied folder also contains a critical-correction/rebuild harness and verification files describing unpromoted candidates. In particular its `verification.json` distinguishes component tests, synthetic workflow fixtures and user-reported remote transition evidence, with no real local checkpoint promoted in that report. Historical run instructions and comments must not be cited as proof that those candidate fixes are active or that a full transition passed locally.
+The supplied folder contains the unified-model implementation notes, component regression tools, and a historical critical-correction/rebuild harness. The current `docs/UNIFIED_MODEL.md` describes the integration of simple industry, electricity CBAM history handling and DSM. These are distinct from older verification files describing unpromoted candidates. In particular its `verification.json` distinguishes component tests, synthetic workflow fixtures and user-reported remote transition evidence, with no real local checkpoint promoted in that report. Historical run instructions and comments must not be cited as proof that those candidate fixes are active or that a full transition passed locally.
 
 Validate the exact production objective and physical constraints in the documented source, then compare any proposed correction with its checkpoint/diff and acceptance certificate. A source hash, accepted transition log and scenario/input identity are stronger evidence than a filename such as `corrected` or a comment claiming a previous optimal case.
 
 Principal study limitations are deterministic future inputs, spatial aggregation/proxies, sampled chronology in applicable modes, continuous transport stock, inherited technology/fuel compatibility assumptions, incomplete lifecycle/non-CO2 accounting, terminal aggregation, possible data-duplicate reconciliation and country-specific calibration gaps. The [assumptions register](ASSUMPTIONS_AND_LIMITATIONS.md) makes these limitations explicit.
 
 For a publishable run, archive the exact model/inputs, environment, flags/policies, source references/hashes, solve logs, quality certificates, decision/history files, representative weights and scripts producing reported tables/figures. Cite the H2RES scientific formulation and the actual data/technology references, while stating that this local version includes later extensions.
+
+
+## 19. Basic electricity demand-side management in this version
+
+`scripts/electricity_dsm.py` adds lossless load shifting to basic electricity demand. It does not automatically shift all heating, transport or industrial service demands. `DSM_day`, `DSM_week`, `dsm_energy_budget_active` and `dsm_availability_ramp_active` are all false in the delivered `main.py`. See the [visual guide](H2RES_USER_GUIDE.md) for activation and the supplied [detailed DSM implementation notes](model_notes_2026_11_12/ELECTRICITY_DSM.md) for time-mode behavior and regression scope.
+
+Runtime policy defines a 7% daily-capable energy pool that includes a 1.5% weekly-capable subset. With both classes enabled, 5.5% balances daily and 1.5% balances weekly. These are scenario upper bounds on moved energy, not measured Croatian loads or compulsory dispatch. The default rollout reaches its target in 2030 from the global base year. The separate shared hourly adjustment cap is 10% of baseline load; available-power cost is EUR 10,000/MW/year and activation cost EUR 5 per MWh moved.
+
+For original hourly load `b[h]`, signed class adjustments `x[c,h]`, absolute adjustments `a[c,h]` and available power `K`, the main restrictions are:
+
+```text
+new_basic_load[h] = b[h] + sum_c x[c,h]
+a[c,h] >= x[c,h]; a[c,h] >= -x[c,h]
+sum_c a[c,h] <= K
+sum_c a[c,h] <= hourly_shift_fraction * b[h]
+sum_(h in block) x[c,h] = 0
+0.5 * sum_(h in block) a[c,h] <= class_energy_fraction * sum_(h in block) b[h]
+```
+
+The half-absolute sum counts each moved MWh once. Daily blocks have 24 hours and weekly blocks 168, anchored at model hour 1; the last incomplete block also closes. Opposite class shifts share power and cannot cancel their capacity use. A symmetric 10% hourly cap can limit moved energy to 5% of block load even when the energy allowance is 7%. These are different constraints. This model does not represent individual appliance deadlines, load shedding or cross-zone demand relocation.
+
+Review `dsm_hourly_YEAR.csv`, `dsm_classes_YEAR.csv`, `dsm_summary_YEAR.csv` and `dsm_assumptions.json`. Compare original and adjusted demand, net block energy, moved MWh, available power and enabling/activation costs. Changing budgets or rollout can invalidate existing histories and capacity bundles.
+
+Demand-response background is provided by [R35](REFERENCES.md#r35), [R36](REFERENCES.md#r36) and [R37](REFERENCES.md#r37); these sources do not validate the local energy-pool percentages or costs.
+
+## 20. Product based simple industry and regional trade
+
+This is a separate optional representation, selected by `model_simple_industry=True` and `simple_industry_dat='./data/simple_industry.xlsx'`. It is different from the worksheet named `simple_industry` inside a flex-tech workbook: that worksheet is the legacy pooled-service remainder. The new external workbook contains fixed industrial product recipes, physical plants and product markets. The delivered model leaves this mode off.
+
+Enabling product industry configures the electricity-and-product-industry run and disables overlapping legacy transport/industry, category/complex, e-fuel, hydrogen and industrial capture/storage blocks. Heating retains its switch. Active example systems are HR, RS and BA through `simple_industry_active_zones` in model policy. Independent switches control industrial CBAM, domestic carbon pricing, outside imports, optional outside exports and flexible steel operation. Only one electricity CBAM option may be selected; electricity CBAM and product CBAM are separate accounts.
+
+The workbook uses `plants`, `inputs_per_tonne`, `economics`, `fuel_prices`, `markets`, `market_years`, `carbon_policy`, `import_suppliers`, `import_years`, `trade_routes`, `profiles`, `baseline_load` and `metadata`. Production is tonnes per one-hour interval, electricity is MWh/t, non-electric recipes GJ/t and carbon factors tCO2/GJ. Supply ceilings, grid limits and inventories limit dispatch; nameplate capacity does not require production. Fixed-operation plants remain constant within each calendar day after availability adjustment; flexible plants may vary hourly under their limits.
+
+Mandatory product markets must be supplied. Regional plants can trade; bounded outside offers are available only under their applicable switches and eligibility. One supplier's annual budget is shared across destinations. No unlimited emergency source or automatic demand reduction is introduced. Origin tracking preserves supplier footprints for final-destination carbon charging and separates territorial direct emissions from embedded trade emissions. Prices are prescribed; there is no endogenous steel-price equilibrium.
+
+The supplied RS BF-BOF and BA scrap-EAF plants, external supplier prices/footprints and rest-of-Europe supply are illustrative scenario inputs, not calibrated named installations. The example requires RS 800,000, BA 300,000 and HR 1,000,000 tonnes/year, plus 134,000,000 tonnes/year for Europe outside HR. The European background offer serves that Europe market, not a bypass for domestic import restrictions. Check every price, quantity and route before drawing policy conclusions.
+
+`baseline_load` specifies already-existing plant electricity to remove from the basic profile. Example removals are zero, so example plant loads are additions. Calibrating a real plant requires a defensible removal to avoid counting the same demand twice. Likewise, do not enter coke carbon in both the fuel recipe and process-carbon field.
+
+Review `simple_industry_hourly.csv`, `simple_industry_fuels.csv`, `simple_industry_sales.csv`, `simple_industry_markets.csv`, `simple_industry_summary.csv`, `simple_industry_imports.csv`, `simple_industry_demand.csv`, `simple_industry_cbam_borders.csv`, `simple_industry_fiscal.csv` and the applicable levelized-cost summary. For field-level operation, trade budgets and capital/CBAM allocation, use the supplied [simple-industry implementation notes](model_notes_2026_11_12/SIMPLE_INDUSTRY.md). The [unified-model notes](model_notes_2026_11_12/UNIFIED_MODEL.md) report bounded component/8760-hour example evidence and known baseline regression exceptions; they do not certify a full national transition solve.

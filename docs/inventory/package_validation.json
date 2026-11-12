@@ -1,9 +1,10 @@
 {
   "archive": "H2RES_DOCUMENTATION_PACKAGE.zip",
-  "files": 37,
-  "bytes": 2668657,
-  "sha256": "bc8698fddb60ab2d67f50fdd83fc91489edf0346dd17bcba57748630d97c85db",
+  "files": 272,
+  "bytes": 12732928,
+  "sha256": "6fa7db10d18e56f7b585de35ba2fa247723d1544f7820fe2dec67ae075ef01a2",
   "crc_and_file_hashes_verified": true,
   "source_datasets_included": false,
+  "focused_manual_local_links_verified": 218,
   "model_executed": false
 }

@@ -362,6 +362,38 @@
     "verification": "Maintainer repository opened."
   },
   {
+    "id": "R35",
+    "author": "Heitkoetter, Wilko and Schyska, Bruno U. and Schmidt, Danielle and Medjroubi, Wided and Vogt, Thomas and Agert, Carsten",
+    "year": "2020",
+    "title": "Assessment of the regionalised demand response potential in Germany using an open source tool and dataset",
+    "type": "article",
+    "doi": "10.48550/arXiv.2009.05122",
+    "url": "https://arxiv.org/abs/2009.05122",
+    "use": "Regional demand-response methods and cost-potential background. German results do not calibrate Croatian residual basic-load DSM or the local 7%/1.5% assumptions.",
+    "verification": "Primary author preprint landing page, author list and abstract checked 12 November 2026; no numerical transfer or full-text replication claimed."
+  },
+  {
+    "id": "R36",
+    "author": "Gils, Hans Christian",
+    "year": "2016",
+    "title": "Economic potential for future demand response in Germany – Modeling approach and case study",
+    "type": "article",
+    "doi": "10.1016/j.apenergy.2015.10.083",
+    "url": "https://elib.dlr.de/99320/",
+    "use": "Demand-response modeling and sensitivity background, Applied Energy 162, 401–415. Not a country-specific calibration of local DSM costs.",
+    "verification": "Primary DLR repository metadata and abstract checked 12 November 2026. Repository lists 2015 publication/deposit metadata; journal volume is conventionally cited as 2016 in the supplied model notes."
+  },
+  {
+    "id": "R37",
+    "author": "DIETERpy project",
+    "year": "n.d.",
+    "title": "Objective Function — DIETERpy documentation",
+    "type": "online",
+    "url": "https://diw-evu.gitlab.io/dieter_public/dieterpy/model/equations/eq_objective.html",
+    "use": "Primary model documentation illustrating annualized DSM enabling/fixed and activation-cost terms. H2RES uses its own moved-energy counting convention.",
+    "verification": "Primary documentation equations and DSM sections checked 12 November 2026; no assertion that the two models have identical formulations."
+  },
+  {
     "id": "H01",
     "author": "Rózsai, M. and Jaxa-Rozen, M. and Salvucci, R. and Sikora, P. and Gea Bermudez, J. and Neuwahl, F.",
     "year": "2026",

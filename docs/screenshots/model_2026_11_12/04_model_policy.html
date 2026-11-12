@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Physical and transition assumptions</title><style>
+*{box-sizing:border-box}body{margin:0;background:#edf1f5;color:#142d40;font:16px 'Segoe UI',Arial}
+header{background:#153d54;color:white;padding:22px 30px}header small{color:#b9d7e8;text-transform:uppercase;letter-spacing:1px}
+h1{margin:8px 0;font-size:26px}header p{margin:6px 0;color:#d9e8ef;font-size:14px}.body{margin:22px 30px;background:white;border:1px solid #c8d5de;border-radius:6px;padding:20px}
+.badge{display:inline-block;background:#dceef5;color:#174969;font-size:13px;padding:6px 10px;margin:0 8px 15px 0;border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{border:1px solid #d4dfe7;padding:9px;text-align:left;overflow-wrap:anywhere;vertical-align:top}th{background:#e5eff6}tr:nth-child(even){background:#f5f8fa}
+pre{font:16px/1.62 Consolas,monospace;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}code .num{display:inline-block;width:48px;color:#8697a3;user-select:none}code .comment{color:#537850}.code{background:#f8fafc}
+footer{margin:16px 30px;color:#526d80;font-size:13px}.tabs{font-size:13px;line-height:2.1;margin-top:16px;color:#35617a}.active{background:#d9ebf7;font-weight:bold;padding:3px 6px;border-bottom:3px solid #166996}
+.directory table{font-size:13px}.directory td,.directory th{padding:6px}
+</style></head><body><header><small>H2RES 12 November 2026 · read-only documentation view</small><h1>Physical and transition assumptions</h1><p>policy/model_policy.py</p><p>Actual local file contents · source excerpt / table preview · no model execution</p></header><div class="body"><div class="badge">Lines 1–26</div><pre><code><span class="num">1</span><span>&quot;&quot;&quot;Non-boolean model and policy inputs loaded by main.py.</span>
+<span class="num">2</span><span></span>
+<span class="num">3</span><span>Keep scenario switches and input-file paths in main.py.  This file contains</span>
+<span class="num">4</span><span>the entered values that would otherwise make the main entry point difficult to</span>
+<span class="num">5</span><span>review.  It is executed in main.py&#x27;s global namespace, so the variable names</span>
+<span class="num">6</span><span>remain fully backward compatible with the existing scripts.</span>
+<span class="num">7</span><span>&quot;&quot;&quot;</span>
+<span class="num">8</span><span></span>
+<span class="num">9</span><span class="comment"># Annual generation build limits: the validated OPTIMAL 2045 case doubled</span>
+<span class="num">10</span><span class="comment"># these four workbook limits. Total installed-capacity ceilings stay separate.</span>
+<span class="num">11</span><span>generation_annual_build_limit_multipliers = {</span>
+<span class="num">12</span><span>    &quot;HR_Wind&quot;: 2.0,</span>
+<span class="num">13</span><span>    &quot;HR_Wind_1&quot;: 2.0,</span>
+<span class="num">14</span><span>    &quot;HR_PV&quot;: 2.0,</span>
+<span class="num">15</span><span>    &quot;HR_PV_1&quot;: 2.0,</span>
+<span class="num">16</span><span>}</span>
+<span class="num">17</span><span></span>
+<span class="num">18</span><span class="comment"># Land-use and heating assumptions</span>
+<span class="num">19</span><span>dh_chp_heat_max_annual_change = 0.25  # Both directions; fixed fraction of each plant&#x27;s base-year heat output</span>
+<span class="num">20</span><span>dh_chp_heat_reduction_limit_years = 10  # Limit decreases through base_year + 10; increases remain limited in all years</span>
+<span class="num">21</span><span>dh_chp_heat_history_tolerance_mwh = 1.0  # Numerical tolerance for completed history only; model limits stay exact</span>
+<span class="num">22</span><span>individual_gas_heat_max_annual_change = 0.25  # Both directions; fraction of each individual gas boiler&#x27;s base-year heat output</span>
+<span class="num">23</span><span>individual_gas_heat_reduction_limit_years = 5  # Limit decreases through base_year + 5; increases remain limited in all years</span>
+<span class="num">24</span><span>fossil_heating_history_tolerance_mwh = 1.0  # Numerical tolerance when checking already completed annual heat history</span>
+<span class="num">25</span><span>fossil_boiler_phaseout_years = {&quot;coal&quot;: 2030, &quot;gas&quot;: 2035, &quot;oil&quot;: 2035}  # Linear annual heat caps from base-year output; no CHP</span>
+<span class="num">26</span><span>dh_chp_base_year_heat_targets_twh = {</span>
+</code></pre></div><footer>Source excerpt, lines 1–26. Read the surrounding implementation before editing.<br>Browser documentation view; not an IDE, Excel or the desktop model GUI. Original files are unchanged.</footer></body></html>

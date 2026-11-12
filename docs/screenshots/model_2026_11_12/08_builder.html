@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Constraint construction and accounting helpers</title><style>
+*{box-sizing:border-box}body{margin:0;background:#edf1f5;color:#142d40;font:16px 'Segoe UI',Arial}
+header{background:#153d54;color:white;padding:22px 30px}header small{color:#b9d7e8;text-transform:uppercase;letter-spacing:1px}
+h1{margin:8px 0;font-size:26px}header p{margin:6px 0;color:#d9e8ef;font-size:14px}.body{margin:22px 30px;background:white;border:1px solid #c8d5de;border-radius:6px;padding:20px}
+.badge{display:inline-block;background:#dceef5;color:#174969;font-size:13px;padding:6px 10px;margin:0 8px 15px 0;border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}th,td{border:1px solid #d4dfe7;padding:9px;text-align:left;overflow-wrap:anywhere;vertical-align:top}th{background:#e5eff6}tr:nth-child(even){background:#f5f8fa}
+pre{font:16px/1.62 Consolas,monospace;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}code .num{display:inline-block;width:48px;color:#8697a3;user-select:none}code .comment{color:#537850}.code{background:#f8fafc}
+footer{margin:16px 30px;color:#526d80;font-size:13px}.tabs{font-size:13px;line-height:2.1;margin-top:16px;color:#35617a}.active{background:#d9ebf7;font-weight:bold;padding:3px 6px;border-bottom:3px solid #166996}
+.directory table{font-size:13px}.directory td,.directory th{padding:6px}
+</style></head><body><header><small>H2RES 12 November 2026 · read-only documentation view</small><h1>Constraint construction and accounting helpers</h1><p>scripts/Build_model_dual_industry_categories_named_debug.py</p><p>Actual local file contents · source excerpt / table preview · no model execution</p></header><div class="body"><div class="badge">Lines 40–63</div><pre><code><span class="num">40</span><span>import inspect</span>
+<span class="num">41</span><span>import numpy as np</span>
+<span class="num">42</span><span>import pandas as pd</span>
+<span class="num">43</span><span>import matplotlib.pyplot as plt</span>
+<span class="num">44</span><span>import shutil</span>
+<span class="num">45</span><span>from collections import defaultdict</span>
+<span class="num">46</span><span>from pathlib import Path</span>
+<span class="num">47</span><span>from scripts.investment_windows import investment_windows, aggregate_annual_limits</span>
+<span class="num">48</span><span>from scripts.numeric_scaling import balanced_row_divisor, coefficient_range_row_divisor</span>
+<span class="num">49</span><span>from scripts.scaled_transport_variables import transport_scale</span>
+<span class="num">50</span><span>from scripts.transport_history import historical_stock</span>
+<span class="num">51</span><span>from scripts.energy_accounting import (</span>
+<span class="num">52</span><span>    equivalent_electricity as _equivalent_electricity,</span>
+<span class="num">53</span><span>    power_fuel_input as _power_fuel_input,</span>
+<span class="num">54</span><span>    refinery_product_energy as _refinery_product_energy,</span>
+<span class="num">55</span><span>    refinery_process_fuel_share as _refinery_process_fuel_share,</span>
+<span class="num">56</span><span>    validate_heat_recipe_supply,</span>
+<span class="num">57</span><span>)</span>
+<span class="num">58</span><span>from scripts.energy_balance_audit import reset_balance_registry, register_balance_rows</span>
+<span class="num">59</span><span>reset_balance_registry(globals())</span>
+<span class="num">60</span><span></span>
+<span class="num">61</span><span class="comment"># Reset per build: the shared execution namespace may contain earlier models.</span>
+<span class="num">62</span><span>_dh_heat_balance_rows = {}</span>
+<span class="num">63</span><span></span>
+</code></pre></div><footer>Source excerpt, lines 40–63. Read the surrounding implementation before editing.<br>Browser documentation view; not an IDE, Excel or the desktop model GUI. Original files are unchanged.</footer></body></html>

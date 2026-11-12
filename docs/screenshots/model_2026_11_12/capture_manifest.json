@@ -1,0 +1,329 @@
+{
+  "model_root": "D:\\POSAO\\H2RES_12.11.2026",
+  "date": "2026-11-12",
+  "method": "Headless Chromium screenshots of explicitly labelled read-only documentation views of actual local files.",
+  "model_executed": false,
+  "desktop_gui_included": false,
+  "views": [
+    {
+      "id": "01_main",
+      "title": "Start here: scenario, policy loading and planning switches",
+      "source": "main.py",
+      "source_sha256": "6ab5a16ede93b1149ac82d2e74003db06928a9ca4780dab575c14a36d44298b0",
+      "detail": "Source excerpt, lines 1\u201324. Read the surrounding implementation before editing.",
+      "html": "01_main.html",
+      "image": "01_main.png",
+      "image_sha256": "b6be96c6def5b7ba1bae5380d94c2d7badaab658824a3997e5f5da4c2f7d90a1"
+    },
+    {
+      "id": "02_industry_switches",
+      "title": "Select legacy, category, complex or product industry",
+      "source": "main.py",
+      "source_sha256": "6ab5a16ede93b1149ac82d2e74003db06928a9ca4780dab575c14a36d44298b0",
+      "detail": "Source excerpt, lines 80\u2013104. Read the surrounding implementation before editing.",
+      "html": "02_industry_switches.html",
+      "image": "02_industry_switches.png",
+      "image_sha256": "a8ef81c33689805119c82344ae1970b5a0191b50170a028bf06b4a9a51987aa8"
+    },
+    {
+      "id": "03_file_selection",
+      "title": "How the model selects its input workbooks",
+      "source": "main.py",
+      "source_sha256": "6ab5a16ede93b1149ac82d2e74003db06928a9ca4780dab575c14a36d44298b0",
+      "detail": "Source excerpt, lines 316\u2013342. Read the surrounding implementation before editing.",
+      "html": "03_file_selection.html",
+      "image": "03_file_selection.png",
+      "image_sha256": "35f4d1a9f2a4e0d1145c2dd0d18ae67a78d74b56c32a24de53d8f3dd5d094958"
+    },
+    {
+      "id": "04_model_policy",
+      "title": "Physical and transition assumptions",
+      "source": "policy/model_policy.py",
+      "source_sha256": "dc76ab36aa6529c74aabe092608ad3a07ca1542ba21cbd58a24464a29fb04d4c",
+      "detail": "Source excerpt, lines 1\u201326. Read the surrounding implementation before editing.",
+      "html": "04_model_policy.html",
+      "image": "04_model_policy.png",
+      "image_sha256": "4e9884365d23d33a4099452df4681789e63df0a746859aac41a020cfde927bdf"
+    },
+    {
+      "id": "05_runtime_policy",
+      "title": "DSM budgets and numerical settings",
+      "source": "policy/runtime_policy.py",
+      "source_sha256": "99c3805c4d221a797b58beaca250ee13a5b3088c3a2b0b8adf40d3931928ac02",
+      "detail": "Source excerpt, lines 1\u201323. Read the surrounding implementation before editing.",
+      "html": "05_runtime_policy.html",
+      "image": "05_runtime_policy.png",
+      "image_sha256": "9e8477d75b87620131097e41e5574b60299a7abd0118203e81c7d66feb12c1c4"
+    },
+    {
+      "id": "06_transport_policy",
+      "title": "Transport conversion policy",
+      "source": "policy/transport_pathways.py",
+      "source_sha256": "d020b2b626ea579edb992f748c9d1724d11f9e0867150594e5badec97cde787b",
+      "detail": "Source excerpt, lines 1\u201324. Read the surrounding implementation before editing.",
+      "html": "06_transport_policy.html",
+      "image": "06_transport_policy.png",
+      "image_sha256": "d1ccfbd65634035b13d58aaea9e39be1587c8349512be843ac63cd6dc3209746"
+    },
+    {
+      "id": "07_reader",
+      "title": "The input reader: sets, keys and tables",
+      "source": "scripts/read_process_data.py",
+      "source_sha256": "a377367297085f241a751ae7899c8ebe2295d9ea94a28dbca3cc9b7f5c4374eb",
+      "detail": "Source excerpt, lines 1\u201323. Read the surrounding implementation before editing.",
+      "html": "07_reader.html",
+      "image": "07_reader.png",
+      "image_sha256": "dcf118240513c8085894c15d849352ab5f4dab19c76ab779f7c7a7fe2203844b"
+    },
+    {
+      "id": "08_builder",
+      "title": "Constraint construction and accounting helpers",
+      "source": "scripts/Build_model_dual_industry_categories_named_debug.py",
+      "source_sha256": "5edd354cac85607a786fc4c7bfae87462a700731490a83088a84661882784c9d",
+      "detail": "Source excerpt, lines 40\u201363. Read the surrounding implementation before editing.",
+      "html": "08_builder.html",
+      "image": "08_builder.png",
+      "image_sha256": "379de460e9d545bd8b9a0b4ceaa8916ede8baa410d837f51fe1ef5e8300b9cae"
+    },
+    {
+      "id": "09_cost_solver",
+      "title": "Costs, objective and solver",
+      "source": "scripts/CAPEX_OPEX_Gurobi_settings_dual_industry_categories1.py",
+      "source_sha256": "3498ad2408ba3d1004210617d6636fca8525fc79a6af5f3269b3ce008cdf7c40",
+      "detail": "Source excerpt, lines 1\u201324. Read the surrounding implementation before editing.",
+      "html": "09_cost_solver.html",
+      "image": "09_cost_solver.png",
+      "image_sha256": "22ee210c643d4bcf4c3340aafc612642ef3bc41d41bdcfcd135c756908c6b9b2"
+    },
+    {
+      "id": "10_dsm",
+      "title": "Electricity demand shifting implementation",
+      "source": "scripts/electricity_dsm.py",
+      "source_sha256": "36242e778cb4efc71983b8260b71e23f4f5121d8458d857f20a7333d2fd88ead",
+      "detail": "Source excerpt, lines 1\u201322. Read the surrounding implementation before editing.",
+      "html": "10_dsm.html",
+      "image": "10_dsm.png",
+      "image_sha256": "87d65ca6df7e1f3f7cf1f6c499f36f69b87939b4c7f6096f981854e89d17a36f"
+    },
+    {
+      "id": "11_simple_industry",
+      "title": "Product based industry input validation",
+      "source": "scripts/simple_industry_inputs.py",
+      "source_sha256": "b3ac8146e358da011664ef8e1b95409b7e665e2a0329c6f8a64d586110a4cc92",
+      "detail": "Source excerpt, lines 1\u201323. Read the surrounding implementation before editing.",
+      "html": "11_simple_industry.html",
+      "image": "11_simple_industry.png",
+      "image_sha256": "82242d5e1ec735f497cca6b43cb74ba97f5e34c3ee095355e2bab3871d8a0924"
+    },
+    {
+      "id": "12_folder",
+      "title": "Model project structure",
+      "source": ".",
+      "source_sha256": null,
+      "detail": "Read-only directory listing. No file was created inside this model folder.",
+      "html": "12_folder.html",
+      "image": "12_folder.png",
+      "image_sha256": "4899a11124ee7bfc5a98e62c711abfda665ea537b8db456e85b94af48152c5f6"
+    },
+    {
+      "id": "13_data_folder",
+      "title": "The native H2RES data folder",
+      "source": "data",
+      "source_sha256": null,
+      "detail": "Read-only directory listing. No file was created inside this model folder.",
+      "html": "13_data_folder.html",
+      "image": "13_data_folder.png",
+      "image_sha256": "c0cd62a77bf47b71f002b128f5e83f07ef39ba470dad3a30fd053933d2cab4b6"
+    },
+    {
+      "id": "14_generators",
+      "title": "Generators: asset names, power and geography",
+      "source": "data/generators.csv",
+      "source_sha256": "5b220bd9709ea3847dc4b66447e869d9d8d7b6b7c950a7b9eb862f56f3dd5339",
+      "detail": "First 12 asset records; 344 source records. Selected columns; all other columns remain in the CSV.",
+      "html": "14_generators.html",
+      "image": "14_generators.png",
+      "image_sha256": "1ff68d63159ec51465ea57ae106eeaf16ba6e9fa4fc25f07d19d0ed12e513e0b"
+    },
+    {
+      "id": "15_regular",
+      "title": "flex_tech.xlsx \u2014 simple_industry",
+      "source": "data/flex_tech.xlsx",
+      "source_sha256": "848690fb3390aa4501cff28d62974354a1b1cb9767e1c753bdf095eb9af2814e",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "15_regular.html",
+      "image": "15_regular.png",
+      "image_sha256": "9fd6f244c8f3df34117fa01b783ae8cd4d6078188c01c175ff70b677c35d7e4c"
+    },
+    {
+      "id": "16_categories",
+      "title": "flex_tech_categories.xlsx \u2014 Industry_data",
+      "source": "data/flex_tech_categories.xlsx",
+      "source_sha256": "e514a5f9bfaf12cfa6f840eb835b76fcbf8a5748eb4fb11b6bd7b77bcfe939db",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "16_categories.html",
+      "image": "16_categories.png",
+      "image_sha256": "0b418b488f08278706a5af01b55eb61acbd4cda69947a79a5de8f77dc1cb6d8a"
+    },
+    {
+      "id": "17_complex",
+      "title": "flex_tech_complex_industry.xlsx \u2014 Industry_data",
+      "source": "data/flex_tech_complex_industry.xlsx",
+      "source_sha256": "d1826554a428c78c754ee0b58710d06a4f39a16006fa146bc345454147e3d152",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "17_complex.html",
+      "image": "17_complex.png",
+      "image_sha256": "27c2d661a49166ddb6c076c8e0e0149c50df9b090455f1a7889e0cda4f1cdacf"
+    },
+    {
+      "id": "18_efuel",
+      "title": "flex_tech_efuel.xlsx \u2014 efuel",
+      "source": "data/flex_tech_efuel.xlsx",
+      "source_sha256": "8af57fd2cb8505ee8502c13592a4b9d42e2fbafc1ccd1259a5dac3ddd83a25a3",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "18_efuel.html",
+      "image": "18_efuel.png",
+      "image_sha256": "2c068b5de38de44b122a27402241072e9877a233090e62a1f82e851a2479bcce"
+    },
+    {
+      "id": "19_efuel_categories",
+      "title": "flex_tech_efuel_categories.xlsx \u2014 Industry_data",
+      "source": "data/flex_tech_efuel_categories.xlsx",
+      "source_sha256": "8648177a62594f4e8ad984bc164ac54e4d055e8a52b5b0d8cab63e6f50105486",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "19_efuel_categories.html",
+      "image": "19_efuel_categories.png",
+      "image_sha256": "4aab3699eef472038163642f9c6554cc4f7eedb1a5423b3f9fd1e038b7cc517d"
+    },
+    {
+      "id": "20_efuel_complex",
+      "title": "flex_tech_efuel_complex_industry.xlsx \u2014 Industry_data",
+      "source": "data/flex_tech_efuel_complex_industry.xlsx",
+      "source_sha256": "cd528d5cd2b7317f6bcc251b7249101249c94b68f537e4833d7a925daa8b8e54",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "20_efuel_complex.html",
+      "image": "20_efuel_complex.png",
+      "image_sha256": "5c57752783b0ae4c804507e5e9ca473ae12fc4e989d6aa67272f92bfb557ab93"
+    },
+    {
+      "id": "21_technical",
+      "title": "variants/technical_2050/flex_tech_efuel_categories.xlsx \u2014 Industry_data",
+      "source": "data/variants/technical_2050/flex_tech_efuel_categories.xlsx",
+      "source_sha256": "aa2df5b19fb9105efdd47186d899f58dbb63b69548df0a309fae53a7da44c42b",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "21_technical.html",
+      "image": "21_technical.png",
+      "image_sha256": "a150212992b57dfb3ddeaf6820402a6aa037542d19703e1039ce50bdf48522f5"
+    },
+    {
+      "id": "22_active_zones",
+      "title": "flex_tech_efuel_categories.xlsx \u2014 active_zones",
+      "source": "data/flex_tech_efuel_categories.xlsx",
+      "source_sha256": "8648177a62594f4e8ad984bc164ac54e4d055e8a52b5b0d8cab63e6f50105486",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "22_active_zones.html",
+      "image": "22_active_zones.png",
+      "image_sha256": "4cac241aa703a7d5487b3f14ef233b39065e8405c4979a28325e209e80dc4669"
+    },
+    {
+      "id": "23_investment_limits",
+      "title": "flex_tech_efuel_categories.xlsx \u2014 cap_inv_lim",
+      "source": "data/flex_tech_efuel_categories.xlsx",
+      "source_sha256": "8648177a62594f4e8ad984bc164ac54e4d055e8a52b5b0d8cab63e6f50105486",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "23_investment_limits.html",
+      "image": "23_investment_limits.png",
+      "image_sha256": "85ae17f1a11fa942cfc37a2323da1bb52f148b9adfaa9329cd942d2c7b056118"
+    },
+    {
+      "id": "24_technology_costs",
+      "title": "flex_tech_efuel_categories.xlsx \u2014 tech_cost_years",
+      "source": "data/flex_tech_efuel_categories.xlsx",
+      "source_sha256": "8648177a62594f4e8ad984bc164ac54e4d055e8a52b5b0d8cab63e6f50105486",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "24_technology_costs.html",
+      "image": "24_technology_costs.png",
+      "image_sha256": "eb969856da100e4e4a22691e88a78e564802aee2749348bd91c72d4f2395d6a6"
+    },
+    {
+      "id": "25_policy_setup",
+      "title": "policy_efuel.xlsx \u2014 setup",
+      "source": "data/policy_efuel.xlsx",
+      "source_sha256": "ba47dc6f8293399928b0beaac351be614ace4459640c99f1de50de2fdb811642",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "25_policy_setup.html",
+      "image": "25_policy_setup.png",
+      "image_sha256": "2c6162009dc20f215167dda6be41f6e56dc7a3c745f5af106e5ce9d24ce51811"
+    },
+    {
+      "id": "26_policy_co2",
+      "title": "policy_efuel.xlsx \u2014 CO2",
+      "source": "data/policy_efuel.xlsx",
+      "source_sha256": "ba47dc6f8293399928b0beaac351be614ace4459640c99f1de50de2fdb811642",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "26_policy_co2.html",
+      "image": "26_policy_co2.png",
+      "image_sha256": "10e766022fef21b3f264cddd7e0d9f346e6615a78281c8304c8f599ac4623634"
+    },
+    {
+      "id": "27_policy_rps",
+      "title": "policy.xlsx \u2014 RPS",
+      "source": "data/policy.xlsx",
+      "source_sha256": "4aa9d6579467a8d4881d57be08defaf9b9ee4b50bbeace1f0b4872d8478b79a1",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "27_policy_rps.html",
+      "image": "27_policy_rps.png",
+      "image_sha256": "045c4c7aaa0353d40cc938691a66ac9588ebfcfb3c75cf72d15cd53374c42509"
+    },
+    {
+      "id": "28_fuel_prices",
+      "title": "policy_fuels.xlsx \u2014 import",
+      "source": "data/policy_fuels.xlsx",
+      "source_sha256": "4a5dd028cf554d5f29aa6f8e44d553cfa1d269d1b25a3cd0a3030e0a5715105f",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "28_fuel_prices.html",
+      "image": "28_fuel_prices.png",
+      "image_sha256": "9e440bf7ca1e5a71e4b91ee2b3fc5c83d438e253c114f705bd3dd53e5f5e17e4"
+    },
+    {
+      "id": "29_process_data",
+      "title": "industry_complex_efuel.xlsx \u2014 Process_data",
+      "source": "data/industry_complex_efuel.xlsx",
+      "source_sha256": "423affc5d46c83578af699637063c890ff2f086bceed114eaab104ba278baf25",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "29_process_data.html",
+      "image": "29_process_data.png",
+      "image_sha256": "ed7d4a5bf848487c3105f7f1e967335ed81d4f8411a990c6b4dda63d7c3548e0"
+    },
+    {
+      "id": "30_products",
+      "title": "simple_industry.xlsx \u2014 plants",
+      "source": "data/simple_industry.xlsx",
+      "source_sha256": "e8a7524909bc5e0e279b84d8e52bfbbcb8c4665415e96655f46966cce102afdc",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "30_products.html",
+      "image": "30_products.png",
+      "image_sha256": "8675dc0572321961c13975083671545bcf0eb68f0c854bceb4c634d0de2e14f1"
+    },
+    {
+      "id": "31_markets",
+      "title": "simple_industry.xlsx \u2014 markets",
+      "source": "data/simple_industry.xlsx",
+      "source_sha256": "e8a7524909bc5e0e279b84d8e52bfbbcb8c4665415e96655f46966cce102afdc",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "31_markets.html",
+      "image": "31_markets.png",
+      "image_sha256": "2fca28ffee30edcabcf9ba0d47dc6e4580bcfc571446a08293f5253bd38a2215"
+    },
+    {
+      "id": "32_outside_suppliers",
+      "title": "simple_industry.xlsx \u2014 import_suppliers",
+      "source": "data/simple_industry.xlsx",
+      "source_sha256": "e8a7524909bc5e0e279b84d8e52bfbbcb8c4665415e96655f46966cce102afdc",
+      "detail": "Actual worksheet cells; formulas are shown as stored and are not recalculated. Preview limited to the first 8 columns / 13 rows. Full sheet inventory accompanies the manual.",
+      "html": "32_outside_suppliers.html",
+      "image": "32_outside_suppliers.png",
+      "image_sha256": "967e324170309921860e9553a78593f564ba8a06d1b5fdb95a9e055c81e59170"
+    }
+  ]
+}

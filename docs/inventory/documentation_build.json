@@ -1,18 +1,23 @@
 {
-  "date": "2026-11-01",
+  "date": "2026-11-12",
   "chapters": [
     "README.md",
+    "PORTABLE_USER_GUIDE.md",
     "DATA_PREPARATION_MANUAL.md",
+    "H2RES_USER_GUIDE.md",
+    "MAIN_CONFIGURATION_GUIDE.md",
+    "MATHEMATICAL_FORMULATION.md",
     "H2RES_MODEL_MANUAL.md",
+    "MODEL_OPTION_REFERENCE.md",
     "DATA_REFERENCE.md",
     "ASSUMPTIONS_AND_LIMITATIONS.md",
     "REFERENCES.md",
     "CLI_REFERENCE.md",
     "CODE_REFERENCE.md"
   ],
-  "reference_entries": 57,
-  "narrative_words": 21083,
-  "html_bytes": 449428,
-  "html_sha256": "4b5e8ceb77ecaed49ee05e6a7eac0dfba9427eb14547806bd33e25a2153078c7",
-  "generated_utc": "2026-11-01T16:52:14.285376+00:00"
+  "reference_entries": 60,
+  "narrative_words": 53717,
+  "html_bytes": 804500,
+  "html_sha256": "6f6df2fecda4ee996b04f8e08b0c8de98824f7468a354679b19893d86de25a27",
+  "generated_utc": "2026-11-12T10:27:58.619973+00:00"
 }

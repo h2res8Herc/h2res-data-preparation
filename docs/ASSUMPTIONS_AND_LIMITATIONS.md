@@ -75,3 +75,11 @@ Inherited parameters without a verified primary source remain marked as inherite
 Archive at least: command/configuration; selected countries/sectors/mapping; raw data/version/hashes; future years/demand; technology costs/lifetimes; annual/total investment limits; resource/biomass assumptions; industrial route and HP eligibility; fuel/engine compatibility; external prices/origins; storage initial/final policies; chronology/sampling; solver settings; accepted residuals/slack; resume history and exported results.
 
 Useful sensitivity dimensions include high/low demand growth, renewable potential, grid/terminal expansion, weather years, profile calibration, industrial electrification scope, HP source limits, biomass ceilings, transport turnover/retrofit cost, renewable imports, financing and different chronological representations. Report which constraints bind and which inputs dominate the result.
+
+## 7. Additional 12 November model assumptions
+
+The new DSM energy pools, hourly power cap, rollout and enabling/activation costs are scenario assumptions. They are not independently measured values for all active countries. The supplied simple-industry plants, world/European offers, product demand and carbon footprints are illustrative and require calibration. Product trade can move emissions outside the modeled territory; falling territorial emissions alone do not establish falling embedded emissions or domestic technology replacement.
+
+The external workbook `simple_industry.xlsx` and the flex-tech worksheet `simple_industry` have different meanings. Enabling the product model disables overlapping legacy blocks. Baseline electricity removal must be calibrated when a plant's load is already included in the basic profile.
+
+This version enables separated process/other carbon balances. Its default solver settings also permit provisional outcomes and warning-only postoptimal checks. Output files alone are not an optimization-quality certificate. This manual is a static inspection with source/input hashes, not a new national solve or a certification of the preparation adapter against every 12 November extension.

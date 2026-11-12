@@ -1,206 +1,217 @@
 ﻿file,line,options,default,choices,action,help
-generate_all_sector_inputs.py,532,--countries,['HR'],,store,
-generate_all_sector_inputs.py,533,--sectors,list(SECTORS),,store,"'Comma-separated subset of power,industry,transport,heating.'"
-generate_all_sector_inputs.py,537,--spatial-level,'nuts3',"['nuts3', 'nuts2', 'nuts1', 'country', 'custom']",store,
-generate_all_sector_inputs.py,542,--zone-map,argparse default,,store,"'Required with --spatial-level custom; country,nuts3,zone schema.'"
-generate_all_sector_inputs.py,546,--out-root,SCRIPT_DIR / 'outputs_all',,store,
-generate_all_sector_inputs.py,547,--data-root,SCRIPT_DIR / 'data_all',,store,
-generate_all_sector_inputs.py,548,--nuts3,argparse default,,store,
-generate_all_sector_inputs.py,549,--refresh-sources,argparse default,,'store_true',
-generate_all_sector_inputs.py,550,--efuels,False,,argparse.BooleanOptionalAction,
-generate_all_sector_inputs.py,551,--industry-mode,'categories',"('regular', 'categories', 'complex')",store,'Categories and complex industry are mutually exclusive model modes.'
-generate_all_sector_inputs.py,553,--industry-electricity-case,'conservative',"('conservative', 'technical_2050')",store,
-generate_all_sector_inputs.py,554,--industry-source-root,argparse default,,store,'Directory containing country JRC-IDEES-2023 Industry and both balance workbooks; otherwise use cache/public downloads'
-generate_all_sector_inputs.py,555,--industry-download,True,,argparse.BooleanOptionalAction,
-generate_all_sector_inputs.py,556,--industry-base-year,2020,,store,
-generate_all_sector_inputs.py,557,--industry-waste-allocation,'sector-blend',"('strict', 'sector-blend')",store,"'Use exact single-class waste evidence, or an explicitly recorded sector-blend assumption where needed'"
-generate_all_sector_inputs.py,559,--industry-zone-weights,argparse default,,store,"""Complex industry regional allocation: country,zone,Industry,weight; '*' means every sector"""
-generate_all_sector_inputs.py,560,--industry-regional-allocation,'require-weights',"('require-weights', 'equal')",store,'National JRC data need explicit weights at regional resolution; equal is an explicit proxy'
-generate_all_sector_inputs.py,562,--complex-industry-sectors,'all',,store,'Complex sector selection: all or comma-separated native Industry labels'
-generate_all_sector_inputs.py,563,--model-root,argparse default,,store,'Snapshot the live data from this model directory into the portable reference.'
-generate_all_sector_inputs.py,565,--model-reference,DEFAULT_REFERENCE,,store,
-generate_all_sector_inputs.py,566,--model-export,True,,argparse.BooleanOptionalAction,'Export canonical data files and the selected current model workbook.'
-generate_all_sector_inputs.py,569,--export-only,argparse default,,'store_true','Package existing sector outputs without downloading or regenerating sources.'
-generate_all_sector_inputs.py,570,--import-model-inputs,argparse default,,'store_true',"""Copy the supplied model's complete baseline inputs, preserving its original geography."""
-generate_all_sector_inputs.py,572,--require-model-ready,argparse default,,'store_true','Return an error if generated curves or model zone coverage are incomplete.'
-generate_all_sector_inputs.py,574,--scenario-preset,argparse default,"('reference', 'res100')",store,'Keep reference assumptions or target 100%% renewable energy.'
-generate_all_sector_inputs.py,576,--scenario-scope,argparse default,"('all-energy', 'electricity')",store,
-generate_all_sector_inputs.py,577,--scenario-config,argparse default,,store,'JSON scenario assumptions and investment overrides.'
-generate_all_sector_inputs.py,578,--planning-years,argparse default,,store,'Comma-separated equally spaced decision years.'
-generate_all_sector_inputs.py,579,--start-year,argparse default,,store,
-generate_all_sector_inputs.py,580,--end-year,argparse default,,store,
-generate_all_sector_inputs.py,581,--year-step,argparse default,,store,
-generate_all_sector_inputs.py,582,--renewable-target-year,argparse default,,store,
-generate_all_sector_inputs.py,583,--renewable-start-share,argparse default,,store,"'Starting electricity renewable-share assumption, from 0 to 1.'"
-generate_all_sector_inputs.py,584,--investment-multiplier,argparse default,,store,'Scale reference annual build limits; installed-capacity ceilings stay unchanged.'
-generate_all_sector_inputs.py,585,--era5,argparse default,,store,
-generate_all_sector_inputs.py,586,--temperature-source,'open-meteo',"['open-meteo', 'cds-netcdf']",store,
-generate_all_sector_inputs.py,590,--population-tif,argparse default,,store,
-generate_all_sector_inputs.py,591,--accept-population-terms,argparse default,,'store_true',
-generate_all_sector_inputs.py,592,--skip-heating-raw,argparse default,,'store_true',
-generate_all_sector_inputs.py,593,--heating-input-root,SCRIPT_DIR / 'heating',,store,
-generate_all_sector_inputs.py,596,--hydro-year,2020,,store,
-generate_all_sector_inputs.py,597,--hydro-profiles,packaged_hydro / 'runoff_shapes_2020.npz' if (packaged_hydro / 'runoff_shapes_2020.npz').exists() else bulk_hydro / 'outputs/profiles/runoff_shapes_2020.npz',,store,
-generate_all_sector_inputs.py,605,--hydro-units,packaged_hydro / 'hydro_units.csv' if (packaged_hydro / 'hydro_units.csv').exists() else bulk_hydro / 'outputs/dispaset/hydro_units.csv',,store,
-generate_all_sector_inputs.py,613,--hydro-plants,packaged_hydro / 'jrc-hydro-power-plant-database.csv' if (packaged_hydro / 'jrc-hydro-power-plant-database.csv').exists() else bulk_hydro / 'data/plants/jrc-hydro-power-plant-database.csv',,store,
-generate_all_sector_inputs.py,621,--skip-hydro-profiles,argparse default,,'store_true',
-generate_all_sector_inputs.py,622,--hydro-output-level,'match-power',"('match-power', 'aggregated', 'individual', 'both')",store,'Hydro curve level; default follows --power-output-level.'
-generate_all_sector_inputs.py,628,--power-output-level,'aggregated',"('aggregated', 'individual', 'both')",store,"'Write zonally aggregated plants, individual plants, or both.'"
-generate_all_sector_inputs.py,634,--skip-vre-profiles,argparse default,,'store_true',
-generate_all_sector_inputs.py,635,--vre-year,2020,,store,
-generate_all_sector_inputs.py,636,--vre-irena-year,argparse default,,store,
-generate_all_sector_inputs.py,637,--vre-weather-source,'openmeteo',"('openmeteo', 'renewables-ninja')",store,'Weather backend; Renewables.ninja reads RENEWABLES_NINJA_TOKEN.'
-generate_all_sector_inputs.py,643,--renewables-ninja-dataset,'merra2',,store,
-generate_all_sector_inputs.py,644,--vre-calibrate,True,,argparse.BooleanOptionalAction,
-generate_all_sector_inputs.py,647,--irena-xlsx,SCRIPT_DIR / 'power' / 'VRES_distributions' / 'IRENA_Statistics_Extract_2025H2.xlsx',,store,
-generate_all_sector_inputs.py,651,--electricity-demand-year,2020,,store,
-generate_all_sector_inputs.py,652,--skip-electricity-demand,argparse default,,'store_true','Skip ENTSO-E national load download and EIGL NUTS3/model-zone allocation.'
-h2res_input_gui.py,586,--check,argparse default,,'store_true','Check Python and preparation dependencies without opening a window'
-h2res_input_gui.py,587,--smoke-test,argparse default,,'store_true','Create and close the interface while keeping its window hidden'
-preparation_dependencies.py,93,--sectors,"'power,industry,transport,heating'",,store,
-preparation_dependencies.py,94,--industry-mode,'categories',"('regular', 'categories', 'complex')",store,
-run_model_scenario.py,120,--model-root,argparse default,,store,
-run_model_scenario.py,121,--bundle,Path(__file__).resolve().parent,,store,
-run_model_scenario.py,122,--solve,argparse default,,'store_true','Build and solve; default only checks the actual input reader'
-run_model_scenario.py,123,--scenario-name,argparse default,,store,
-industry/generate_industry_inputs_standalone.py,653,--countries,parse_countries('HR'),,store,"'Comma-separated ISO2 list, e.g. HR,SI,IT, or ALL/EU to run every country found in JRC-IDEES with SECURES profiles'"
-industry/generate_industry_inputs_standalone.py,654,--year,2019,,store,
-industry/generate_industry_inputs_standalone.py,655,--secures-year,2010,,store,
-industry/generate_industry_inputs_standalone.py,656,--nuts-level,3,"[0, 1, 2, 3]",store,
-industry/generate_industry_inputs_standalone.py,657,--reserve,0.15,,store,
-industry/generate_industry_inputs_standalone.py,658,--out-root,RUN_DIR,,store,
-industry/generate_industry_inputs_standalone.py,659,--data-dir,DATA_DIR,,store,
-industry/generate_industry_inputs_standalone.py,660,--empty-facility-dir,DATA_DIR / 'empty_facility_proxy',,store,
-industry/generate_industry_inputs_standalone.py,661,--clean,True,,argparse.BooleanOptionalAction,
-industry/generate_industry_inputs_standalone.py,662,--debug,argparse default,,'store_true',
-industry/generate_industry_inputs_standalone.py,663,--adjust-hourly,argparse default,,'store_true',
-industry/generate_industry_inputs_standalone.py,664,--keep-heat-categories,argparse default,,'store_true','Keep temperature bands in Industry_data; default aggregates to the sector-level shape used by the legacy workbook.'
-industry/generate_industry_inputs_standalone.py,668,--efuels,False,,argparse.BooleanOptionalAction,'Use the e-fuel-compatible table as canonical Industry_data. All regular/e-fuel and heat-category variants are always written.'
-industry/generate_industry_inputs_standalone.py,672,--refresh-helpers,argparse default,,'store_true','Rewrite embedded helper scripts before running.'
-industry/generate_industry_inputs_standalone.py,674,--download-sources,True,,argparse.BooleanOptionalAction,
-industry/generate_industry_inputs_standalone.py,675,--refresh-sources,argparse default,,'store_true',
-industry/generate_industry_inputs_standalone.py,676,--nuts3-url,NUTS_URL,,store,
-industry/generate_industry_inputs_standalone.py,677,--jrc-idees-url,JRC_IDEES_URL,,store,
-industry/generate_industry_inputs_standalone.py,678,--secures-url,SECURES_URL,,store,
-industry/generate_industry_inputs_standalone.py,679,--iep-zip-url,None,,store,
-industry/generate_industry_inputs_standalone.py,680,--eutl-zip-url,None,,store,
-industry/generate_industry_inputs_standalone.py,681,--eigl-zip-url,None,,store,
-industry/generate_industry_inputs_standalone.py,683,--nuts3,None,,store,
-industry/generate_industry_inputs_standalone.py,684,--jrc-root,None,,store,
-industry/generate_industry_inputs_standalone.py,685,--secures-root,None,,store,
-industry/generate_industry_inputs_standalone.py,686,--iep-dir,None,,store,
-industry/generate_industry_inputs_standalone.py,687,--eutl-dir,None,,store,
-industry/generate_industry_inputs_standalone.py,688,--eigl-dir,None,,store,
-industry/generate_industry_inputs_standalone.py,689,--eigl-year,None,,store,
-industry/generate_industry_inputs_standalone.py,690,--skip-eigl,False,,argparse.BooleanOptionalAction,
-industry/generate_industry_inputs_standalone.py,691,--tech-template,None,,store,
-industry/generate_complex_industry_inputs.py,538,--countries,'HR',,store,
-industry/generate_complex_industry_inputs.py,539,--zone-map,argparse default,,store,"'Shared country,nuts3,zone[,system_new] CSV; omitted means national zones'"
-industry/generate_complex_industry_inputs.py,540,--reference,ROOT / 'model_reference',,store,
-industry/generate_complex_industry_inputs.py,541,--output,ROOT / 'outputs_all/industry/combined',,store,
-industry/generate_complex_industry_inputs.py,542,--cache,ROOT / 'data_all/industry/jrc_idees_2023',,store,
-industry/generate_complex_industry_inputs.py,543,--source-root,argparse default,,store,
-industry/generate_complex_industry_inputs.py,544,--download,True,,argparse.BooleanOptionalAction,
-industry/generate_complex_industry_inputs.py,545,--refresh,argparse default,,'store_true',
-industry/generate_complex_industry_inputs.py,546,--efuels,False,,argparse.BooleanOptionalAction,
-industry/generate_complex_industry_inputs.py,547,--electricity-case,'conservative',"('conservative', 'technical_2050')",store,
-industry/generate_complex_industry_inputs.py,548,--base-year,2020,,store,
-industry/generate_complex_industry_inputs.py,549,--zone-weights,argparse default,,store,
-industry/generate_complex_industry_inputs.py,550,--regional-allocation,'require-weights',"('require-weights', 'equal')",store,
-industry/generate_complex_industry_inputs.py,551,--selected-sectors,'all',,store,
-industry/generate_complex_industry_inputs.py,552,--waste-allocation,'sector-blend',"('strict', 'sector-blend')",store,
-transport/script/generate_transport_inputs_standalone.py,591,--countries,parse_countries('HR'),,store,
-transport/script/generate_transport_inputs_standalone.py,592,--nuts3,argparse default,,store,
-transport/script/generate_transport_inputs_standalone.py,593,--national-dir,argparse default,,store,
-transport/script/generate_transport_inputs_standalone.py,594,--pbf-dir,argparse default,,store,
-transport/script/generate_transport_inputs_standalone.py,595,--oil-raster,argparse default,,store,
-transport/script/generate_transport_inputs_standalone.py,596,--el-raster,argparse default,,store,
-transport/script/generate_transport_inputs_standalone.py,597,--zone-map,argparse default,,store,
-transport/script/generate_transport_inputs_standalone.py,598,--out-root,SCRIPT_DIR / 'outputs_transport',,store,
-transport/script/generate_transport_inputs_standalone.py,599,--data-dir,DEFAULT_DATA_DIR,,store,
-transport/script/generate_transport_inputs_standalone.py,600,--curves-dir,argparse default,,store,
-transport/script/generate_transport_inputs_standalone.py,601,--refresh-sources,argparse default,,'store_true',
-transport/script/generate_transport_inputs_standalone.py,602,--efuels,False,,argparse.BooleanOptionalAction,'Also generate transport_ICE_prim. Without this flag only transport_all is written.'
-transport/script/generate_transport_inputs_standalone.py,606,--metric-crs,'EPSG:3035',,store,
-transport/script/generate_transport_inputs_standalone.py,607,--skip-allocation,argparse default,,'store_true','Aggregate existing *_NUTS3.csv files without repeating geospatial allocation.'
-heating/generate_heating_inputs_standalone.py,717,--countries,parse_countries('HR'),,store,
-heating/generate_heating_inputs_standalone.py,718,--source-year,2021,,store,
-heating/generate_heating_inputs_standalone.py,719,--efuels,False,,argparse.BooleanOptionalAction,
-heating/generate_heating_inputs_standalone.py,720,--model-year,YEAR,,store,
-heating/generate_heating_inputs_standalone.py,721,--zone-map,argparse default,,store,
-heating/generate_heating_inputs_standalone.py,722,--out-root,SCRIPT_DIR / 'outputs_heating',,store,
-heating/generate_heating_inputs_standalone.py,723,--data-dir,SCRIPT_DIR / 'heating_data',,store,
-heating/generate_heating_inputs_standalone.py,724,--raw-output-root,SCRIPT_DIR / 'generated_nuts3_heating',,store,
-heating/generate_heating_inputs_standalone.py,728,--skip-raw-generation,argparse default,,'store_true','Only aggregate existing raw outputs supplied with --input-root.'
-heating/generate_heating_inputs_standalone.py,732,--input-root,SCRIPT_DIR,,store,
-heating/generate_heating_inputs_standalone.py,733,--refresh-sources,argparse default,,'store_true',
-heating/generate_heating_inputs_standalone.py,734,--rebuild-raw,argparse default,,'store_true',
-heating/generate_heating_inputs_standalone.py,735,--accept-population-terms,argparse default,,'store_true','Confirm acceptance of the Eurostat/GISCO population-grid terms.'
-heating/generate_heating_inputs_standalone.py,739,--nuts3-geojson,argparse default,,store,
-heating/generate_heating_inputs_standalone.py,740,--population-tif,argparse default,,store,
-heating/generate_heating_inputs_standalone.py,741,--era5,argparse default,,store,'Existing ERA5/ERA5-Land NetCDF.'
-heating/generate_heating_inputs_standalone.py,742,--temperature-source,'open-meteo',"['open-meteo', 'cds-netcdf']",store,'Temperature source when --era5 is not supplied: cached Open-Meteo ERA5-Land centroid series (default) or a CDS NetCDF download.'
-heating/generate_heating_inputs_standalone.py,750,--eigl-dir,argparse default,,store,
-heating/generate_heating_inputs_standalone.py,751,--hotmaps-dh-tif,argparse default,,store,
-heating/generate_heating_inputs_standalone.py,752,--idees-root,argparse default,,store,
-heating/generate_heating_inputs_standalone.py,753,--powerplants-csv,argparse default,,store,
-heating/generate_heating_inputs_standalone.py,754,--dh-chp-lambda,0.9,,store,"'DH spatial-weight blend: 0=Hotmaps only, 1=CHP only (default: 0.9).'"
-power/generators/generate_genco_power_sector.py,479,--mode,'raw',"['raw', 'built']",store,
-power/generators/generate_genco_power_sector.py,480,--built-dir,None,,store,
-power/generators/generate_genco_power_sector.py,481,--out,DEFAULT_OUT,,store,
-power/generators/generate_genco_power_sector.py,482,--countries,None,,store,"'Comma-separated ISO2 list, e.g. ""HR,SI,IT"".'"
-power/generators/generate_genco_power_sector.py,483,--include-country-name-files,argparse default,,'store_true',
-power/generators/generate_genco_power_sector.py,484,--keep-source-file,argparse default,,'store_true',
-power/generators/generate_genco_power_sector.py,485,--summary,argparse default,,'store_true',
-power/generators/generate_genco_power_sector.py,486,--output-format,'sdewes18',"['sdewes18', 'detailed']",store,
-power/generators/generate_genco_power_sector.py,488,--rebuild-built,argparse default,,'store_true','Deprecated alias for --mode raw.'
-power/generators/generate_genco_power_sector.py,489,--powerplants,DEFAULT_POWERPLANTS,,store,
-power/generators/generate_genco_power_sector.py,490,--jrc-hydro,DEFAULT_HYDRO,,store,
-power/generators/generate_genco_power_sector.py,491,--template-genco,None,,store,
-power/generators/generate_genco_power_sector.py,492,--hr-defaults-xlsx,None,,store,
-power/generators/generate_genco_power_sector.py,493,--nuts3-geojson,DEFAULT_NUTS3,,store,
-power/generators/generate_genco_power_sector.py,494,--zone-mode,'country1',"['country1', 'country']",store,
-power/generators/generate_genco_power_sector.py,495,--download-sources,True,,argparse.BooleanOptionalAction,
-power/generators/generate_genco_power_sector.py,496,--refresh-sources,argparse default,,'store_true',
-power/generators/generate_genco_power_sector.py,497,--clean-built-dir,True,,argparse.BooleanOptionalAction,
-power/generators/generate_genco_power_sector.py,498,--powerplants-url,POWERPLANTS_URL,,store,
-power/generators/generate_genco_power_sector.py,499,--jrc-hydro-url,JRC_HYDRO_URL,,store,
-power/generators/generate_genco_power_sector.py,500,--nuts3-url,NUTS3_URL,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,396,--powerplants,argparse default,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,397,--jrc-hydro,argparse default,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,398,--template-genco,argparse default,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,399,--hr-defaults-xlsx,argparse default,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,400,--out-dir,argparse default,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,402,--powerplants-country-col,'Country',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,403,--powerplants-fuel-col,'Fueltype',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,404,--powerplants-tech-col,'Technology',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,405,--powerplants-name-col,'Name',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,406,--powerplants-cap-col,'Capacity',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,408,--hydro-country-col,'country_code',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,409,--hydro-name-col,'name',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,410,--hydro-cap-col,'capacity_mw',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,411,--hydro-type-col,'type',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,413,--zone-mode,'country1',"['country1', 'country']",store,
-power/generators/build_genco_union_plus_template_defaults_all.py,414,--countries,'auto',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,416,--decom-start-existing-cap,20.0,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,417,--life-time,25.0,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,418,--decom-start-new,25.0,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,421,--nuts3-geojson,argparse default,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,422,--nuts3-id-col,'NUTS_ID',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,423,--nuts3-level-col,'LEVL_CODE',,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,424,--nuts3-level,3,,store,
-power/generators/build_genco_union_plus_template_defaults_all.py,425,--nuts3-out-col,'NUTS3',,store,
-power/hydro/generate_hydro_inputs_standalone.py,112,--year,2020,,store,
-power/hydro/generate_hydro_inputs_standalone.py,113,--countries,argparse default,,store,
-power/hydro/generate_hydro_inputs_standalone.py,114,--detailed-genco,argparse default,,store,
-power/hydro/generate_hydro_inputs_standalone.py,115,--aggregated-genco,argparse default,,store,
-power/hydro/generate_hydro_inputs_standalone.py,116,--aggregation-schema,argparse default,,store,
-power/hydro/generate_hydro_inputs_standalone.py,117,--profiles,DEFAULT_BULK / 'outputs/profiles/runoff_shapes_2020.npz',,store,
-power/hydro/generate_hydro_inputs_standalone.py,121,--hydro-units,DEFAULT_BULK / 'outputs/dispaset/hydro_units.csv',,store,
-power/hydro/generate_hydro_inputs_standalone.py,125,--plants,DEFAULT_BULK / 'data/plants/jrc-hydro-power-plant-database.csv',,store,
-power/hydro/generate_hydro_inputs_standalone.py,129,--outdir,argparse default,,store,
-power/hydro/generate_hydro_inputs_standalone.py,130,--max-match-distance-km,20.0,,store,
-power/hydro/generate_hydro_inputs_standalone.py,131,--output-level,'aggregated',"('aggregated', 'individual', 'both')",store,"'Write zone-aggregated curves, individual-plant curves, or both.'"
+generate_all_sector_inputs.py,576,--countries,['HR'],,store,
+generate_all_sector_inputs.py,577,--sectors,list(SECTORS),,store,"'Comma-separated subset of power,industry,transport,heating.'"
+generate_all_sector_inputs.py,581,--spatial-level,'nuts3',"['nuts3', 'nuts2', 'nuts1', 'country', 'custom']",store,
+generate_all_sector_inputs.py,586,--zone-map,argparse default,,store,"'Required with --spatial-level custom; full-country country,nuts3,zone mapping. Examples: docs/CUSTOM_ZONES.html.'"
+generate_all_sector_inputs.py,590,--out-root,SCRIPT_DIR / 'outputs_all',,store,
+generate_all_sector_inputs.py,591,--data-root,SCRIPT_DIR / 'data_all',,store,
+generate_all_sector_inputs.py,592,--nuts3,argparse default,,store,
+generate_all_sector_inputs.py,593,--refresh-sources,argparse default,,'store_true',
+generate_all_sector_inputs.py,594,--efuels,False,,argparse.BooleanOptionalAction,
+generate_all_sector_inputs.py,595,--industry-mode,'categories',"('regular', 'categories', 'complex')",store,'Categories and complex industry are mutually exclusive model modes.'
+generate_all_sector_inputs.py,597,--industry-electricity-case,'conservative',"('conservative', 'technical_2050')",store,
+generate_all_sector_inputs.py,598,--industry-source-root,argparse default,,store,'Directory containing country JRC-IDEES-2023 Industry and both balance workbooks; otherwise use cache/public downloads'
+generate_all_sector_inputs.py,599,--industry-download,True,,argparse.BooleanOptionalAction,
+generate_all_sector_inputs.py,600,--industry-base-year,2020,,store,
+generate_all_sector_inputs.py,601,--industry-waste-allocation,'sector-blend',"('strict', 'sector-blend')",store,"'Use exact single-class waste evidence, or an explicitly recorded sector-blend assumption where needed'"
+generate_all_sector_inputs.py,603,--industry-zone-weights,argparse default,,store,"""Complex industry regional allocation: country,zone,Industry,weight; '*' means every sector"""
+generate_all_sector_inputs.py,604,--industry-regional-allocation,'require-weights',"('require-weights', 'equal')",store,'National JRC data need explicit weights at regional resolution; equal is an explicit proxy'
+generate_all_sector_inputs.py,606,--complex-industry-sectors,'all',,store,'Complex sector selection: all or comma-separated native Industry labels'
+generate_all_sector_inputs.py,607,--model-root,argparse default,,store,'Snapshot the live data from this model directory into the portable reference.'
+generate_all_sector_inputs.py,609,--model-reference,DEFAULT_REFERENCE,,store,
+generate_all_sector_inputs.py,610,--model-export,True,,argparse.BooleanOptionalAction,'Export canonical data files and the selected current model workbook.'
+generate_all_sector_inputs.py,612,--refactored-export,argparse default,,'store_true','Also export data_refactored and H2RES_refactored_inputs.zip using the bus-based CSV contract.'
+generate_all_sector_inputs.py,614,--refactored-model-root,argparse default,,store,'Optional refactored installation for actual-reader checks; separate from legacy --model-root.'
+generate_all_sector_inputs.py,616,--model-ready-package,None,,argparse.BooleanOptionalAction,'Also write h2res_inputs and H2RES_model_inputs.zip with the selected flex_tech workbook and distributions.'
+generate_all_sector_inputs.py,618,--all-model-variants,True,,argparse.BooleanOptionalAction,'Populate every native flex_tech/industry companion variant for the selected countries and write the ready-to-use data folder.'
+generate_all_sector_inputs.py,621,--export-only,argparse default,,'store_true','Package existing sector outputs without downloading or regenerating sources.'
+generate_all_sector_inputs.py,622,--import-model-inputs,argparse default,,'store_true',"""Copy the supplied model's complete baseline inputs, preserving its original geography."""
+generate_all_sector_inputs.py,624,--require-model-ready,argparse default,,'store_true','Return an error if generated curves or model zone coverage are incomplete.'
+generate_all_sector_inputs.py,626,--scenario-preset,argparse default,"('reference', 'res100')",store,'Keep reference assumptions or target 100%% renewable energy.'
+generate_all_sector_inputs.py,628,--scenario-scope,argparse default,"('all-energy', 'electricity')",store,
+generate_all_sector_inputs.py,629,--scenario-config,argparse default,,store,'JSON scenario assumptions and investment overrides.'
+generate_all_sector_inputs.py,630,--planning-years,argparse default,,store,'Comma-separated equally spaced decision years.'
+generate_all_sector_inputs.py,631,--start-year,argparse default,,store,
+generate_all_sector_inputs.py,632,--end-year,argparse default,,store,
+generate_all_sector_inputs.py,633,--year-step,argparse default,,store,
+generate_all_sector_inputs.py,634,--renewable-target-year,argparse default,,store,
+generate_all_sector_inputs.py,635,--renewable-start-share,argparse default,,store,"'Starting electricity renewable-share assumption, from 0 to 1.'"
+generate_all_sector_inputs.py,636,--investment-multiplier,argparse default,,store,'Scale reference annual build limits; installed-capacity ceilings stay unchanged.'
+generate_all_sector_inputs.py,637,--era5,argparse default,,store,
+generate_all_sector_inputs.py,638,--temperature-source,'open-meteo',"['open-meteo', 'cds-netcdf']",store,
+generate_all_sector_inputs.py,642,--population-tif,argparse default,,store,
+generate_all_sector_inputs.py,643,--accept-population-terms,argparse default,,'store_true',
+generate_all_sector_inputs.py,644,--skip-heating-raw,argparse default,,'store_true',
+generate_all_sector_inputs.py,645,--heating-input-root,SCRIPT_DIR / 'heating',,store,
+generate_all_sector_inputs.py,648,--hydro-year,2020,,store,
+generate_all_sector_inputs.py,649,--hydro-profiles,packaged_hydro / 'runoff_shapes_2020.npz' if (packaged_hydro / 'runoff_shapes_2020.npz').exists() else bulk_hydro / 'outputs/profiles/runoff_shapes_2020.npz',,store,
+generate_all_sector_inputs.py,657,--hydro-units,packaged_hydro / 'hydro_units.csv' if (packaged_hydro / 'hydro_units.csv').exists() else bulk_hydro / 'outputs/dispaset/hydro_units.csv',,store,
+generate_all_sector_inputs.py,665,--hydro-plants,packaged_hydro / 'jrc-hydro-power-plant-database.csv' if (packaged_hydro / 'jrc-hydro-power-plant-database.csv').exists() else bulk_hydro / 'data/plants/jrc-hydro-power-plant-database.csv',,store,
+generate_all_sector_inputs.py,673,--skip-hydro-profiles,argparse default,,'store_true',
+generate_all_sector_inputs.py,674,--hydro-output-level,'match-power',"('match-power', 'aggregated', 'individual', 'both')",store,'Hydro curve level; default follows --power-output-level.'
+generate_all_sector_inputs.py,680,--power-output-level,'aggregated',"('aggregated', 'individual', 'both')",store,"'Write zonally aggregated plants, individual plants, or both.'"
+generate_all_sector_inputs.py,686,--skip-vre-profiles,argparse default,,'store_true',"'Skip wind/solar profiles for source-only or diagnostic exports. Complete H2RES exports always generate them, reusing cached weather.'"
+generate_all_sector_inputs.py,688,--vre-year,2020,,store,
+generate_all_sector_inputs.py,689,--vre-irena-year,argparse default,,store,
+generate_all_sector_inputs.py,690,--vre-weather-source,'openmeteo',"('openmeteo', 'renewables-ninja')",store,'Weather backend; Renewables.ninja reads RENEWABLES_NINJA_TOKEN.'
+generate_all_sector_inputs.py,696,--renewables-ninja-dataset,'merra2',,store,
+generate_all_sector_inputs.py,697,--openmeteo-max-wait,DEFAULT_MAX_WAIT,,store,'Maximum seconds per local-estimate pause (0: no cap); quota recovery never aborts the run'
+generate_all_sector_inputs.py,699,--vre-calibrate,True,,argparse.BooleanOptionalAction,
+generate_all_sector_inputs.py,702,--irena-xlsx,SCRIPT_DIR / 'power' / 'VRES_distributions' / 'IRENA_Statistics_Extract_2025H2.xlsx',,store,
+generate_all_sector_inputs.py,706,--electricity-demand-year,2020,,store,
+generate_all_sector_inputs.py,707,--skip-electricity-demand,argparse default,,'store_true','Skip ENTSO-E national load download and EIGL NUTS3/model-zone allocation.'
+h2res_input_gui.py,643,--check,argparse default,,'store_true','Check Python and preparation dependencies without opening a window'
+h2res_input_gui.py,644,--smoke-test,argparse default,,'store_true','Create and close the interface while keeping its window hidden'
+preparation_dependencies.py,98,--sectors,"'power,industry,transport,heating'",,store,
+preparation_dependencies.py,99,--industry-mode,'categories',"('regular', 'categories', 'complex')",store,
+run_model_scenario.py,215,--model-root,argparse default,,store,
+run_model_scenario.py,216,--bundle,Path(__file__).resolve().parent,,store,
+run_model_scenario.py,217,--solve,argparse default,,'store_true','Build and solve; default only checks the actual input reader'
+run_model_scenario.py,218,--scenario-name,argparse default,,store,
+run_model_scenario.py,219,--industry-mode,argparse default,"('regular', 'categories', 'complex')",store,
+run_model_scenario.py,220,--efuels,None,,argparse.BooleanOptionalAction,
+run_model_scenario.py,221,--industry-electricity-case,argparse default,"('conservative', 'technical_2050')",store,
+industry/generate_industry_inputs_standalone.py,726,--countries,parse_countries('HR'),,store,"'Comma-separated ISO2 list, e.g. HR,SI,IT, or ALL/EU to run every country found in JRC-IDEES with SECURES profiles'"
+industry/generate_industry_inputs_standalone.py,727,--year,2019,,store,
+industry/generate_industry_inputs_standalone.py,728,--secures-year,2010,,store,
+industry/generate_industry_inputs_standalone.py,729,--nuts-level,3,"[0, 1, 2, 3]",store,
+industry/generate_industry_inputs_standalone.py,730,--reserve,0.15,,store,
+industry/generate_industry_inputs_standalone.py,731,--out-root,RUN_DIR,,store,
+industry/generate_industry_inputs_standalone.py,732,--data-dir,DATA_DIR,,store,
+industry/generate_industry_inputs_standalone.py,733,--empty-facility-dir,DATA_DIR / 'empty_facility_proxy',,store,
+industry/generate_industry_inputs_standalone.py,734,--clean,True,,argparse.BooleanOptionalAction,
+industry/generate_industry_inputs_standalone.py,735,--debug,argparse default,,'store_true',
+industry/generate_industry_inputs_standalone.py,736,--adjust-hourly,True,,argparse.BooleanOptionalAction,"""Apply the paper's hourly feedstock correction when moving demand between temperature categories"""
+industry/generate_industry_inputs_standalone.py,738,--keep-heat-categories,argparse default,,'store_true','Keep temperature bands in Industry_data; default aggregates to the sector-level shape used by the legacy workbook.'
+industry/generate_industry_inputs_standalone.py,742,--efuels,False,,argparse.BooleanOptionalAction,'Use the e-fuel-compatible table as canonical Industry_data. All regular/e-fuel and heat-category variants are always written.'
+industry/generate_industry_inputs_standalone.py,746,--refresh-helpers,argparse default,,'store_true','Rewrite embedded helper scripts before running.'
+industry/generate_industry_inputs_standalone.py,748,--download-sources,True,,argparse.BooleanOptionalAction,
+industry/generate_industry_inputs_standalone.py,749,--refresh-sources,argparse default,,'store_true',
+industry/generate_industry_inputs_standalone.py,750,--nuts3-url,NUTS_URL,,store,
+industry/generate_industry_inputs_standalone.py,751,--jrc-idees-url,JRC_IDEES_URL,,store,
+industry/generate_industry_inputs_standalone.py,752,--secures-url,SECURES_URL,,store,
+industry/generate_industry_inputs_standalone.py,753,--iep-zip-url,None,,store,
+industry/generate_industry_inputs_standalone.py,754,--eutl-zip-url,None,,store,
+industry/generate_industry_inputs_standalone.py,755,--eigl-zip-url,None,,store,
+industry/generate_industry_inputs_standalone.py,757,--nuts3,None,,store,
+industry/generate_industry_inputs_standalone.py,758,--jrc-root,None,,store,
+industry/generate_industry_inputs_standalone.py,759,--secures-root,None,,store,
+industry/generate_industry_inputs_standalone.py,760,--iep-dir,None,,store,
+industry/generate_industry_inputs_standalone.py,761,--eutl-dir,None,,store,
+industry/generate_industry_inputs_standalone.py,762,--eigl-dir,None,,store,
+industry/generate_industry_inputs_standalone.py,763,--eigl-year,None,,store,
+industry/generate_industry_inputs_standalone.py,764,--skip-eigl,False,,argparse.BooleanOptionalAction,
+industry/generate_industry_inputs_standalone.py,765,--regional-allocation,'require-weights',"('require-weights', 'equal')",store,'Use EIGL/facility geography; equal is an explicit regional proxy assumption'
+industry/generate_industry_inputs_standalone.py,767,--tech-template,None,,store,
+industry/generate_complex_industry_inputs.py,556,--countries,'HR',,store,
+industry/generate_complex_industry_inputs.py,557,--zone-map,argparse default,,store,"'Shared country,nuts3,zone[,system_new] CSV; omitted means national zones'"
+industry/generate_complex_industry_inputs.py,558,--reference,DEFAULT_REFERENCE,,store,
+industry/generate_complex_industry_inputs.py,559,--output,ROOT / 'outputs_all/industry/combined',,store,
+industry/generate_complex_industry_inputs.py,560,--cache,ROOT / 'data_all/industry/jrc_idees_2023',,store,
+industry/generate_complex_industry_inputs.py,561,--source-root,argparse default,,store,
+industry/generate_complex_industry_inputs.py,562,--download,True,,argparse.BooleanOptionalAction,
+industry/generate_complex_industry_inputs.py,563,--refresh,argparse default,,'store_true',
+industry/generate_complex_industry_inputs.py,564,--efuels,False,,argparse.BooleanOptionalAction,
+industry/generate_complex_industry_inputs.py,565,--electricity-case,'conservative',"('conservative', 'technical_2050')",store,
+industry/generate_complex_industry_inputs.py,566,--base-year,2020,,store,
+industry/generate_complex_industry_inputs.py,567,--zone-weights,argparse default,,store,
+industry/generate_complex_industry_inputs.py,568,--regional-allocation,'require-weights',"('require-weights', 'equal')",store,
+industry/generate_complex_industry_inputs.py,569,--selected-sectors,'all',,store,
+industry/generate_complex_industry_inputs.py,570,--waste-allocation,'sector-blend',"('strict', 'sector-blend')",store,
+transport/script/generate_transport_inputs_standalone.py,618,--countries,parse_countries('HR'),,store,
+transport/script/generate_transport_inputs_standalone.py,619,--nuts3,argparse default,,store,
+transport/script/generate_transport_inputs_standalone.py,620,--national-dir,argparse default,,store,
+transport/script/generate_transport_inputs_standalone.py,621,--pbf-dir,argparse default,,store,
+transport/script/generate_transport_inputs_standalone.py,622,--oil-raster,argparse default,,store,
+transport/script/generate_transport_inputs_standalone.py,623,--el-raster,argparse default,,store,
+transport/script/generate_transport_inputs_standalone.py,624,--zone-map,argparse default,,store,
+transport/script/generate_transport_inputs_standalone.py,625,--out-root,SCRIPT_DIR / 'outputs_transport',,store,
+transport/script/generate_transport_inputs_standalone.py,626,--data-dir,DEFAULT_DATA_DIR,,store,
+transport/script/generate_transport_inputs_standalone.py,627,--curves-dir,argparse default,,store,
+transport/script/generate_transport_inputs_standalone.py,628,--refresh-sources,argparse default,,'store_true',
+transport/script/generate_transport_inputs_standalone.py,629,--efuels,False,,argparse.BooleanOptionalAction,'Also generate transport_ICE_prim. Without this flag only transport_all is written.'
+transport/script/generate_transport_inputs_standalone.py,633,--metric-crs,'EPSG:3035',,store,
+transport/script/generate_transport_inputs_standalone.py,634,--skip-allocation,argparse default,,'store_true','Aggregate existing *_NUTS3.csv files without repeating geospatial allocation.'
+heating/generate_heating_inputs_standalone.py,738,--countries,parse_countries('HR'),,store,
+heating/generate_heating_inputs_standalone.py,739,--source-year,2021,,store,
+heating/generate_heating_inputs_standalone.py,740,--efuels,False,,argparse.BooleanOptionalAction,
+heating/generate_heating_inputs_standalone.py,741,--model-year,YEAR,,store,
+heating/generate_heating_inputs_standalone.py,742,--zone-map,argparse default,,store,
+heating/generate_heating_inputs_standalone.py,743,--out-root,SCRIPT_DIR / 'outputs_heating',,store,
+heating/generate_heating_inputs_standalone.py,744,--data-dir,SCRIPT_DIR / 'heating_data',,store,
+heating/generate_heating_inputs_standalone.py,745,--raw-output-root,SCRIPT_DIR / 'generated_nuts3_heating',,store,
+heating/generate_heating_inputs_standalone.py,749,--skip-raw-generation,argparse default,,'store_true','Only aggregate existing raw outputs supplied with --input-root.'
+heating/generate_heating_inputs_standalone.py,753,--input-root,SCRIPT_DIR,,store,
+heating/generate_heating_inputs_standalone.py,754,--refresh-sources,argparse default,,'store_true',
+heating/generate_heating_inputs_standalone.py,755,--rebuild-raw,argparse default,,'store_true',
+heating/generate_heating_inputs_standalone.py,756,--accept-population-terms,argparse default,,'store_true','Confirm acceptance of the Eurostat/GISCO population-grid terms.'
+heating/generate_heating_inputs_standalone.py,760,--nuts3-geojson,argparse default,,store,
+heating/generate_heating_inputs_standalone.py,761,--population-tif,argparse default,,store,
+heating/generate_heating_inputs_standalone.py,762,--era5,argparse default,,store,'Existing ERA5/ERA5-Land NetCDF.'
+heating/generate_heating_inputs_standalone.py,763,--temperature-source,'open-meteo',"['open-meteo', 'cds-netcdf']",store,'Temperature source when --era5 is not supplied: cached Open-Meteo ERA5-Land sampled-point series (default) or a CDS NetCDF download.'
+heating/generate_heating_inputs_standalone.py,771,--eigl-dir,argparse default,,store,
+heating/generate_heating_inputs_standalone.py,772,--hotmaps-dh-tif,argparse default,,store,
+heating/generate_heating_inputs_standalone.py,773,--idees-root,argparse default,,store,
+heating/generate_heating_inputs_standalone.py,774,--powerplants-csv,argparse default,,store,
+heating/generate_heating_inputs_standalone.py,775,--weather-points,8,[8],store,'Population-weighted random grid samples per NUTS3 region (paper method: 8)'
+heating/generate_heating_inputs_standalone.py,777,--weather-seed,0,,store,'Reproducible random sampling seed'
+heating/generate_heating_inputs_standalone.py,779,--dh-chp-lambda,0.9,,store,"'DH spatial-weight blend: 0=Hotmaps only, 1=CHP only (default: 0.9).'"
+power/generators/generate_genco_power_sector.py,506,--mode,'raw',"['raw', 'built']",store,
+power/generators/generate_genco_power_sector.py,507,--built-dir,None,,store,
+power/generators/generate_genco_power_sector.py,508,--out,DEFAULT_OUT,,store,
+power/generators/generate_genco_power_sector.py,509,--countries,None,,store,"'Comma-separated ISO2 list, e.g. ""HR,SI,IT"".'"
+power/generators/generate_genco_power_sector.py,510,--include-country-name-files,argparse default,,'store_true',
+power/generators/generate_genco_power_sector.py,511,--keep-source-file,argparse default,,'store_true',
+power/generators/generate_genco_power_sector.py,512,--summary,argparse default,,'store_true',
+power/generators/generate_genco_power_sector.py,513,--output-format,'sdewes18',"['sdewes18', 'detailed']",store,
+power/generators/generate_genco_power_sector.py,515,--rebuild-built,argparse default,,'store_true','Deprecated alias for --mode raw.'
+power/generators/generate_genco_power_sector.py,516,--powerplants,DEFAULT_POWERPLANTS,,store,
+power/generators/generate_genco_power_sector.py,517,--jrc-hydro,DEFAULT_HYDRO,,store,
+power/generators/generate_genco_power_sector.py,518,--template-genco,None,,store,
+power/generators/generate_genco_power_sector.py,519,--hr-defaults-xlsx,None,,store,
+power/generators/generate_genco_power_sector.py,520,--nuts3-geojson,DEFAULT_NUTS3,,store,
+power/generators/generate_genco_power_sector.py,521,--zone-mode,'country1',"['country1', 'country']",store,
+power/generators/generate_genco_power_sector.py,522,--download-sources,True,,argparse.BooleanOptionalAction,
+power/generators/generate_genco_power_sector.py,523,--refresh-sources,argparse default,,'store_true',
+power/generators/generate_genco_power_sector.py,524,--clean-built-dir,True,,argparse.BooleanOptionalAction,
+power/generators/generate_genco_power_sector.py,525,--powerplants-url,POWERPLANTS_URL,,store,
+power/generators/generate_genco_power_sector.py,526,--jrc-hydro-url,JRC_HYDRO_URL,,store,
+power/generators/generate_genco_power_sector.py,527,--nuts3-url,NUTS3_URL,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,400,--powerplants,argparse default,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,401,--jrc-hydro,argparse default,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,402,--template-genco,argparse default,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,403,--hr-defaults-xlsx,argparse default,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,404,--out-dir,argparse default,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,406,--powerplants-country-col,'Country',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,407,--powerplants-fuel-col,'Fueltype',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,408,--powerplants-tech-col,'Technology',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,409,--powerplants-name-col,'Name',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,410,--powerplants-cap-col,'Capacity',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,412,--hydro-country-col,'country_code',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,413,--hydro-name-col,'name',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,414,--hydro-cap-col,'capacity_mw',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,415,--hydro-type-col,'type',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,417,--zone-mode,'country1',"['country1', 'country']",store,
+power/generators/build_genco_union_plus_template_defaults_all.py,418,--countries,'auto',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,420,--decom-start-existing-cap,20.0,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,421,--life-time,25.0,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,422,--decom-start-new,25.0,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,425,--nuts3-geojson,argparse default,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,426,--nuts3-id-col,'NUTS_ID',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,427,--nuts3-level-col,'LEVL_CODE',,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,428,--nuts3-level,3,,store,
+power/generators/build_genco_union_plus_template_defaults_all.py,429,--nuts3-out-col,'NUTS3',,store,
+power/hydro/generate_hydro_inputs_standalone.py,115,--year,2020,,store,
+power/hydro/generate_hydro_inputs_standalone.py,116,--countries,argparse default,,store,
+power/hydro/generate_hydro_inputs_standalone.py,117,--detailed-genco,argparse default,,store,
+power/hydro/generate_hydro_inputs_standalone.py,118,--aggregated-genco,argparse default,,store,
+power/hydro/generate_hydro_inputs_standalone.py,119,--aggregation-schema,argparse default,,store,
+power/hydro/generate_hydro_inputs_standalone.py,120,--profiles,DEFAULT_BULK / 'outputs/profiles/runoff_shapes_2020.npz',,store,
+power/hydro/generate_hydro_inputs_standalone.py,124,--hydro-units,DEFAULT_BULK / 'outputs/dispaset/hydro_units.csv',,store,
+power/hydro/generate_hydro_inputs_standalone.py,128,--plants,DEFAULT_BULK / 'data/plants/jrc-hydro-power-plant-database.csv',,store,
+power/hydro/generate_hydro_inputs_standalone.py,132,--outdir,argparse default,,store,
+power/hydro/generate_hydro_inputs_standalone.py,133,--max-match-distance-km,20.0,,store,
+power/hydro/generate_hydro_inputs_standalone.py,134,--output-level,'aggregated',"('aggregated', 'individual', 'both')",store,"'Write zone-aggregated curves, individual-plant curves, or both.'"
 power/demand/generate_electricity_demand_standalone.py,259,--countries,argparse default,,store,
 power/demand/generate_electricity_demand_standalone.py,260,--year,argparse default,,store,
 power/demand/generate_electricity_demand_standalone.py,261,--out-dir,argparse default,,store,
@@ -209,25 +220,26 @@ power/demand/generate_electricity_demand_standalone.py,263,--weights-dir,DEFAULT
 power/demand/generate_electricity_demand_standalone.py,264,--zone-map,argparse default,,store,
 power/demand/generate_electricity_demand_standalone.py,265,--token,argparse default,,store,'ENTSO-E API token; preferably set ENTSOE_API_TOKEN instead.'
 power/demand/generate_electricity_demand_standalone.py,266,--refresh,argparse default,,'store_true',
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,396,--schema,argparse default,,store,'Schema CSV (genco_*_schema.csv)'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,397,--out-dir,argparse default,,store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,398,--country,'HR',,store,'ISO2 (matches schema System). Default HR'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,399,--date-from,argparse default,,store,'YYYY-MM-DD'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,400,--date-to,argparse default,,store,'YYYY-MM-DD'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,401,--timezone,'UTC',,store,'Open-Meteo timezone (default UTC)'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,402,--unit-column,None,,store,'Schema unit column (new_unit_name or old_unit_name)'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,403,--output-suffix,'',,store,"'Suffix added before .csv, e.g. _individual'"
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,404,--cache-dir,None,,store,'Persistent weather-response cache'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,405,--weather-source,'openmeteo',"('openmeteo', 'renewables-ninja')",store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,409,--ninja-token,os.environ.get('RENEWABLES_NINJA_TOKEN'),,store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,410,--ninja-dataset,'merra2',,store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,413,--irena-xlsx,None,,store,'IRENA_Statistics_Extract_2025H2.xlsx'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,414,--irena-year,None,,store,'Year to use (default from --date-from)'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,415,--calibrate,argparse default,,'store_true','Calibrate national annual CF to IRENA'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,418,--pv-ghi-ref,1000.0,,store,'W/m2 giving CF=1 for PV proxy'
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,419,--wind-cut-in,3.0,,store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,420,--wind-rated,12.0,,store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,421,--wind-cut-out,25.0,,store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,424,--sleep-s,0.25,,store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,425,--max-retries,8,,store,
-power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,426,--verbose,argparse default,,'store_true',
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,506,--schema,argparse default,,store,'Schema CSV (genco_*_schema.csv)'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,507,--out-dir,argparse default,,store,
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,508,--country,'HR',,store,'ISO2 (matches schema System). Default HR'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,509,--date-from,argparse default,,store,'YYYY-MM-DD'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,510,--date-to,argparse default,,store,'YYYY-MM-DD'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,511,--timezone,'UTC',,store,'Open-Meteo timezone (default UTC)'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,512,--unit-column,None,,store,'Schema unit column (new_unit_name or old_unit_name)'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,513,--output-suffix,'',,store,"'Suffix added before .csv, e.g. _individual'"
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,514,--cache-dir,None,,store,'Persistent weather-response cache'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,515,--weather-source,'openmeteo',"('openmeteo', 'renewables-ninja')",store,
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,519,--ninja-token,os.environ.get('RENEWABLES_NINJA_TOKEN'),,store,
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,520,--ninja-dataset,'merra2',,store,
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,523,--irena-xlsx,None,,store,'IRENA_Statistics_Extract_2025H2.xlsx'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,524,--irena-year,None,,store,'Year to use (default from --date-from)'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,525,--calibrate,argparse default,,'store_true','Calibrate national annual CF to IRENA'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,528,--pv-ghi-ref,1000.0,,store,'W/m2 giving CF=1 for PV proxy'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,529,--wind-cut-in,3.0,,store,
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,530,--wind-rated,12.0,,store,
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,531,--wind-cut-out,25.0,,store,
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,534,--sleep-s,0.0,,store,'Optional delay after a new download; default uses counted request budgets only'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,535,--max-retries,8,,store,
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,536,--openmeteo-max-wait,DEFAULT_MAX_WAIT,,store,'Maximum local-estimate pause in seconds (0: no cap); HTTP 429 retries continue until success or Stop'
+power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py,537,--verbose,argparse default,,'store_true',

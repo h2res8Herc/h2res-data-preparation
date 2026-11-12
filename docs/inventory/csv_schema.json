@@ -893,6 +893,33 @@
     ]
   },
   {
+    "file": "transport_infrastructure.csv",
+    "column_count": 10,
+    "columns": [
+      "unit",
+      "sector",
+      "vehicle_types",
+      "charger_type",
+      "power_kw",
+      "h2_kg_per_day",
+      "chargers_per_vehicle",
+      "capex_eur_per_point",
+      "fixed_opex_eur_per_point_year",
+      "life_years"
+    ]
+  },
+  {
+    "file": "transport_infrastructure_existing.csv",
+    "column_count": 5,
+    "columns": [
+      "unit",
+      "zone",
+      "System",
+      "number",
+      "existing_remaining_life_years"
+    ]
+  },
+  {
     "file": "transport_profiles.csv",
     "column_count": 57,
     "columns": [

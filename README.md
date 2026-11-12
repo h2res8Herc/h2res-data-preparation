@@ -32,9 +32,21 @@ Run `SETUP_WINDOWS.bat`. The 107,182,326-byte hydro archive is stored in ordinar
 
 Older source ZIPs may contain a 134-byte Git LFS pointer for the NPZ. For an existing installation, copy the actual `power/hydro/precomputed/runoff_shapes_2020.npz` from the complete portable ZIP into the same location and rerun setup. Alternatively download the current source ZIP with its parts. Previously downloaded observations can be reused. The hydro data does not require enabling pickle loading.
 
-The repository includes the required local reference data. Source observations that are not bundled are downloaded during preparation. The source checkout installs Python dependencies from the internet; dependency wheels and the complete offline installer are provided in the private repository's Releases when available. Download the attached portable ZIP for copying to another machine.
+The repository includes the required local reference data. Source observations that are not bundled are downloaded during preparation. The source checkout installs Python dependencies from the internet; dependency wheels and the complete offline installer are provided in the repository's Releases when available. Download the attached portable ZIP for copying to another machine.
 
 API tokens are entered locally or supplied through environment variables. Do not commit tokens, `.env` files, saved GUI settings or completed datasets. `.gitignore` excludes the standard runtime folders and local settings.
+
+## Expanded model manual — 12 November 2026
+
+The **150-page H2RES model manual** documents the separate `H2RES_12.11.2026` optimization model, with **62 source-linked equations**, **378 unique settings explained**, 32 illustrated source/data views, complete workflow/dependency guidance and 60 bibliography entries. It covers the sector representations, e-fuels, capture and process-carbon accounting, networks/terminals, DSM, industrial/electricity CBAM, planning/dispatch modes, solver acceptance and resume behavior. Author-reported tests are distinguished from static source inspection.
+
+* [Model manual PDF](docs/H2RES_USER_MANUAL.pdf)
+* [Configuration recipes and dependencies](docs/MAIN_CONFIGURATION_GUIDE.md)
+* [Equations rendered on GitHub](docs/MATHEMATICAL_FORMULATION_GITHUB.md)
+* [Complete option reference](docs/MODEL_OPTION_REFERENCE.md)
+* [Offline HTML source](docs/H2RES_USER_MANUAL.html) — download the documentation ZIP from [Releases](https://github.com/h2res8Herc/h2res-data-preparation/releases/tag/v2026.11.12) for local browsing with all images and equations.
+
+The expanded PDF and standalone documentation ZIP are attached to the release. Existing application installer assets retain their original program contents; the expanded manual is available separately. This documentation update does not change preparation calculations or run the optimization model.
 
 ## Documentation
 

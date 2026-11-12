@@ -1,12 +1,17 @@
 {
   "passed": true,
   "errors": [],
-  "model_and_preparation_source_hashes_verified": 52,
-  "model_input_hashes_verified": 48,
-  "reference_entries": 57,
-  "html_anchors": 278,
-  "constraints_indexed": 692,
-  "variables_indexed": 329,
+  "model_and_preparation_source_hashes_verified": 71,
+  "model_input_hashes_verified": 46,
+  "reference_entries": 60,
+  "html_anchors": 460,
+  "constraints_indexed": 739,
+  "variables_indexed": 349,
+  "model_screenshots_verified": 32,
+  "focused_manual_images": 94,
+  "equations_verified": 62,
+  "unique_settings_explained": 378,
+  "configuration_recipe_snippets_checked": 16,
   "model_executed": false,
   "model_files_modified": false
 }
