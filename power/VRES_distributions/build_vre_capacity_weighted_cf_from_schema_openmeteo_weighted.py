@@ -43,8 +43,6 @@ OUTPUTS
 """
 
 import argparse
-import datetime as dt
-from email.utils import parsedate_to_datetime
 import hashlib
 import io
 import os
@@ -63,7 +61,7 @@ import requests
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
-from openmeteo_quota import DEFAULT_MAX_WAIT, OpenMeteoQuotaWaitError, reserve_request, resume_message
+from openmeteo_quota import DEFAULT_MAX_WAIT, OpenMeteoQuotaWaitError, reserve_request, resume_message, quota_run, quota_retry_delay, retry_after
 
 # ----------------------------
 # Helpers: schema detection
@@ -96,7 +94,7 @@ NINJA_URL = "https://www.renewables.ninja/api/data"
 
 
 class OpenMeteoRateLimitError(RuntimeError):
-    """The provider's quota cannot be recovered within this bounded retry."""
+    """Legacy marker; actual HTTP 429 responses now retry in place."""
 
 
 class WeatherAcquisitionError(RuntimeError):
@@ -118,18 +116,7 @@ def _wait_weather(seconds, message):
 
 
 def _retry_after(headers, now=None):
-    value=(headers or {}).get('Retry-After')
-    if value is None:value=(headers or {}).get('retry-after')
-    if value is None:return None
-    try:
-        seconds=float(value)
-    except (ValueError,TypeError):
-        try:
-            reset=parsedate_to_datetime(value)
-            if reset.tzinfo is None:reset=reset.replace(tzinfo=dt.timezone.utc)
-            seconds=(reset-(now or dt.datetime.now(dt.timezone.utc))).total_seconds()
-        except (ValueError,TypeError,OverflowError):return None
-    return max(1.,seconds) if np.isfinite(seconds) else None
+    return retry_after(headers,now)
 
 
 def _weather_reason(response, secret=''):
@@ -245,15 +232,12 @@ def fetch_openmeteo_hourly(
     if api_key:
         url=CUSTOMER_ARCHIVE_URL
         request_params['apikey']=api_key
-    waited=0.
-    def quota_wait(seconds, message):
-        nonlocal waited
-        _wait_weather(seconds,message)
-        waited+=seconds
+    failures=0
+    quota_attempts=0
     last_err='No usable weather response'
-    for k in range(max_retries):
+    while failures<max_retries:
         if not api_key:
-            reserve_request(params, max_wait=max(0., max_rate_limit_wait-waited), wait=quota_wait)
+            reserve_request(params,max_wait=max_rate_limit_wait,wait=_wait_weather)
         try:
             r=requests.get(url,params=request_params,timeout=60)
         except requests.RequestException as error:
@@ -263,18 +247,10 @@ def fetch_openmeteo_hourly(
             reason=_weather_reason(r,api_key)
             if r.status_code==429:
                 scope=_quota_scope(reason)
-                wait=_retry_after(r.headers)
-                if wait is None and scope!='monthly':
-                    wait=86400. if scope=='daily' else 3600. if scope=='hourly' else 65. if scope=='minutely' else min(60.*2**k,900.)
-                if wait is None or waited+wait>max_rate_limit_wait or k+1==max_retries:
-                    reset=f' Provider asks for at least {wait:g}s before retry.' if wait is not None else ''
-                    raise OpenMeteoRateLimitError(
-                        f'Open-Meteo {scope} quota exhausted (HTTP 429): {reason or "provider rate limit"}. '
-                        f'Automatic retry stopped after {waited:g}s of quota waits.{reset} '
-                        'Resume with the same weather cache after the provider quota resets, or configure an authorized '
-                        'Historical Weather customer key with OPEN_METEO_API_KEY. Existing weather and curves are retained.'
-                    ) from None
-                quota_wait(wait,f'{scope} quota (HTTP 429); retry {k+2}/{max_retries}')
+                quota_attempts+=1
+                wait=quota_retry_delay(quota_attempts,r.headers)
+                r.close()
+                _wait_weather(wait,f'{scope} quota (HTTP 429); automatic retry {quota_attempts}')
                 continue
             if 400<=r.status_code<500:
                 raise RuntimeError(f'Open-Meteo HTTP {r.status_code}: {reason or "request rejected; check parameters or customer-key access"}') from None
@@ -290,8 +266,9 @@ def fetch_openmeteo_hourly(
                     if cache_path is not None:_write_weather_cache(data,cache_path)
                     if sleep_s>0:_wait_weather(float(sleep_s),'request spacing')
                     return data
-        if k+1<max_retries:
-            _wait_weather(min(max(1.,sleep_s)*2**k,60.),f'{last_err}; retry {k+2}/{max_retries}')
+        failures+=1
+        if failures<max_retries:
+            _wait_weather(min(max(1.,sleep_s)*2**(failures-1),60.),f'{last_err}; retry {failures+1}/{max_retries}')
     raise RuntimeError(f'Open-Meteo fetch failed after retries: {last_err}') from None
 
 
@@ -522,6 +499,7 @@ def find_alpha_sites_for_target(items: List[Dict], target_mean: float) -> float:
 # ----------------------------
 # Main
 # ----------------------------
+@quota_run()
 def main():
     ap = argparse.ArgumentParser()
 
@@ -555,7 +533,7 @@ def main():
     # throttling
     ap.add_argument("--sleep-s", type=float, default=0., help="Optional delay after a new download; default uses counted request budgets only")
     ap.add_argument("--max-retries", type=int, default=8)
-    ap.add_argument('--openmeteo-max-wait',type=float,default=DEFAULT_MAX_WAIT,help='Maximum total quota-wait seconds per site; default 93600 (26 hours) permits automatic overnight daily-quota recovery')
+    ap.add_argument('--openmeteo-max-wait',type=float,default=DEFAULT_MAX_WAIT,help='Maximum local-estimate pause in seconds (0: no cap); HTTP 429 retries continue until success or Stop')
     ap.add_argument("--verbose", action="store_true")
 
     args = ap.parse_args()

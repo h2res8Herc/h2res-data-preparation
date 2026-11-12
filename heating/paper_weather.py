@@ -1,7 +1,7 @@
 """Reproducible population-weighted eight-point regional weather sampling."""
 import hashlib
 from pathlib import Path
-import time
+from openmeteo_quota import quota_retry_delay, wait_seconds
 
 import geopandas as gpd
 import numpy as np
@@ -36,18 +36,19 @@ def sample_region(geometry, geometry_crs, population, zone, count=8, seed=0):
 def request_series(reader, era5_path, longitude, latitude, year, verbose=False):
     # A provider failure must not silently change the sampling method or move
     # demand to a centroid. Successful point series remain cached by the reader.
-    for attempt in range(5):
+    attempt=0
+    while True:
         try:
             return reader(era5_path, lon=longitude, lat=latitude, year=year, verbose=verbose)
         except Exception as error:
             cause = error
             while cause is not None and getattr(cause, "code", None) != 429:
                 cause = cause.__cause__
-            if cause is None or attempt == 4:
+            if cause is None:
                 raise
-            delay = min(max(float(cause.headers.get("Retry-After", 60)), 1.), 120.)
-            print(f"Weather provider rate limit; keeping cached series and retrying in {delay:g}s", flush=True)
-            time.sleep(delay)
+            attempt+=1
+            delay=quota_retry_delay(attempt,cause.headers)
+            wait_seconds(delay,f'Weather provider HTTP 429; automatic retry {attempt}')
 
 
 def regional_hdd(population_totals, nuts, population_raster, era5_path, year, base_temperature,

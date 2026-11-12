@@ -37,6 +37,7 @@ import pandas as pd
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR.parent))
+from openmeteo_quota import quota_run
 YEAR = 2020
 
 NUTS_URL = (
@@ -782,6 +783,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+@quota_run()
 def main(argv: Iterable[str] | None = None) -> int:
     args = build_parser().parse_args(list(argv) if argv is not None else None)
     try:

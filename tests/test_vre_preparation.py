@@ -24,9 +24,9 @@ spec.loader.exec_module(vre)
 
 
 class VrePreparationTests(unittest.TestCase):
-    def test_runner_defaults_to_overnight_weather_quota_wait(self):
+    def test_runner_has_no_quota_failure_timeout_by_default(self):
         args=runner.build_parser().parse_args([])
-        self.assertEqual(args.openmeteo_max_wait,93600.)
+        self.assertEqual(args.openmeteo_max_wait,0.)
         shorter=runner.build_parser().parse_args(['--openmeteo-max-wait','3600'])
         self.assertEqual(shorter.openmeteo_max_wait,3600.)
 

@@ -41,9 +41,10 @@ Custom-zone mapping examples and support limits: docs/CUSTOM_ZONES.html.
 Partial-country maps and independent offshore zones are not supported yet.
 Windows archive staging uses short sibling paths. Validated recovery folders
 can rebuild a missing package without repeating source preparation. See the native data guide.
-Public wind/solar and heating downloads share a persistent weighted request budget;
-downloads pause only near quota limits, respect provider reset delays and retain caches.
-A daily/monthly provider quota may require resuming after its reset; see the user guide.
+Each new preparation run starts its local weather estimate at zero; countries and
+sectors share that run's counter. Day/month estimates do not impose local waits.
+HTTP 429 responses retry until success or Stop, honoring provider reset delays.
+Existing weather caches remain reusable; see the user guide.
 Optional bus-based H2RES-refactored CSV case export: select it on Output format.
 See docs/REFACTORED_EXPORT.html for use, mappings and representation differences.
 Refactored electricity retains the older export's hourly curves and JRC shares;

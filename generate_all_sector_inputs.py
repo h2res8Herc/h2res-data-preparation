@@ -29,7 +29,7 @@ from model_input_bundle import (
     selected_workbook, validate_bundle, preflight_reference,
 )
 from scenario_config import apply_scenario, resolve_scenario
-from openmeteo_quota import DEFAULT_MAX_WAIT
+from openmeteo_quota import DEFAULT_MAX_WAIT, quota_run
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -695,7 +695,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--renewables-ninja-dataset", default="merra2")
     parser.add_argument('--openmeteo-max-wait',type=float,default=DEFAULT_MAX_WAIT,
-                        help='Maximum wind/solar quota-wait seconds per site; default 93600 (26 hours) allows overnight continuation')
+                        help='Maximum seconds per local-estimate pause (0: no cap); quota recovery never aborts the run')
     parser.add_argument(
         "--vre-calibrate", action=argparse.BooleanOptionalAction, default=True
     )
@@ -719,6 +719,7 @@ def export_refactored_if_requested(args):
             electricity_case=args.industry_electricity_case)
 
 
+@quota_run(inherit=False)
 def main(argv: Iterable[str] | None = None) -> int:
     args = build_parser().parse_args(list(argv) if argv is not None else None)
     try:

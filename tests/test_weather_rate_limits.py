@@ -41,7 +41,7 @@ class WeatherRateLimitTests(unittest.TestCase):
             frame=self.fetch()
         self.assertEqual(len(frame),24)
         self.assertEqual(request.call_count,2)
-        self.assertGreaterEqual(sum(c.args[0] for c in sleep.call_args_list),65.)
+        self.assertGreaterEqual(sum(c.args[0] for c in sleep.call_args_list),60.)
         self.assertLessEqual(max(c.args[0] for c in sleep.call_args_list),30.)
 
     def test_retry_after_seconds_are_respected_without_shortening(self):
@@ -58,16 +58,17 @@ class WeatherRateLimitTests(unittest.TestCase):
         with patch.object(vre.requests,'get',side_effect=[self.response(429,'Hourly API request limit exceeded'),self.response()]) as request, \
              patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):self.fetch()
         self.assertEqual(request.call_count,2)
-        self.assertAlmostEqual(sum(c.args[0] for c in sleep.call_args_list),3600.)
+        self.assertAlmostEqual(sum(c.args[0] for c in sleep.call_args_list),60.)
 
-    def test_daily_quota_without_reset_delay_stops_without_futile_retries(self):
-        with patch.object(vre.requests,'get',return_value=self.response(429,'Daily API request limit exceeded')) as request, \
-             patch.object(vre.time,'sleep') as sleep:
-            with self.assertRaisesRegex(vre.OpenMeteoRateLimitError,'daily quota.*same weather cache'):self.fetch(max_rate_limit_wait=3600.)
-        self.assertEqual(request.call_count,1);sleep.assert_not_called()
-
-    def test_daily_provider_quota_can_recover_overnight_by_default(self):
+    def test_daily_quota_without_reset_hint_retries_without_a_full_day_pause(self):
         with patch.object(vre.requests,'get',side_effect=[self.response(429,'Daily API request limit exceeded'),self.response()]) as request, \
+             patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):
+            self.fetch(max_rate_limit_wait=3600.)
+        self.assertEqual(request.call_count,2)
+        self.assertEqual(sum(c.args[0] for c in sleep.call_args_list),60.)
+
+    def test_provider_can_prescribe_an_overnight_wait(self):
+        with patch.object(vre.requests,'get',side_effect=[self.response(429,'Daily API request limit exceeded',retry='86400'),self.response()]) as request, \
              patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()) as output:
             frame=self.fetch()
         self.assertEqual(len(frame),24)
@@ -75,22 +76,47 @@ class WeatherRateLimitTests(unittest.TestCase):
         self.assertEqual(sum(c.args[0] for c in sleep.call_args_list),86400.)
         self.assertIn('estimated resume',output.getvalue())
 
-    def test_local_and_provider_waits_share_one_total_budget(self):
+    def test_quota_waits_do_not_fail_at_a_former_total_time_budget(self):
+        local_calls=[]
         def local_wait(params,**kwargs):
-            kwargs['wait'](79000.,'local day budget')
+            if not local_calls:kwargs['wait'](120.,'local minute budget')
+            local_calls.append(params)
         with patch.object(vre,'reserve_request',side_effect=local_wait), \
-             patch.object(vre.requests,'get',return_value=self.response(429,'Daily quota',retry='20000')) as request, \
+             patch.object(vre.requests,'get',side_effect=[self.response(429,'Daily quota',retry='20000'),self.response()]) as request, \
              patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):
-            with self.assertRaisesRegex(vre.OpenMeteoRateLimitError,'20000s'):
-                self.fetch()
-        request.assert_called_once()
-        self.assertEqual(sum(c.args[0] for c in sleep.call_args_list),79000.)
+            self.fetch(max_rate_limit_wait=60.)
+        self.assertEqual(request.call_count,2)
+        self.assertEqual(sum(c.args[0] for c in sleep.call_args_list),20120.)
 
-    def test_retry_after_exceeding_wait_budget_is_not_ignored_or_shortened(self):
-        with patch.object(vre.requests,'get',return_value=self.response(429,'Hourly quota',retry='7200')) as request, \
-             patch.object(vre.time,'sleep') as sleep:
-            with self.assertRaisesRegex(vre.OpenMeteoRateLimitError,'7200s'):self.fetch(max_rate_limit_wait=120.)
-        self.assertEqual(request.call_count,1);sleep.assert_not_called()
+    def test_retry_after_is_not_shortened_by_legacy_wait_setting(self):
+        with patch.object(vre.requests,'get',side_effect=[self.response(429,'Hourly quota',retry='7200'),self.response()]) as request, \
+             patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):
+            self.fetch(max_rate_limit_wait=120.)
+        self.assertEqual(request.call_count,2)
+        self.assertEqual(sum(c.args[0] for c in sleep.call_args_list),7200.)
+
+    def test_repeated_monthly_429_does_not_exhaust_network_retries(self):
+        responses=[self.response(429,'Monthly request allowance exceeded') for _ in range(12)]+[self.response()]
+        with patch.object(vre.requests,'get',side_effect=responses) as request, \
+             patch.object(vre.time,'sleep') as sleep,redirect_stdout(io.StringIO()):
+            frame=self.fetch(max_retries=2)
+        self.assertEqual(len(frame),24)
+        self.assertEqual(request.call_count,13)
+        total=sum(c.args[0] for c in sleep.call_args_list)
+        self.assertEqual(total,60.+120.+240.+480.+8*900.)
+
+    def test_manual_stop_during_quota_wait_retains_previously_published_curves(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);schema=root/'schema.csv'
+            pd.DataFrame(dict(new_unit_name=['IT_A'],technology='PHOT',cap_mw_old=1.,lat=45.,lon=16.,System='IT')).to_csv(schema,index=False)
+            previous=root/'vre_cf_IT_2020.csv';previous.write_bytes(b'previous curves')
+            with patch('sys.argv',['vre','--schema',str(schema),'--out-dir',str(root),'--country','IT',
+                    '--date-from','2020-01-01','--date-to','2020-12-31']), \
+                 patch.object(vre.requests,'get',return_value=self.response(429,'Daily allowance')) as request, \
+                 patch.object(vre,'_wait_weather',side_effect=KeyboardInterrupt),redirect_stdout(io.StringIO()):
+                with self.assertRaises(KeyboardInterrupt):vre.main()
+            request.assert_called_once()
+            self.assertEqual(previous.read_bytes(),b'previous curves')
 
     def test_customer_key_selects_official_endpoint_and_reuses_existing_public_cache(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -142,17 +168,17 @@ class WeatherRateLimitTests(unittest.TestCase):
         self.assertEqual(len(frame),8784)
         sleep.assert_not_called()
 
-    def test_rate_limit_aborts_remaining_sites_and_preserves_previous_curves(self):
+    def test_permanent_failure_stops_remaining_sites_and_preserves_previous_curves(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);schema=root/'schema.csv'
             pd.DataFrame(dict(new_unit_name=['IT_A','IT_A'],technology='PHOT',cap_mw_old=1.,lat=[45.,46.],lon=16.,System='IT')).to_csv(schema,index=False)
             previous=root/'vre_cf_IT_2020.csv';previous.write_bytes(b'previous curves')
             with patch('sys.argv',['vre','--schema',str(schema),'--out-dir',str(root),'--country','IT','--date-from','2020-01-01','--date-to','2020-12-31']), \
-                 patch.object(vre,'fetch_openmeteo_hourly',side_effect=vre.OpenMeteoRateLimitError('daily quota')) as request,redirect_stdout(io.StringIO()):
-                with self.assertRaisesRegex(RuntimeError,'daily quota'):vre.main()
+                 patch.object(vre,'fetch_openmeteo_hourly',side_effect=RuntimeError('HTTP 403 denied')) as request,redirect_stdout(io.StringIO()):
+                with self.assertRaisesRegex(RuntimeError,'HTTP 403 denied'):vre.main()
             self.assertEqual(request.call_count,1)
             self.assertEqual(previous.read_bytes(),b'previous curves')
-            self.assertEqual(pd.read_csv(root/'summary_IT.csv').status.tolist(),['RATE_LIMITED'])
+            self.assertEqual(pd.read_csv(root/'summary_IT.csv').status.tolist(),['ALL_SITES_FAILED'])
 
 
 if __name__=='__main__':unittest.main()

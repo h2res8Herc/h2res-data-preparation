@@ -15,6 +15,8 @@ For a complete ready-to-copy installation, use the **attached portable ZIP in [R
 
 Outputs are written to `data/` (original workbooks) and, when enabled, `data_refactored/` (CSV case), with separate archives. They are runtime outputs and are not committed to this repository.
 
+Weather request estimates start at zero for each new preparation run. Wind/solar and heating jobs within that run share the count, and existing weather caches are reused. Minute/hour estimates pace bursts; day/month estimates do not create long local pauses. If Open-Meteo returns HTTP 429, acquisition keeps retrying until success or Stop, honoring Retry-After or using a gradually increasing delay capped at 15 minutes when no reset hint is supplied. This resets the local estimate, not the provider's counters.
+
 The refactored electricity export reuses the original ENTSO-E hourly curves and normalized JRC regional demand shares. Its totals account for electricity represented explicitly in other sectors. The refactored model's industrial-service and prescribed fleet-pathway adaptations are documented in the export report.
 
 ## Download or clone source

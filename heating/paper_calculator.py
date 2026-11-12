@@ -11,8 +11,10 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 from heating.paper_weather import regional_hdd
+from openmeteo_quota import quota_run
 
 
+@quota_run()
 def main():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("--calculator", type=Path, required=True)
@@ -76,14 +78,12 @@ def main():
 
 def install_weather_budget(source):
     """Count actual temperature downloads; cached series never reach urlopen."""
-    marker = '        for attempt in range(1, 4):\n            try:'
+    marker = '                with urllib.request.urlopen(request, timeout=180) as response:'
     if source.count(marker) != 1:
         raise ValueError("The supplied heating calculator's weather-budget adapter needs review")
     return source.replace(marker,
-        '        for attempt in range(1, 4):\n'
-        '            from openmeteo_quota import reserve_request\n'
-        '            reserve_request(params)\n'
-        '            try:', 1)
+        '                from openmeteo_quota import openmeteo_urlopen\n'
+        '                with openmeteo_urlopen(request, params, timeout=180) as response:', 1)
 
 
 if __name__ == "__main__":
