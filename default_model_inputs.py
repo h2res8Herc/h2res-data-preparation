@@ -25,8 +25,12 @@ def quantity_columns(frame, sheet=None):
             or (annual_totals and str(c).isdigit())]
 
 
-def allocation_weights(data, targets):
-    """Prepared demand shares are proxies for otherwise unsourced defaults."""
+def allocation_weights(data, targets, *, with_basis=False):
+    """Demand shares for unsourced defaults, with optional per-country provenance.
+
+    A sector needs positive demand in the requested geography, not merely a
+    table on disk. Otherwise electricity supplies the explicit allocation proxy.
+    """
     totals = {}
     for kind, names in {
         "electricity": ("electricity_demand.csv",),
@@ -55,19 +59,32 @@ def allocation_weights(data, targets):
                         found = True
         if found:
             totals[kind] = values
-    result = {}
+    result, bases = {}, {}
     for kind in ("electricity", "heating", "industry"):
-        values = totals.get(kind, totals.get("electricity", {}))
-        weights = {}
+        weights, basis = {}, {}
         for system in {pair[0] for pair in targets}:
             pairs = sorted(pair for pair in targets if pair[0] == system)
+            values = totals.get(kind, {})
             total = sum(values.get(pair, 0.) for pair in pairs)
+            source = f"prepared {kind} demand"
+            # A retained national reference table may exist without covering
+            # any requested regional zones. Its presence is not evidence of
+            # usable regional weights. Fall back per country, just as when
+            # the sector table is absent, and retain zero-demand zone shares.
+            if total <= 0 and kind != "electricity":
+                values = totals.get("electricity", {})
+                total = sum(values.get(pair, 0.) for pair in pairs)
+                source = (f"prepared electricity demand (fallback: no positive {kind} "
+                          "demand for the requested country/zones)")
             if total > 0:
                 weights.update({pair: values.get(pair, 0.) / total for pair in pairs})
+                basis.update({pair: source for pair in pairs})
             elif len(pairs) == 1:
                 weights[pairs[0]] = 1.
+                basis[pairs[0]] = "single model zone; no regional subdivision"
         result[kind] = weights
-    return result
+        bases[kind] = basis
+    return (result, bases) if with_basis else result
 
 
 def default_rows(frame, targets, *, weights=None, quantities=(), weight_basis=None):
@@ -115,7 +132,9 @@ def default_rows(frame, targets, *, weights=None, quantities=(), weight_basis=No
                           basis=("national default allocated with prepared demand shares; not a sourced observation"
                                  if share is not None else "unchanged supplied default; not a sourced observation"),
                           rows=len(extra), allocated_quantity_columns=fields if share is not None else [],
-                          allocation_weight=share, weight_basis=weight_basis))
+                          allocation_weight=share,
+                          weight_basis=(weight_basis.get((target_system, target_zone))
+                                        if isinstance(weight_basis, dict) else weight_basis)))
     return (pd.concat([frame, *additions], ignore_index=True) if additions else frame), notes
 
 
@@ -123,18 +142,25 @@ def complete_defaults(data: Path, targets, generated_files, variants, selected_n
     # The supplied model's reference calibration already covers this geography.
     if not targets or targets == {("HR", "HR1")}:
         return []
-    from model_input_bundle import replace_sheets, write_csv
+    from model_input_bundle import pooled_industry, replace_sheets, write_csv
     notes = []
     generated = set(generated_files)
-    regional = allocation_weights(data, targets)
+    regional, regional_basis = allocation_weights(data, targets, with_basis=True)
+    annual_industry_profiles = {}
     unit_aliases = {}
     for path in data.glob("*.csv"):
         if path.name in generated or path.name in {"renewable_availability.csv", "hydro_inflows.csv", "literature_fixed_opex.csv",
                                                   "outside_system_supply_shares.csv", "outside_system_normalized_curves.csv"}:
             continue
         frame = pd.read_csv(path)
+        quantities = quantity_columns(frame)
+        if path.name in {"industry_heat.csv", "industry_category_profiles.csv"}:
+            # These long-format values are hourly MW, not normalized shapes.
+            # Allocating default equipment without allocating its heat demand
+            # would repeat the full national industrial service in every zone.
+            quantities = [c for c in frame if c not in {"System", "zone", "period"}]
         updated, changes = default_rows(frame, targets, weights=regional["electricity"],
-                                        quantities=quantity_columns(frame), weight_basis="prepared electricity demand")
+                                        quantities=quantities, weight_basis=regional_basis["electricity"])
         if path.name == "generators.csv" and changes:
             old_length = len(frame)
             for index in range(old_length, len(updated)):
@@ -161,6 +187,7 @@ def complete_defaults(data: Path, targets, generated_files, variants, selected_n
                     raise ValueError(f"No regional demand weight for default {path.name}/{zone}")
                 updated[column] = updated[donor] * share
                 changes.append(dict(column=column, donor_column=donor, allocation_weight=share,
+                                    weight_basis=regional_basis["electricity"].get((system, zone)) if absolute else None,
                                     basis="national absolute hourly default allocated with demand shares" if absolute
                                           else "shared normalized profile or intensive hourly assumption"))
         if changes:
@@ -198,12 +225,40 @@ def complete_defaults(data: Path, targets, generated_files, variants, selected_n
                 kind = ("industry" if sheet.startswith("industry") or sheet == "NH3_demand" else
                         "heating" if sheet.startswith(("solar_", "thermal_", "flex_tech_heat", "flex_tech_DH"))
                         else "electricity")
-                updated, changes = default_rows(frame, targets, weights=regional[kind],
-                                                quantities=quantity_columns(frame, sheet),
-                                                weight_basis=f"prepared {kind} demand")
+                try:
+                    updated, changes = default_rows(frame, targets, weights=regional[kind],
+                                                    quantities=quantity_columns(frame, sheet),
+                                                    weight_basis=regional_basis[kind])
+                except ValueError as exc:
+                    raise ValueError(f"Cannot apply regional defaults in {name}/{sheet}: {exc}") from exc
                 if changes:
                     patches[sheet] = updated
                     notes.extend(dict(file=name, sheet=sheet, **change) for change in changes)
+            if (path.name.startswith("flex_tech") and "Industry_data" not in exclude
+                    and {"Industry_data", "simple_industry"}.issubset(book.sheet_names)):
+                # Retained source/default sheets can change independently
+                # during regional expansion. The remainder is derived from
+                # final service flags/stocks; it is never a separately cloned
+                # national stock. Generated variants already pool using their
+                # own source-specific profiles and must not be overwritten.
+                profile_name = ("industry_category_profiles.csv" if "categories" in path.stem
+                                else "industry_heat.csv")
+                if profile_name not in annual_industry_profiles:
+                    profiles = pd.read_csv(data / profile_name)
+                    annual_industry_profiles[profile_name] = profiles.groupby(
+                        ["System", "zone"], as_index=False).sum(numeric_only=True)
+                industry = patches.get("Industry_data")
+                if industry is None:
+                    industry = pd.read_excel(book, "Industry_data")
+                industry = industry.dropna(subset=["Industry", "unit_name"]).copy()
+                if "category" not in industry:
+                    industry["category"] = "all"
+                simple = pd.read_excel(book, "simple_industry")
+                patches["simple_industry"] = pooled_industry(
+                    industry, annual_industry_profiles[profile_name], simple)
+                notes.append(dict(file=name, sheet="simple_industry",
+                                  basis="recomputed from final regional Industry_data service selection, stocks and build limits; retained industry profile weights",
+                                  rows=len(patches["simple_industry"])))
         if patches:
             print(f"Applying regional defaults: {name} ({len(patches)} tables)", flush=True)
             replace_sheets(path, patches)

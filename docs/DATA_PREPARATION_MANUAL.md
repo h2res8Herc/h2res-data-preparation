@@ -65,7 +65,7 @@ Select a country code such as `IT` or `HR`, a comma-separated list such as `HR,S
 
 ### 4.2 Power and profiles
 
-Choose aggregated units, individual units or both. Hydro profile resolution can follow power resolution or be selected separately. Choose weather/statistical years, Open-Meteo or Renewables.ninja, and IRENA calibration. Enter the ENTSO-E token if electricity demand is being downloaded. Skip controls deliberately omit the corresponding profile work; a successful plant-table run with skipped curves is not a complete power-data package.
+Choose aggregated units, individual units or both. Hydro profile resolution can follow power resolution or be selected separately. Choose weather/statistical years, Open-Meteo or Renewables.ninja, and IRENA calibration. Enter the ENTSO-E token if electricity demand is being downloaded. Wind/solar and hydro skip controls apply to source-only/diagnostic runs: complete model exports require those power profiles and enable their generation, reusing caches and bundled hydro data. Export-existing mode does not generate missing files and checks their presence before expensive workbook expansion. A successful plant-table run alone is not a complete power-data package.
 
 ### 4.3 Heating and advanced
 
@@ -136,6 +136,8 @@ Main outputs are `power/GENCO.csv`, `power_inputs.xlsx`, `_genco_aggregation_sch
 The demand module requests actual total load from the ENTSO-E Transparency Platform by month using `documentType=A65` and `processType=A16`. Requests use the applicable national/control-area code and selected year. The token is obtained from the GUI/environment; it is not a data parameter to publish. API requirements and code lists are maintained by ENTSO-E [R12](REFERENCES.md#r12).
 
 Regional shares are derived from the JRC EIGL 2019 total-electricity raster. They allocate national hourly magnitude; the raster year is not the ENTSO-E load year. If A(t) is national load and w(r) are normalized spatial weights, then L(r,t)=w(r)A(t), and regional values reconcile to national load at every hour. Demand is subsequently aggregated through the shared map.
+
+This remains the default `national-scaled` method. **Power & profiles → Regional electricity profiles → sector-weighted** adds regionally different hourly shapes using published BDEW/TU Berlin sector profiles and Eurostat economic composition. Two-margin reconciliation preserves national hourly load and the same JRC annual regional ratios in both source and model calendars. It does not impose unscaled 2019 JRC GWh on a different national observation year. Tourism subdivides the service electricity budget; its fraction is an explicit editable assumption. Use **generate** to change the method, then either/both export formats. Sources, equations, fallbacks and audit files are documented in [regional electricity profiles](REGIONAL_ELECTRICITY_PROFILES.md).
 
 Do not subtract/add the same industrial or heating electricity twice. The prepared baseline and the model's endogenous sector electricity must obey the baseline convention documented in the model manual and the source-year assumptions of the scenario.
 

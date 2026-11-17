@@ -57,6 +57,10 @@ def preflight(exporter,model_root=None):
     coverage, required files/sheets and parameters used to scale output.
     """
     e=exporter
+    selected=getattr(e,'selected_sectors',{'power','heating','industry','transport'})
+    heating='heating' in selected
+    industry='industry' in selected
+    transport='transport' in selected
     errors=[];checks=0
     def check(source,operation):
         nonlocal checks
@@ -66,15 +70,17 @@ def preflight(exporter,model_root=None):
             errors.append(dict(source=str(source),error=str(error)))
     def require(condition,message):
         if not condition:raise ValueError(message)
+    industry_profiles='industry_category_profiles.csv' if e.service_mode=='categories' else 'industry_heat.csv'
     required=['generators.csv','fuel_prices.csv','policy_fuels.xlsx','electricity_demand.csv',
-        'renewable_availability.csv','hydro_inflows.csv','heating_individual.csv','heating_district.csv',
-        'industry_electricity.csv','heating_electricity.csv','transport_demand.csv','transport_profiles.csv',
-        'industry_category_profiles.csv' if e.service_mode=='categories' else 'industry_heat.csv']
+        'renewable_availability.csv','hydro_inflows.csv']
+    if heating:required+=['heating_individual.csv','heating_district.csv','heating_electricity.csv']
+    if industry:required+=['industry_electricity.csv',industry_profiles]
+    if transport:required+=['transport_demand.csv','transport_profiles.csv']
     schemas={'generators.csv':{'unit_name','System','Zone','fuel_type','technology'},
         'electricity_demand.csv':{'period','Power','System','Zone'},
         'renewable_availability.csv':{'period'},'hydro_inflows.csv':{'period'},
         'transport_demand.csv':{'period','System','zone'},'transport_profiles.csv':{'period','System','zone'},
-        required[-1]:{'period','System','zone'}}
+        industry_profiles:{'period','System','zone'}}
     for name in required:
         path=e.data/name
         def validate_file(path=path,name=name):
@@ -85,13 +91,17 @@ def preflight(exporter,model_root=None):
                 if name=='fuel_prices.csv':needed={'year','period'}
                 require(needed.issubset(columns),f'Missing columns: {sorted(needed-columns)}')
         check(path,validate_file)
-    required_sheets={'flex_tech','tech_cost_years','thermal_tech','thermal_tech_DH','flex_tech_heat','flex_tech_DH',
-        'COP_HP','solar_indv','solar_DH','Industry_data','simple_industry','transmission','transport_all'}
+    required_sheets={'flex_tech','tech_cost_years','transmission'}
+    if heating:required_sheets|={'thermal_tech','thermal_tech_DH','flex_tech_heat','flex_tech_DH','COP_HP','solar_indv','solar_DH'}
+    if industry:required_sheets|={'Industry_data','simple_industry'}
+    if transport:required_sheets|={'transport_all'}
     if e.efuels:required_sheets|={'efuel','fuel_storage','efuel_inputs'}
     for name in sorted(required_sheets):
         check(f'{e.workbook}/{name}',lambda name=name:require(name in e.book.sheet_names,'Required worksheet is missing'))
-    policies=['dem_change','Heat_dem_change','Heat_dem_change_DH','Industry_dem_change']
-    for name in ['DH_loss','CO2','RPS','biomass_caps',*policies]:
+    policies=['dem_change']
+    if heating:policies+=['Heat_dem_change','Heat_dem_change_DH']
+    if industry:policies+=['Industry_dem_change']
+    for name in ['CO2','RPS','biomass_caps',*(['DH_loss'] if heating else []),*policies]:
         check('policy/'+name,lambda name=name:require(name in e.policy_book.sheet_names,'Required policy worksheet is missing'))
 
     for zone,system in sorted(e.countries.items()):
@@ -107,14 +117,15 @@ def preflight(exporter,model_root=None):
             if name not in e.policy_book.sheet_names:continue
             check(f'policy/{name}/{system}/{zone}',lambda name=name,zone=zone:[e.demand_multiplier(name,zone,y) for y in e.years])
         for name in ['flex_tech_heat','flex_tech_DH']:
+            if not heating:continue
             if name not in e.book.sheet_names or 'COP_HP' not in e.book.sheet_names:continue
-            def heating(name=name,zone=zone,system=system):
+            def heating_rows(name=name,zone=zone,system=system):
                 rows=select_scope(e.sheet(name),system=system,zone=zone)
                 require(not rows.empty,'No heating equipment rows in the selected country/zone')
                 for unit in rows.unit_name:
                     e.trajectory(str(unit),zone)
                     e.efficiency_profile(str(unit),zone)
-            check(f'{e.workbook}/{name}/{system}/{zone}',heating)
+            check(f'{e.workbook}/{name}/{system}/{zone}',heating_rows)
 
     if (e.data/'generators.csv').is_file():
         def generators():
@@ -139,7 +150,7 @@ def preflight(exporter,model_root=None):
     check('fuel_prices.csv/selected country-years',prices)
     if e.efuels and 'efuel_inputs' in e.book.sheet_names:
         check(f'{e.workbook}/efuel_inputs',lambda:unique_rows(e.sheet('efuel_inputs'),['fuel'],'efuel_inputs'))
-    if 'industry_inv_cost_categories' in e.book.sheet_names:
+    if industry and 'industry_inv_cost_categories' in e.book.sheet_names:
         def industry_costs():
             table=e.local(e.sheet('industry_inv_cost_categories'))
             if table.empty:return # Native generic per-technology fallback remains available.
@@ -153,7 +164,7 @@ def preflight(exporter,model_root=None):
             unique_rows(table,['System','zone','Industry','category','boiler'],
                 'industry_inv_cost_categories',values=columns,allow_identical=True)
         check(f'{e.workbook}/industry_inv_cost_categories',industry_costs)
-    if 'DH_loss' in e.policy_book.sheet_names:
+    if heating and 'DH_loss' in e.policy_book.sheet_names:
         def dh_loss():
             table=pd.read_excel(e.policy_book,'DH_loss')
             require(len(table)==1 and len(table.columns)==1,'DH_loss requires one explicit global scalar')
@@ -166,5 +177,6 @@ def preflight(exporter,model_root=None):
         for name in ['pydantic','gurobipy']:
             check('actual-reader dependency/'+name,lambda name=name:require(importlib.util.find_spec(name) is not None,'Install this optional model-reader dependency or omit --model-root'))
     return dict(ready=not errors,phase='refactored input preflight',source_workbook=e.workbook,
+        selected_preparation_sectors=sorted(selected),
         selected_countries=sorted(set(e.countries.values())),zones=sorted(e.countries),years=e.years,
         checks=checks,errors=errors,source_downloads=False,full_calendar_validation='during mapping and final CSV validation')

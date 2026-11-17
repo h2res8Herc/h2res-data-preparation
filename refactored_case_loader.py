@@ -26,7 +26,9 @@ def load_case(case_dir,model_root):
         heating_demand_path=case/'heating/heat_demand.csv',efficiency_ts_path=case/'heating/efficiency.csv')
     tp={k+'_path':case/'transport'/v for k,v in [('fleets','fleets.csv'),('pathway','pathway.csv'),('demand','demand.csv'),('connection','connection.csv')]}
     ef={k+'_path':case/'efuel'/v for k,v in [('converters','converters.csv'),('storage','storage_units.csv'),('external_trade','external_trade.csv'),('transport_links','transport_links.csv'),('demand','demand.csv')]}
-    return load_system(sectors=report['sectors'],electricity_paths=ep,heating_paths=hp,transport_paths=tp,
+    return load_system(sectors=report['sectors'],electricity_paths=ep,
+        heating_paths=hp if 'heating' in report['sectors'] else None,
+        transport_paths=tp if 'transport' in report['sectors'] else None,
         efuel_paths=ef if report['efuels'] else None,buses_path=case/'buses.csv',fuel_cost_path=case/'fuel_cost.csv',
         transmission_path=case/'transmission_lines.csv',policy_path=case/'policy.csv')
 
@@ -62,11 +64,13 @@ def check_case(case_dir,model_root,sample_hours=24,prepare=True):
             from optimization_model import PowerData,HeatData,EfuelData,TransportData,CapexPaths
             cost=CapexPaths.from_case_dir(sampled)
             common=dict(years=list(system.sets.years),periods=list(range(1,sample_hours+1)),dt=1.)
-            PowerData.from_system(system,capex_paths=cost,**common)
-            HeatData.from_system(system,capex_paths=cost,**common)
-            EfuelData.from_system(system,capex_paths=cost,**common)
-            TransportData.from_system(system,**common)
+            selected=json.loads((case/'export_report.json').read_text(encoding='utf-8'))['sectors']
+            if 'electricity' in selected:PowerData.from_system(system,capex_paths=cost,**common)
+            if 'heating' in selected:HeatData.from_system(system,capex_paths=cost,**common)
+            if 'efuel' in selected:EfuelData.from_system(system,capex_paths=cost,**common)
+            if 'transport' in selected:TransportData.from_system(system,**common)
             report['sector_data_preparation_passed']=True
+            report['prepared_target_sectors']=selected
         return report
 
 

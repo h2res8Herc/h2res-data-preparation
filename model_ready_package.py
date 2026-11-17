@@ -85,9 +85,11 @@ def build_package(bundle: Path, report: dict | None = None) -> dict:
             shutil.copy2(data / name, destination)
         for name in ("bundle_manifest.json", "reference_manifest.json", "scenario.json", "complex_generation.json",
                      "variant_inventory.json", "input_provenance.json", "regional_input_quality.json", "generator_input_links.json", "network_input_assumptions.json",
-                     "native_reader_verification.json", "policy_input_assumptions.json"):
+                     "native_reader_verification.json", "policy_input_assumptions.json", "electricity_demand_method.json"):
             if (bundle / name).is_file():
                 shutil.copy2(bundle / name, delivery / name)
+        for path in bundle.glob("electricity_sector_budgets_*.csv"):
+            shutil.copy2(path, delivery / path.name)
         if (bundle / "scenario.json").is_file():
             for name in ("run_model_scenario.py", "scenario_runtime.py"):
                 if not (bundle / name).is_file():

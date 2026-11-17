@@ -508,6 +508,8 @@ def run_power(args: argparse.Namespace, maps: dict[str, Path]) -> None:
             sys.executable, DEMAND_SCRIPT,
             "--countries", ",".join(args.countries),
             "--year", args.electricity_demand_year,
+            "--demand-method", getattr(args, "electricity_demand_method", "national-scaled"),
+            "--tourism-share", getattr(args, "electricity_tourism_share", .1),
             "--out-dir", out / "demand",
             "--cache-dir", args.data_root / "entsoe_load",
             "--zone-map", maps["common"],
@@ -704,6 +706,9 @@ def build_parser() -> argparse.ArgumentParser:
         default=SCRIPT_DIR / "power" / "VRES_distributions" / "IRENA_Statistics_Extract_2025H2.xlsx",
     )
     parser.add_argument("--electricity-demand-year", type=int, default=2020)
+    parser.add_argument("--electricity-demand-method", choices=("national-scaled", "sector-weighted"), default="national-scaled")
+    parser.add_argument("--electricity-tourism-share", type=float, default=.1,
+                        help="Assumed tourism fraction of service electricity for sector-weighted curves (0 <= share < 1)")
     parser.add_argument(
         "--skip-electricity-demand", action="store_true",
         help="Skip ENTSO-E national load download and EIGL NUTS3/model-zone allocation.",
@@ -716,13 +721,15 @@ def export_refactored_if_requested(args):
         from refactored_input_export import export_refactored_bundle
         export_refactored_bundle(args.out_root / 'model_inputs', args.out_root,
             model_root=args.refactored_model_root, efuels=args.efuels, industry_mode=args.industry_mode,
-            electricity_case=args.industry_electricity_case)
+            electricity_case=args.industry_electricity_case,sectors=args.sectors)
 
 
 @quota_run(inherit=False)
 def main(argv: Iterable[str] | None = None) -> int:
     args = build_parser().parse_args(list(argv) if argv is not None else None)
     try:
+        if not 0 <= args.electricity_tourism_share < 1:
+            raise ValueError('--electricity-tourism-share must be at least 0 and less than 1')
         if not np.isfinite(args.openmeteo_max_wait) or args.openmeteo_max_wait < 0:
             raise ValueError('--openmeteo-max-wait must be a finite nonnegative number of seconds')
         args.scenario = resolve_scenario(args)
@@ -764,7 +771,16 @@ def main(argv: Iterable[str] | None = None) -> int:
         unknown = set(args.sectors) - set(SECTORS)
         if unknown:
             raise ValueError(f"Unknown sectors: {sorted(unknown)}")
-        from preparation_options import vre_profiles_required
+        from preparation_options import vre_profiles_required, hydro_profiles_required
+        if args.skip_hydro_profiles and hydro_profiles_required(
+            args.sectors, model_export=args.model_export,
+            model_ready_package=args.model_ready_package,
+            require_model_ready=args.require_model_ready,
+            existing_only=args.export_only or args.import_model_inputs,
+        ):
+            print("Complete H2RES power inputs require hydro availability and inflows; enabling their generation "
+                  "despite --skip-hydro-profiles. Bundled hydro data will be reused.", flush=True)
+            args.skip_hydro_profiles = False
         if args.skip_vre_profiles and vre_profiles_required(
             args.sectors, model_export=args.model_export,
             model_ready_package=args.model_ready_package,

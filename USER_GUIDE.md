@@ -6,7 +6,13 @@ source references, BibTeX and a printable HTML edition.
 
 ## Starting the application
 
+For regional electricity curves that reflect economic composition, select **Power & profiles → Regional electricity profiles → sector-weighted** and use **Data task: generate**. It preserves ENTSO-E national hourly load and the existing JRC annual regional shares. The original **national-scaled** method remains the default. See [regional electricity profiles, sources and equations](docs/REGIONAL_ELECTRICITY_PROFILES.md).
+
 For the bus-based H2RES-refactored model (the version with `data_chile`), enable **Also export H2RES-refactored CSV case** on **Output format**. It creates `data_refactored` and a separate ZIP. See [the refactored export guide](docs/REFACTORED_EXPORT.html) for its native industry/transport representations and validation.
+
+The refactored export models the selected sectors. With only **Power** selected it produces an electricity-only case and keeps gross electricity demand; it does not require transport, industry or heating profiles. The native data mirror retains its complete legacy file structure.
+
+Hydro is part of **Power**. Complete model exports generate hydro availability/inflows from bundled data even if an older saved configuration has **Skip hydro profiles** checked. That skip applies to source-only/diagnostic runs. Export-existing mode checks required power files before expanding workbooks and reports missing curves immediately.
 
 This is a standalone tool for internet data sourcing and input preparation.
 It downloads and caches source observations, prepares sector tables and profiles,

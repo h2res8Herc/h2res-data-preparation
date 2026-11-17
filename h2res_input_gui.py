@@ -19,7 +19,7 @@ from pathlib import Path
 from tkinter import BooleanVar, StringVar, Tk, filedialog, messagebox
 from tkinter import scrolledtext, ttk
 
-from preparation_options import skip_vre_for_config
+from preparation_options import skip_vre_for_config, skip_hydro_for_config
 
 
 ROOT = Path(__file__).resolve().parent
@@ -132,7 +132,7 @@ def build_command(config: dict, python_executable: str | None = None) -> list[st
             "--hydro-year", config["hydro_year"],
             "--vre-year", config["vre_year"],
         ]
-        if config.get("skip_hydro"):
+        if skip_hydro_for_config(config):
             cmd.append("--skip-hydro-profiles")
         if skip_vre_for_config(config):
             cmd.append("--skip-vre-profiles")
@@ -144,6 +144,14 @@ def build_command(config: dict, python_executable: str | None = None) -> list[st
             if config.get("irena_xlsx"):
                 cmd += ["--irena-xlsx", config["irena_xlsx"]]
         cmd += ["--electricity-demand-year", config["electricity_demand_year"]]
+        try:
+            tourism_share = float(config.get("electricity_tourism_share", "0.1"))
+        except (ValueError, TypeError) as exc:
+            raise ValueError("Tourism share of service electricity must be a number from 0 up to, but excluding, 1") from exc
+        if not 0 <= tourism_share < 1:
+            raise ValueError("Tourism share of service electricity must be at least 0 and less than 1")
+        cmd += ["--electricity-demand-method", config.get("electricity_demand_method", "national-scaled"),
+                "--electricity-tourism-share", config.get("electricity_tourism_share", "0.1")]
         if config.get("skip_electricity_demand"):
             cmd.append("--skip-electricity-demand")
 
@@ -196,6 +204,7 @@ class DataPreparationGui:
             "power_output_level": "aggregated", "hydro_output_level": "match-power",
             "hydro_year": "2020", "vre_year": "2020", "vre_irena_year": "",
             "electricity_demand_year": "2020", "entsoe_token": "",
+            "electricity_demand_method": "national-scaled", "electricity_tourism_share": "0.1",
             "vre_weather_source": "openmeteo", "temperature_source": "open-meteo",
             "era5": "", "population_tif": "",
             "industry_mode": "categories", "industry_electricity_case": "conservative",
@@ -339,7 +348,8 @@ class DataPreparationGui:
                             "Export existing outputs only repackages previously prepared data. Portable templates supply the required "
                             "file structure and editable technology assumptions. The ready-to-use folder is <Output directory>/data. "
                             "The optional refactored CSV case is written to data_refactored with its own ZIP and export report. "
-                            "Its industry services and fixed fleet pathway follow that model's equations. "
+                            "It models the selected sectors, with electricity as the shared core; Power alone excludes heating, industry and transport. "
+                            "The native data folder retains its complete legacy file layout and default tables. "
                             "See docs/REFACTORED_EXPORT.html for use and representation differences."),
                   wraplength=650).grid(row=10, column=0, columnspan=3, sticky="w", pady=8)
 
@@ -377,7 +387,7 @@ class DataPreparationGui:
         self._combo(tab, 0, "GENCO resolution", "power_output_level", ("aggregated", "individual", "both"))
         self._combo(tab, 1, "Hydro profile resolution", "hydro_output_level", ("match-power", "aggregated", "individual", "both"))
         self._row(tab, 2, "Hydro profile year", "hydro_year")
-        ttk.Checkbutton(tab, text="Skip hydro profiles", variable=self.vars["skip_hydro"]).grid(row=3, column=1, sticky="w")
+        ttk.Checkbutton(tab, text="Skip hydro profiles (source-only / diagnostic exports)", variable=self.vars["skip_hydro"]).grid(row=3, column=1, sticky="w")
         ttk.Separator(tab).grid(row=4, column=0, columnspan=3, sticky="ew", pady=10)
         self._row(tab, 5, "Wind/solar weather year", "vre_year")
         self._combo(tab, 6, "Wind/solar source", "vre_weather_source", ("openmeteo", "renewables-ninja"))
@@ -388,11 +398,14 @@ class DataPreparationGui:
         ttk.Label(tab, text="Renewables.ninja reads the RENEWABLES_NINJA_TOKEN environment variable.", foreground="#555").grid(row=11, column=0, columnspan=3, sticky="w", pady=(8, 0))
         ttk.Separator(tab).grid(row=12, column=0, columnspan=3, sticky="ew", pady=10)
         self._row(tab, 13, "Electricity-demand year", "electricity_demand_year")
-        ttk.Label(tab, text="ENTSO-E API token").grid(row=14, column=0, sticky="w", padx=(0, 8), pady=4)
-        ttk.Entry(tab, textvariable=self.vars["entsoe_token"], show="*").grid(row=14, column=1, sticky="ew", pady=4)
-        ttk.Checkbutton(tab, text="Skip electricity-demand profiles", variable=self.vars["skip_electricity_demand"]).grid(row=15, column=1, sticky="w")
-        ttk.Label(tab, text="The token is used only for this run and is not saved in settings.", foreground="#555").grid(row=16, column=0, columnspan=3, sticky="w", pady=(5, 0))
-        ttk.Label(tab, text="Complete H2RES exports always generate wind/solar profiles and reuse cached weather.", foreground="#555").grid(row=17, column=0, columnspan=3, sticky="w", pady=(5, 0))
+        self._combo(tab, 14, "Regional electricity profiles", "electricity_demand_method", ("national-scaled", "sector-weighted"))
+        self._row(tab, 15, "Tourism share of service electricity (assumption)", "electricity_tourism_share")
+        ttk.Label(tab, text="ENTSO-E API token").grid(row=16, column=0, sticky="w", padx=(0, 8), pady=4)
+        ttk.Entry(tab, textvariable=self.vars["entsoe_token"], show="*").grid(row=16, column=1, sticky="ew", pady=4)
+        ttk.Checkbutton(tab, text="Skip electricity-demand profiles", variable=self.vars["skip_electricity_demand"]).grid(row=17, column=1, sticky="w")
+        ttk.Label(tab, text="Both methods preserve national hourly load and JRC regional annual shares. Sector-weighted downloads cached Eurostat composition.", foreground="#555").grid(row=18, column=0, columnspan=3, sticky="w", pady=(5, 0))
+        ttk.Label(tab, text="The token is used only for this run and is not saved in settings.", foreground="#555").grid(row=19, column=0, columnspan=3, sticky="w", pady=(5, 0))
+        ttk.Label(tab, text="Complete H2RES exports require wind/solar and hydro profiles. Cached weather and bundled hydro data are reused.", foreground="#555").grid(row=20, column=0, columnspan=3, sticky="w", pady=(5, 0))
 
     def _build_heating(self, tab) -> None:
         tab.columnconfigure(1, weight=1)
@@ -423,6 +436,10 @@ class DataPreparationGui:
             buttons, text="Open package README",
             command=lambda: self.open_document(ROOT / "README_PORTABLE_INPUT_GENERATOR.txt"),
         ).pack(side="left")
+        ttk.Button(
+            buttons, text="Regional electricity profiles",
+            command=lambda: self.open_document(ROOT / "docs/REGIONAL_ELECTRICITY_PROFILES.html"),
+        ).pack(side="left", padx=6)
 
         help_text = """QUICK START
 
@@ -447,6 +464,9 @@ Enter your ENTSO-E Transparency Platform API token and choose any available
 demand year. The token is used only by the running process and is not saved.
 Monthly responses are cached, while packaged normalized NUTS3 distributions
 allocate each national hourly curve to the selected model zones.
+Choose sector-weighted on Power & profiles for different regional shapes.
+Both methods preserve national hours and JRC annual regional shares. Use
+generate when changing methods; exporting existing outputs does not recalculate.
 
 INDUSTRY VARIANTS
 

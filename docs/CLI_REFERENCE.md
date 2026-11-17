@@ -66,6 +66,8 @@ Generated from the actual `add_argument` call sites. Expressions such as `SCRIPT
 | `--vre-calibrate` | `True` | `argparse.BooleanOptionalAction` |  |
 | `--irena-xlsx` | `SCRIPT_DIR / 'power' / 'VRES_distributions' / 'IRENA_Statistics_Extract_2025H2.xlsx'` | `store` |  |
 | `--electricity-demand-year` | `2020` | `store` |  |
+| `--electricity-demand-method` | `national-scaled` | `national-scaled`, `sector-weighted` | Regional shape method; both preserve national hourly load and JRC annual shares. |
+| `--electricity-tourism-share` | `0.1` | `0 <= share < 1` | Assumed tourism fraction of service electricity, used by sector-weighted profiles. |
 | `--skip-electricity-demand` | `argparse default` | `'store_true'` | 'Skip ENTSO-E national load download and EIGL NUTS3/model-zone allocation.' |
 
 ## h2res_input_gui.py
@@ -271,6 +273,8 @@ Generated from the actual `add_argument` call sites. Expressions such as `SCRIPT
 | `--output-level` | `'aggregated'` | `('aggregated', 'individual', 'both')` | 'Write zone-aggregated curves, individual-plant curves, or both.' |
 
 ## power/demand/generate_electricity_demand_standalone.py
+
+Additional options introduced 16 November: `--demand-method national-scaled|sector-weighted` (default `national-scaled`) and `--tourism-share FLOAT` (default `0.1`, assumed fraction of service electricity, `0 <= share < 1`). See [the method guide](REGIONAL_ELECTRICITY_PROFILES.md).
 
 | Option | Default | Choices / action | Help |
 |---|---|---|---|

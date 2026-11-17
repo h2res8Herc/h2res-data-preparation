@@ -34,6 +34,9 @@ h2res_gui_config.json
 /releases/
 /github/
 /validation/
+/paper_updates/
+/HR_*/
+/SI_output/
 /wheels/
 *_cache/
 /power/generators/genco_built_from_raw/

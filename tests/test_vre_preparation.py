@@ -15,7 +15,9 @@ sys.path.insert(0, str(ROOT))
 import generate_all_sector_inputs as runner
 from h2res_input_gui import build_command, missing_source_tokens
 from preparation_dependencies import dependencies_for_config
-from preparation_options import skip_vre_for_config
+from preparation_options import skip_vre_for_config, skip_hydro_for_config
+from model_input_bundle import preflight_power_exports, _export_bundle
+from types import SimpleNamespace
 
 spec = importlib.util.spec_from_file_location(
     "vre_preparation_test", ROOT / "power/VRES_distributions/build_vre_capacity_weighted_cf_from_schema_openmeteo_weighted.py")
@@ -24,6 +26,47 @@ spec.loader.exec_module(vre)
 
 
 class VrePreparationTests(unittest.TestCase):
+    def test_complete_power_gui_requires_hydro_but_diagnostics_can_skip_it(self):
+        config=self.config(skip_hydro=True)
+        self.assertFalse(skip_hydro_for_config(config))
+        self.assertNotIn('--skip-hydro-profiles',build_command(config))
+        for changes in [dict(model_export=False),dict(model_ready_package=False,require_model_ready=False),
+                        dict(input_action='export existing outputs'),dict(sector_power=False)]:
+            with self.subTest(changes=changes):
+                self.assertTrue(skip_hydro_for_config({**config,**changes}))
+
+    def test_cli_normalizes_old_hydro_skip_before_downloads(self):
+        for extra,expected in [([],False),(['--no-model-export'],True),(['--export-only'],True),
+                               (['--import-model-inputs'],True),(['--no-model-ready-package'],True),
+                               (['--no-model-ready-package','--require-model-ready'],False)]:
+            with self.subTest(extra=extra):
+                with patch('preparation_dependencies.require_for_args',side_effect=ImportError('preflight stop')) as deps, \
+                     patch.object(runner,'download') as fetch,patch.object(runner,'run_power') as power, \
+                     contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()):
+                    result=runner.main(['--countries','HR','--sectors','power','--skip-hydro-profiles',*extra])
+                self.assertEqual(result,2)
+                self.assertEqual(deps.call_args.args[0].skip_hydro_profiles,expected)
+                fetch.assert_not_called();power.assert_not_called()
+
+    def test_missing_hydro_fails_before_copying_or_expanding_workbooks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            args=SimpleNamespace(out_root=root,sectors=['power'],power_output_level='individual',hydro_year=2020,
+                                 vre_year=2020,electricity_demand_year=2020,require_model_ready=True,model_ready_package=True)
+            for name in ['power/GENCO.csv','power/vre/individual/AvailabilityFactors_VRE_2020.csv',
+                         'power/demand/electricity_demand_2020.csv']:
+                path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b'preflight checks presence')
+            with patch('model_input_bundle.copy_baseline') as copy:
+                with self.assertRaisesRegex(FileNotFoundError,'workbook expansion has not started.*AvailabilityFactors_HROR_2020_individual'):
+                    _export_bundle(args,root/'reference',root/'stage')
+                copy.assert_not_called()
+            for name in ['AvailabilityFactors_HROR_2020_individual.csv','ScaledInflows_2020_individual.csv']:
+                path=root/'power/hydro'/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b'available')
+            preflight_power_exports(args)
+            args.require_model_ready=False;args.model_ready_package=False
+            (root/'power/hydro/ScaledInflows_2020_individual.csv').unlink()
+            preflight_power_exports(args)
+
     def test_runner_has_no_quota_failure_timeout_by_default(self):
         args=runner.build_parser().parse_args([])
         self.assertEqual(args.openmeteo_max_wait,0.)

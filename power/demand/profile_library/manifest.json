@@ -1,0 +1,31 @@
+{
+  "version": "sector-library-1",
+  "sources": [
+    {
+      "title": "BDEW Standardlastprofile Strom 2025",
+      "profiles": [
+        "H25",
+        "G25",
+        "L25"
+      ],
+      "url": "https://www.bdew.de/energie/standardlastprofile-strom/",
+      "download_url": "https://www.bdew.de/media/documents/Kopie_von_Repr%C3%A4sentative_Profile_BDEW_H25_G25_L25_P25_S25_Ver%C3%B6ffentlichung.xlsx",
+      "source_sha256": "1803d4c612693563a784eb61001e7c58ffd6bd18a6bca3780f774f3c3459b845",
+      "attribution": "BDEW Bundesverband der Energie- und Wasserwirtschaft e.V., 2025. Publicly provided representative profiles; no open-data licence asserted.",
+      "transformation": "Four quarter-hour energy values summed per hour. Household dynamization applied at runtime according to BDEW 17 March 2025 guidance, page 4. P25/S25 are excluded."
+    },
+    {
+      "title": "Regression-based electricity load profiles of 32 industrial and commercial sub-sectors in Germany",
+      "authors": "Stephan Seim, Daniel Ruedt, Qi Wu, Maike Held, Paul Verwiebe, Joachim Mueller-Kirchenbauer",
+      "url": "https://doi.org/10.5281/zenodo.4576494",
+      "licence": "CC BY 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_md5": "68d48af3de0eb0f2159959a965237633",
+      "transformation": "2018 weighted German mean profiles: normalize each branch by its annual mean, then average by month, weekday and clock hour. German holiday/weather effects remain in those averages. No disaggregator code reused."
+    }
+  ],
+  "files": {
+    "bdew_2025_hourly.csv": "4bda2bf067f2bf84c456c841b885466ef4777b91eb120cda47b610ef7edfbb71",
+    "demandregio_2018_hourly.csv": "cb99fbfd47dcd57438dfac1ee05ec91794d83a139533dc49c8eaa8628e8d4c9f"
+  }
+}

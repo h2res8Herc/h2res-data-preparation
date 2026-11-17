@@ -199,8 +199,13 @@ JRC EIGL `electricity_tot_demand_2019.tif` layer. The EIGL year determines only
 the spatial shares, not the load magnitude. Every hour is reconciled exactly to
 ENTSO-E national load and then aggregated through the common model-zone map.
 The token is read from `ENTSOE_API_TOKEN` and is never written to outputs or GUI
-settings. This portable method does not use the older experimental neural
-network or per-NUTS3 weather requests.
+settings. The default `national-scaled` method retains this calculation.
+The optional `--electricity-demand-method sector-weighted` uses bundled BDEW/TU
+Berlin profiles and cached Eurostat sector composition, with two-margin
+balancing to preserve both hourly national load and JRC annual regional shares.
+Both source-year and 8760-hour model-year annual shares are checked, including
+leap years. Neither method uses a neural network or per-NUTS3 weather requests.
+See [regional electricity sources, equations, assumptions and use](docs/REGIONAL_ELECTRICITY_PROFILES.md).
 
 Runtime hydro processing consumes packaged, precomputed plant runoff shapes.
 The expensive ERA5-Land/HydroBASINS derivation is therefore outside normal

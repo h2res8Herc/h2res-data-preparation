@@ -9,10 +9,46 @@ import numpy as np
 import pandas as pd
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from refactored_input_export import CaseExporter,carrier,hourly,residual_electricity,export_refactored_bundle
+from refactored_input_export import CaseExporter,carrier,hourly,residual_electricity,export_refactored_bundle,selected_export_sectors
 from h2res_input_gui import build_command,DataPreparationGui
 
 class ElectricityTests(unittest.TestCase):
+    def test_only_explicit_sector_baselines_are_removed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            period=range(1,8761)
+            gross=pd.DataFrame({'A':np.linspace(20.,40.,8760),'B':np.linspace(40.,10.,8760)},index=pd.Index(period,name='period'))
+            native=gross.stack().rename('Power').reset_index();native.columns=['period','Zone','Power'];native['System']='HR'
+            for sectors,factor,files in [({'power'},1.,[]),({'power','industry'},.8,['industry_electricity.csv']),
+                                         ({'power','heating'},.9,['heating_electricity.csv']),
+                                         ({'power','industry','heating'},.7,['industry_electricity.csv','heating_electricity.csv'])]:
+                with self.subTest(sectors=sectors):
+                    e=CaseExporter.__new__(CaseExporter);e.selected_sectors=sectors
+                    e.bundle=Path(tmp);e.data=Path(tmp);e.countries={'A':'HR','B':'HR'};e.fleets=[];e.years=[2025]
+                    e.audit={};e.source_files={};e.demand_multiplier=lambda *args:1.;e.bus=lambda zone,c:zone+'_'+c
+                    seen=[]
+                    def source(name):
+                        seen.append(name)
+                        if name=='electricity_demand.csv':return native
+                        if name not in files:raise AssertionError('Read unselected sector: '+name)
+                        return (gross*(.2 if name.startswith('industry') else .1)).reset_index()
+                    e.series=source;e.build_electricity_demand()
+                    np.testing.assert_allclose(e.electricity.to_numpy(),gross.to_numpy()*factor)
+                    self.assertEqual(seen,['electricity_demand.csv',*files])
+                    self.assertEqual(e.audit['electricity_accounting_MWh']['removed_sector_baseline_files'],files)
+
+    def test_power_only_chp_does_not_create_an_unmodeled_heat_bus(self):
+        e=CaseExporter.__new__(CaseExporter);e.selected_sectors={'power'};e.pairs={('HR','HR021')}
+        e.audit={};e.plants=[];e.profile={};e.inflows={}
+        source=pd.DataFrame(dict(unit_name=['CHP_A'],System='HR',Zone='HR021',technology='Gas',CHPType='Y'))
+        e.series=lambda name:source if name=='generators.csv' else pd.DataFrame(dict(period=range(1,8761)))
+        def bus(zone,carrier,*args,**kwargs):
+            if carrier!='electricity':raise AssertionError('Unselected heating bus')
+            return zone+'_electricity'
+        e.bus=bus;e.unit=lambda *args,**kwargs:dict(name='CHP_A',fuel='gas')
+        e.build_power()
+        self.assertEqual(e.audit['chp_without_heat_sector'],['CHP_A'])
+        self.assertNotIn('bus_out_2',e.plants[0])
+
     def test_mixed_year_deficits_conserve_energy_and_original_regional_profiles(self):
         total=pd.DataFrame({'A':[2.,6.,6.],'B':[1.,2.,2.],'C':[4.,4.,4.]})
         baseline=pd.DataFrame({'A':[4.,3.,2.],'B':[1.,1.,1.],'C':[1.,1.,1.]})
@@ -87,6 +123,16 @@ class TransportTests(unittest.TestCase):
         self.assertEqual([r['activity_share'] for r in e.pathway],[1.,1.])
 
 class CostsAndPublicationTests(unittest.TestCase):
+    def test_export_sector_scope_uses_selection_and_retains_legacy_import_behavior(self):
+        self.assertEqual(selected_export_sectors({'generated_sectors':['power']}),{'power'})
+        self.assertEqual(selected_export_sectors({'generated_sectors':['industry']}),{'power','industry'})
+        self.assertEqual(selected_export_sectors({}),{'power','industry','heating','transport'})
+        self.assertEqual(selected_export_sectors({'generated_sectors':[]}),{'power','industry','heating','transport'})
+        self.assertEqual(selected_export_sectors({'generated_sectors':['power']},'all'),{'power','industry','heating','transport'})
+        self.assertEqual(selected_export_sectors({},'electricity,transport'),{'power','transport'})
+        for bad in ('none','power,unknown',[]):
+            with self.assertRaises(ValueError):selected_export_sectors({},bad)
+
     def test_gui_requests_additional_export_and_keeps_native_export(self):
         config=dict(countries='HR',spatial_level='country',out_root='prepared',data_root='cache',
                     sector_industry=True,refactored_export=True)

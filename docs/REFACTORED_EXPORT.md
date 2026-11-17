@@ -4,6 +4,10 @@ The optional export creates a CSV case for the bus-based refactored model whose 
 
 ## Using the preparation GUI
 
+**Sector selection:** the refactored case models the selected preparation sectors, with electricity retained as the shared core. Selecting only **Power** produces an electricity-only case: no heating/industry converters, transport fleets or corresponding demand profiles are read or activated. Gross prepared electricity is retained; electricity is subtracted only for sectors explicitly represented in the coupled case. A power-only CHP retains its electrical parameters without a heat-output coupling or heat credit. The native `data` mirror still retains the complete legacy file layout, including reference/default files for sectors that were not generated.
+
+The target reader groups industrial energy services under its heating module. Therefore selecting **Industry** can add `heating` to the target `export_report.json` sector list even when building/district heating was not selected. This does not activate household/district-heating demand. The e-fuel switch remains a separate explicit option. Legacy policy caps are retained as scenario assumptions; they are not automatically recalibrated for the reduced sector scope.
+
 1. Select the countries, spatial resolution, sectors, industry representation, e-fuel option and planning years normally.
 2. On **Output format**, keep **Package prepared data in H2RES input format** enabled and check **Also export H2RES-refactored CSV case (data_refactored)**.
 3. Run **Source and prepare data**. For prepared sector outputs, select **export existing outputs** first; this does not repeat source downloads.
@@ -28,13 +32,21 @@ An already completed native bundle can be converted directly, without repackagin
 python refactored_input_export.py --bundle outputs_HR/model_inputs --out-root outputs_HR --years 2025,2030,2035,2040,2045,2050
 ```
 
+For an already validated native bundle, `--sectors power` converts only the power case without rebuilding native workbooks or downloading data:
+
+```powershell
+python refactored_input_export.py --bundle outputs_HR/model_inputs --out-root outputs_HR --sectors power
+```
+
+The default direct-conversion scope is the bundle's `generated_sectors`. Old or imported bundles without a recorded generated-sector selection retain the legacy full-system behavior. Use `--sectors all` to explicitly include all retained sector data; those inputs must satisfy the corresponding numerical and schema checks. Unselected sectors retain empty CSVs with valid headers/calendars where the portable contract requires the filenames.
+
 Specify `--industry-mode regular`, `categories` or `complex`, and `--efuels` / `--no-efuels` to select an existing generated variant. Complex selection exports the generated **category energy-service representation**, because this model has no corresponding process/product industry equations. Generate all native variants before converting a different variant.
 
 `--refactored-model-root` on the main generator, or `--model-root` on the standalone converter, adds checks using that installation's actual reader and sector data preparation. This optional check needs that model's dependencies, including Pydantic and Gurobi's Python package; the ordinary CSV export does not. It does not solve an optimization or require modifying the model installation.
 
 ## Folder and references
 
-Before conversion, the exporter automatically checks required source files and worksheets, selected country/zone keys, generator cost references, planning-year coverage, policy scaling, heat-pump COP profiles, fuel prices and e-fuel recipe keys. Results are saved as `<output directory>/refactored_preflight.json`. Errors are collected together and identify the source sheet, country/zone or year. A failed preflight stops CSV generation and preserves the previous case. Successful cases include `preflight.json` alongside the later full-calendar and cross-reference validation results.
+Before conversion, the exporter checks the source files, worksheets, policy multipliers and numerical inputs needed by the selected sectors. Country/zone keys, generator cost references, planning years and fuel prices remain required for the electricity core; heating COP, industry and fleet requirements apply only when those sectors are included. Results are saved as `<output directory>/refactored_preflight.json`. Errors are collected together and identify the source sheet, country/zone or year. A failed preflight stops CSV generation and preserves the previous case. Successful cases include `preflight.json` alongside full-calendar and cross-reference validation results.
 
 Run these checks separately without generating or replacing a case:
 
@@ -81,7 +93,7 @@ Native cost sheets can contain one row per **country and year**, even when they 
 | Vehicle batteries and chargers | kWh and kW divided by 1,000 to MWh and MW per vehicle |
 | Fleet activity shares | Existing vehicle-count shares within each local mode, held constant over the horizon by default |
 
-Grid observations include historical sector electricity. The refactored file contains **residual electricity demand** because heating, industry and mobility are represented explicitly. To prevent double counting while preserving the original regional distributions, the exporter subtracts sector electricity from each country's **annual total first**, then scales every original regional hourly grid curve by the same country factor:
+Grid observations include historical sector electricity. When heating, industry or electric mobility is represented explicitly, the refactored file contains **residual electricity demand** after removing only those included components. To prevent double counting while preserving the original regional distributions, the exporter subtracts selected-sector electricity from each country's **annual total first**, then scales every original regional hourly grid curve by the same country factor. With only Power selected, the removed amount is zero and gross demand is preserved:
 
 ```text
 residual_fraction = (national_grid_MWh - national_sector_electricity_MWh) / national_grid_MWh
@@ -90,9 +102,9 @@ regional_residual[hour] = original_regional_grid[hour] * residual_fraction
 
 This preserves the source's regional shares and each region's normalized hourly shape. Positive source demand remains positive whenever the national residual budget is positive. Genuine source zeros and a zero national residual budget remain zero. Regional annual quantities and country factors are recorded in `export_report.json`, including expected totals and zero-hour counts for each exported year. Declared zone/year policy multipliers are applied afterward; a deliberate zero multiplier can therefore also produce zero demand.
 
-The distribution method is the **same as the older exporter**: the national ENTSO-E hourly curve is shared across regions and scaled by normalized JRC EIGL NUTS3 electricity-demand totals (or their prepared custom-zone aggregation). The refactored export reads that already-prepared result, preserving its curve and relative regional totals. It does not calculate a second regional weighting from the separately located industry and heating demands.
+The distribution is the **same prepared input used by the older exporter**: either the fixed-share national curve or the optional sector-weighted regional curves, both with normalized JRC EIGL annual shares and the chosen custom-zone aggregation. The refactored export preserves those curves rather than calculating a second regional weighting from separately located industry and heating demand. See [regional electricity methods](REGIONAL_ELECTRICITY_PROFILES.html).
 
-This replaces the earlier **regional hourly subtraction and clipping**, which erased demand in industry-heavy regions and distorted their distributions. The grid's regional allocation and separately sourced sector allocations are different estimates, often from different years. The corrected method is an explicit annual residual-demand allocation assumption; gross regional totals are not observations of household-only demand, and the combined coupled load need not reproduce the historical gross curve hour by hour. Annual sector electricity exceeding annual grid demand is an error. Copying gross electricity unchanged into the refactored residual file would double count the separately modeled sectors.
+This replaces the earlier **regional hourly subtraction and clipping**, which erased demand in industry-heavy regions and distorted their distributions. Grid allocation and separately sourced sector allocations are different estimates, often from different years. Coupled-case residual allocation is an assumption, and adding explicit services need not reconstruct historical gross load hour by hour. Selected-sector annual electricity exceeding annual grid demand is an error. Copying gross demand unchanged would double count sectors represented explicitly; retaining gross demand is correct for a power-only case.
 
 Native policy demand multipliers are then applied to residual electricity, individual heat, district heat and industrial service. Weather/activity profiles repeat across milestone years. This is a scenario assumption, not a forecast from downloaded data.
 

@@ -92,12 +92,30 @@ def residual_electricity(total,baseline,countries):
         residual.loc[:,cols]=total[cols]*factor
     return residual,changes
 
+EXPORT_SECTORS = {'power', 'heating', 'industry', 'transport'}
+
+
+def selected_export_sectors(metadata, sectors=None):
+    """Use selected preparation sectors; unmarked imported bundles retain all."""
+    if sectors is None:
+        sectors = metadata.get('generated_sectors') or EXPORT_SECTORS
+    if isinstance(sectors, str):
+        sectors = EXPORT_SECTORS if sectors.lower() == 'all' else sectors.split(',')
+    selected = {str(s).strip().lower() for s in sectors}
+    selected = {'power' if s == 'electricity' else s for s in selected}
+    if not selected or selected - EXPORT_SECTORS:
+        raise ValueError(f'Choose exported sectors from {sorted(EXPORT_SECTORS)}; received {sorted(selected)}')
+    # Electricity is the shared network for the native coupled representations.
+    return selected | {'power'}
+
+
 class CaseExporter:
-    def __init__(self,bundle,destination,*,efuels=None,industry_mode=None,years=None,electricity_case=None):
+    def __init__(self,bundle,destination,*,efuels=None,industry_mode=None,years=None,electricity_case=None,sectors=None):
         self.bundle=Path(bundle).resolve()
         self.data=self.bundle/'data'
         self.destination=Path(destination)
         self.metadata=json.loads((self.bundle/'bundle_manifest.json').read_text(encoding='utf-8'))
+        self.selected_sectors=selected_export_sectors(self.metadata,sectors)
         self.scenario=json.loads((self.bundle/'scenario.json').read_text(encoding='utf-8')) if (self.bundle/'scenario.json').exists() else {}
         if self.scenario.get('preset')=='res100' and self.scenario.get('scope')=='all-energy':
             raise ValueError('The refactored export needs a reference/electricity scenario: its prescribed baseline fleet cannot enforce the legacy whole-energy RES preset')
@@ -110,7 +128,7 @@ class CaseExporter:
         # Complex process equations have no counterpart. Use the generated category
         # energy services, and record the adaptation rather than dropping industry.
         self.service_mode='categories' if self.mode=='complex' else self.mode
-        self.workbook=selected_workbook(self.efuels,self.service_mode,self.electricity_case)
+        self.workbook=selected_workbook(self.efuels,self.service_mode if self.sector_enabled('industry') else self.mode,self.electricity_case)
         self.book=pd.ExcelFile(self.data/self.workbook)
         self.cache={}
         active=self.sheet('active_zones')
@@ -136,6 +154,8 @@ class CaseExporter:
         self.audit={'format':'H2RES-refactored','adaptation':'native energy services and exogenous transport pathway',
                     'years':self.years,'industry_requested':self.mode,'industry_services':self.service_mode,
                     'efuels':self.efuels,'source_workbook':self.workbook,'assumptions':[],
+                    'selected_preparation_sectors':sorted(self.selected_sectors),
+                    'omitted_preparation_sectors':sorted(EXPORT_SECTORS-self.selected_sectors),
                     'differences':[
                         'Transport fleet numbers and activity shares are exogenous; baseline mix held constant unless pathway.csv is edited.',
                         'Industrial energy services use heat-carrier buses (including NON_HEAT process service proxies); no material/product/process constraints.',
@@ -152,6 +172,11 @@ class CaseExporter:
         self.fuel_prices=pd.read_csv(self.data/'fuel_prices.csv')
         self.product_prices=pd.read_excel(self.data/'policy_fuels.xlsx','import')
         self.policy_book=pd.ExcelFile(self.data/('policy_efuel.xlsx' if self.efuels else 'policy.xlsx'))
+
+    def sector_enabled(self, sector):
+        # Older tests/integrations constructing an exporter without __init__
+        # retain their original full-system behavior.
+        return sector in getattr(self, 'selected_sectors', EXPORT_SECTORS)
 
     def close(self):
         self.book.close();self.policy_book.close()
@@ -293,10 +318,12 @@ class CaseExporter:
             is_chp=chp not in {'n','nan','none',''}
             if is_chp:tech+='CHP'
             u=self.unit(r,name,tech,self.bus(zone,'electricity'))
-            if is_chp:
+            if is_chp and self.sector_enabled('heating'):
                 u.update(chp_type='extraction' if number(r,'CHPPowerLossFactor')>0 else 'backpressure',
                     chp_power_to_heat=number(r,'CHPPowerToHeat'),chp_power_loss_factor=number(r,'CHPPowerLossFactor'),
                     chp_max_heat=number(r,'CHPMaxHeat'),carrier_out_2='heat',bus_out_2=self.bus(zone,'heat','DH',loss=self.dh_loss))
+            elif is_chp:
+                self.audit.setdefault('chp_without_heat_sector',[]).append(name)
             if tech in {'HDAM','HPHS'}:
                 u.update(e_nom=number(r,'STOCapacityGWh')*1000,e_nom_max=number(r,'STOCapacityGWh')*1000,
                     e_nom_lower=0,e_min=0,capital_cost_energy=0,p_charge_nom=number(r,'STOMaxChargingPower'),
@@ -490,11 +517,14 @@ class CaseExporter:
         baseline=pd.DataFrame(0.,index=total.index,columns=total.columns)
         # Grid demand already includes historical industry/heating electricity.
         # Their services are represented explicitly in the new coupled case.
-        for file in ['industry_electricity.csv','heating_electricity.csv']:
+        baseline_files=[]
+        if self.sector_enabled('industry'):baseline_files.append('industry_electricity.csv')
+        if self.sector_enabled('heating'):baseline_files.append('heating_electricity.csv')
+        for file in baseline_files:
             observed=hourly(self.series(file),file)
             baseline+=observed[baseline.columns]
         # Existing electric mobility also sits inside the grid observation.
-        for f in self.fleets:
+        for f in (self.fleets if self.sector_enabled('transport') else []):
             if f['carrier_in']=='electricity':
                 share=next(p['activity_share'] for p in self.pathway if p['fleet']==f['name'])
                 baseline[f['region']]+=self.mobility[f['mode']]*share/f['efficiency']/f['eta_charge']
@@ -514,12 +544,18 @@ class CaseExporter:
             regional_accounting[bus]=dict(region=z,system=self.countries[z],grid_MWh=float(total[z].sum()),
                 residual_base_MWh=float(residual[z].sum()),source_zero_hours=int(total[z].eq(0).sum()),
                 exported_MWh_by_year=per_year,exported_zero_hours_by_year=zero_hours)
+        provenance=self.bundle/'electricity_demand_method.json'
+        if provenance.is_file():
+            self.audit['electricity_profile_provenance']=json.loads(provenance.read_text(encoding='utf-8'))
+            self.source_files[provenance.name]=hashlib.sha256(provenance.read_bytes()).hexdigest()
         self.audit['electricity_accounting_MWh']=dict(grid=float(total.sum().sum()),
             removed_historical_sector_electricity=float(baseline.sum().sum()),residual=float(residual.sum().sum()),
-            method_id='national_sector_removal_preserve_regional_curves_v2',
-            distribution_source='Existing native electricity_demand.csv: ENTSO-E national hourly curve allocated using normalized JRC EIGL regional electricity totals; custom zones retain their prepared aggregation.',
+            method_id=('national_sector_removal_preserve_regional_curves_v2' if baseline_files or self.sector_enabled('transport')
+                       else 'gross_grid_demand_no_explicit_sector_removal_v1'),
+            removed_sector_baseline_files=baseline_files,
+            distribution_source='Prepared native electricity_demand.csv; retain its original regional hourly shapes and annual shares. See electricity_profile_provenance for sector-weighted or national-scaled source details when available. Custom zones retain their prepared aggregation.',
             regional_negative_hours_avoided=changes,
-            method='Remove historical industry/heating and baseline electric mobility from each national annual grid budget; multiply all original regional hourly grid curves by the same national residual/gross factor. Preserve base regional shares, each normalized hourly profile, and true source zero hours. Apply declared zone/year demand multipliers afterward. This is an annual residual-demand allocation assumption, not an observed regional sector split or an exact gross hourly reconstruction.',
+            method='Remove historical electricity only for sectors explicitly included in this refactored case: selected industry/heating baselines and represented electric mobility. Apply a common national residual/gross factor to the original regional hourly curves, then declared zone/year demand multipliers. Power-only cases keep gross grid demand. Regional residual allocation is an assumption, not an observed regional sector split.',
             countries=country_accounting,regions=regional_accounting,
             national_negative_hours_before_reconciliation={c:int(((total-baseline)[[z for z,v in self.countries.items() if v==c]].sum(axis=1)<0).sum()) for c in set(self.countries.values())})
 
@@ -662,16 +698,18 @@ class CaseExporter:
         self.audit['differences'].append('E-fuel conversion recipes are retained. Refineries, internal fuel pipelines, terminals and external fuel trade portfolios are not equivalent in this target; they are not copied as unconstrained zero-cost routes. Synthesis is local to each zone; only priced biomass supply routes are introduced.')
 
     def build_heat_storage(self):
+        if not (self.sector_enabled('heating') or self.sector_enabled('industry')):return
         # Native stocks and coupling ratios are available, but no independent
         # thermal-store power specification is supplied. Freeze those stocks;
         # record a four-hour charge/discharge assumption rather than free power.
         stocks=[]
         for sheet,kind in [('flex_tech_heat','INDV'),('flex_tech_DH','DH')]:
+            if not self.sector_enabled('heating'):continue
             for r in self.local(self.sheet(sheet)).to_dict('records'):
                 energy=number(r,'cap_mw')*number(r,'storage_capacity_relation')
                 if energy>0:
                     stocks.append((r,self.bus(r['zone'],'heat',kind,loss=self.dh_loss if kind=='DH' else 0),energy,0.))
-        industry_storage=self.local(self.sheet('industry_heat_stor')) if 'industry_heat_stor' in self.book.sheet_names else pd.DataFrame()
+        industry_storage=self.local(self.sheet('industry_heat_stor')) if self.sector_enabled('industry') and 'industry_heat_stor' in self.book.sheet_names else pd.DataFrame()
         for r in industry_storage.to_dict('records'):
             if not enabled(r.get('include_in_the_model','Y')):continue
             zone=r['zone'];category=r.get('category','all')
@@ -753,12 +791,18 @@ class CaseExporter:
 
     def build(self):
         self.destination.mkdir(parents=True,exist_ok=True)
-        self.dh_loss=float(pd.read_excel(self.policy_book,'DH_loss').iloc[0,0])
+        self.dh_loss=float(pd.read_excel(self.policy_book,'DH_loss').iloc[0,0]) if self.sector_enabled('heating') else 0.
         for zone in self.countries:self.bus(zone,'electricity')
-        print('Refactored export: mapping generators and heating',flush=True)
-        self.build_power();self.build_heating()
-        print('Refactored export: mapping industrial services and fleet pathways',flush=True)
-        self.build_industry();self.build_transport();self.build_electricity_demand();self.build_network()
+        print('Refactored export: selected sectors: '+', '.join(sorted(getattr(self,'selected_sectors',EXPORT_SECTORS))),flush=True)
+        print('Refactored export: mapping generators',flush=True)
+        self.build_power()
+        if self.sector_enabled('heating'):
+            print('Refactored export: mapping heating',flush=True);self.build_heating()
+        if self.sector_enabled('industry'):
+            print('Refactored export: mapping industrial services',flush=True);self.build_industry()
+        if self.sector_enabled('transport'):
+            print('Refactored export: mapping fleet pathways',flush=True);self.build_transport()
+        self.build_electricity_demand();self.build_network()
         self.build_flex_and_efuel();self.build_heat_storage()
         self.build_policy()
         for path,rows in [('buses.csv',list(self.buses.values())),('electricity/powerplants.csv',self.plants),
@@ -773,14 +817,17 @@ class CaseExporter:
             self.write_hourly(path,pd.DataFrame(mapping,index=range(1,8761)) if mapping else empty)
         self.write_hourly('electricity/electricity_demand.csv',self.electricity,
             multipliers={self.bus(z,'electricity'):(z,'dem_change') for z in self.countries})
-        self.write_hourly('heating/heat_demand.csv',pd.DataFrame({b:v[0] for b,v in self.heat.items()}),
+        self.write_hourly('heating/heat_demand.csv',pd.DataFrame({b:v[0] for b,v in self.heat.items()},index=range(1,8761)),
             multipliers={b:(v[1],v[2]) for b,v in self.heat.items()})
         self.write_hourly('heating/efficiency.csv',pd.DataFrame(self.efficiencies,index=range(1,8761)))
         self.write_fuels()
         self.audit['source_files_sha256']={**self.source_files,**{name:hashlib.sha256((self.data/name).read_bytes()).hexdigest()
             for name in [self.workbook,'fuel_prices.csv','policy_fuels.xlsx']}}
         self.audit['source_policy_sha256']=hashlib.sha256((self.data/('policy_efuel.xlsx' if self.efuels else 'policy.xlsx')).read_bytes()).hexdigest()
-        self.audit['sectors']=['electricity','heating','transport']+(['efuel'] if self.efuels else [])
+        self.audit['sectors']=['electricity']+(['heating'] if self.sector_enabled('heating') or self.sector_enabled('industry') else [])+(['transport'] if self.sector_enabled('transport') else [])+(['efuel'] if self.efuels else [])
+        if not self.sector_enabled('heating'):
+            self.audit['assumptions'].append('CHP units retain their electrical efficiency/capacity and costs as power generators; useful heat and heat-revenue/coupling constraints are omitted because space/district heating was not selected.')
+        self.audit['assumptions'].append('Unselected preparation sectors are not modeled in this refactored case. Legacy policy caps remain the supplied scenario assumptions; they are not recalibrated for the reduced sector scope.')
         self.audit['optimization_solved']=False
         (self.destination/'export_report.json').write_text(json.dumps(self.audit,indent=2),encoding='utf-8')
         (self.destination/'unit_mapping.csv').write_text(pd.DataFrame(self.unit_links).to_csv(index=False),encoding='utf-8')
@@ -855,7 +902,7 @@ def validate_case(case):
         if b not in carriers:raise ValueError(f'Unknown e-fuel demand bus {b}')
     electricity_audit=audit.get('electricity_accounting_MWh',{})
     allocation_checked=False
-    if electricity_audit.get('method_id')=='national_sector_removal_preserve_regional_curves_v2':
+    if electricity_audit.get('method_id') in {'national_sector_removal_preserve_regional_curves_v2','gross_grid_demand_no_explicit_sector_removal_v1'}:
         exported=series['electricity/electricity_demand.csv']
         if set(electricity_audit['regions'])!=set(exported['columns']):
             raise ValueError('Electricity allocation audit does not cover every demand bus')
@@ -987,12 +1034,13 @@ def main(argv=None):
     parser.add_argument('--years',help='Comma-separated years; default is the native scenario horizon')
     parser.add_argument('--industry-mode',choices=['regular','categories','complex'])
     parser.add_argument('--efuels',action=argparse.BooleanOptionalAction,default=None)
+    parser.add_argument('--sectors',help='Comma-separated power,heating,industry,transport, or all. Default: sectors generated in the native bundle; unmarked imported bundles retain all. Power is always included.')
     parser.add_argument('--preflight-only',action='store_true',help='Check prepared source files, keys and reference coverage without generating or replacing the CSV case')
     args=parser.parse_args(argv)
     try:
         export_refactored_bundle(args.bundle,args.out_root,model_root=args.model_root,
             preflight_only=args.preflight_only,
-            industry_mode=args.industry_mode,efuels=args.efuels,years=[int(y) for y in args.years.split(',')] if args.years else None)
+            industry_mode=args.industry_mode,efuels=args.efuels,sectors=args.sectors,years=[int(y) for y in args.years.split(',')] if args.years else None)
         return 0
     except (OSError,ValueError,KeyError,ImportError) as error:
         print(f'ERROR: {error}',file=sys.stderr);return 2

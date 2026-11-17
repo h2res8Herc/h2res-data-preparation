@@ -4,6 +4,8 @@
 
 This library documents two separate applications: the standalone internet data preparation tool in this repository and the supplied H2RES optimization model. Data preparation writes files. Model execution, investment optimization and dispatch belong to the separate model environment.
 
+**17 November preparation release:** [changes and upgrade instructions](PREPARATION_RELEASE_2026_11_17.md), [regional electricity profiles, sources and conservation equations](REGIONAL_ELECTRICITY_PROFILES.md). Select `sector-weighted` in **Power & profiles** and **generate** to calculate different regional curves with fixed national-hourly and JRC regional-annual margins. The release also includes selected-sector refactored exports and regional-default/hydro corrections.
+
 **12 November model update:** start with the [illustrated script-based user guide](H2RES_USER_GUIDE.md), [model user manual PDF](H2RES_USER_MANUAL.pdf) or [offline model manual](H2RES_USER_MANUAL.html). The guide contains 32 screenshots of actual source excerpts, directory listings and worksheet previews, labelled as read-only documentation views. The desktop GUI is outside this manual's scope. New sections cover electricity DSM, product based industry and trade, current workbook selection and solver-warning behavior.
 
 The model source/input inventory now describes `H2RES_12.11.2026`, including nested variants. The preparation tool still has its separately dated 2 November native export contract and refactored CSV export; see [native data delivery](MODEL_DATA_2_11_2026.md), [current portable preparation guide](PORTABLE_USER_GUIDE.md), [paper-method audit](PAPER_METHOD_AUDIT.md) and [refactored export](REFACTORED_EXPORT.html). Preparing a legacy bundle does not validate every newly added model feature.
@@ -11,6 +13,8 @@ The model source/input inventory now describes `H2RES_12.11.2026`, including nes
 **Expanded formulation and configuration edition:** the [main configuration guide](MAIN_CONFIGURATION_GUIDE.md) explains workflow selection, dependencies and scenario combinations across all modules. The [mathematical formulation](MATHEMATICAL_FORMULATION.md) contains 62 numbered, source-linked equations rendered as offline vector graphics. The [complete option reference](MODEL_OPTION_REFERENCE.md) explains all 381 recorded assignments, covering 378 unique settings across `main.py` and the three policy modules. Author-reported tested cases are identified separately from static source verification.
 
 ## Start here
+
+**16 November preparation update:** [regional electricity profile methods](REGIONAL_ELECTRICITY_PROFILES.md) documents the optional sector-weighted curves, typical-profile sources, Eurostat composition, annual/hourly conservation equations and use in both export formats. The original fixed-share method remains available and is the default.
 
 **6 November update:** [H2RES-refactored CSV export](REFACTORED_EXPORT.html) supports the supplied bus-based model and `data_chile` layout. It retains the workbook export and documents the native industrial-service and exogenous transport-pathway adaptations.
 

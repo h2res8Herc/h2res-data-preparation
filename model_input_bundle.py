@@ -303,6 +303,57 @@ def read_generated(path: Path, *, hourly: bool = False) -> pd.DataFrame:
     return model_calendar(result) if hourly else result
 
 
+def preflight_power_exports(args) -> None:
+    """Reject missing source products before expensive workbook expansion."""
+    if "power" not in args.sectors or not (getattr(args, "require_model_ready", False)
+                                           or getattr(args, "model_ready_package", False)):
+        return
+    root = args.out_root / "power"
+    level = "individual" if args.power_output_level == "individual" else "aggregated"
+    suffix = "_individual" if level == "individual" else ""
+    required = [root / "GENCO.csv",
+                root / "vre" / level / f"AvailabilityFactors_VRE_{args.vre_year}.csv",
+                root / "hydro" / f"AvailabilityFactors_HROR_{args.hydro_year}{suffix}.csv",
+                root / "hydro" / f"ScaledInflows_{args.hydro_year}{suffix}.csv",
+                root / "demand" / f"electricity_demand_{args.electricity_demand_year}.csv"]
+    missing = [path for path in required if not path.is_file()]
+    if missing:
+        raise FileNotFoundError(
+            "Complete power inputs are missing; workbook expansion has not started. "
+            + "; ".join(str(path) for path in missing)
+            + ". Use Generate with matching profile years and resolution. Hydro is part of Power, "
+              "and complete exports require its availability and inflows. Keep the existing cache "
+              "directory and Refresh downloaded source data unchecked to reuse observations.")
+
+
+def copy_demand_provenance(demand: Path, output: Path, args) -> None:
+    """Validate prepared settings before attaching audits outside native data."""
+    method_file = demand.parent / "electricity_demand_method.json"
+    selected = getattr(args, "electricity_demand_method", "national-scaled")
+    if not method_file.exists():
+        if selected != "national-scaled":
+            raise ValueError("Sector-weighted demand has not been generated. Export existing outputs cannot create new hourly profiles.")
+        return
+    method = json.loads(method_file.read_text(encoding="utf-8"))
+    if method.get("method") != selected:
+        raise ValueError("Prepared electricity method differs from the selected method. Generate electricity demand before exporting existing outputs.")
+    if method.get("source_year") != args.electricity_demand_year:
+        raise ValueError("Prepared electricity method report has a different source year; regenerate electricity demand")
+    if selected == "sector-weighted":
+        share = getattr(args, "electricity_tourism_share", .1)
+        for country, details in method.get("countries", {}).items():
+            if not np.isclose(details.get("tourism_fraction_of_services", -1), share, rtol=0, atol=1e-12):
+                raise ValueError(f"Prepared tourism assumption differs for {country}; regenerate electricity demand before exporting")
+    checksum = method.get("prepared_model_source_sha256")
+    if checksum and checksum != hashlib.sha256(demand.read_bytes()).hexdigest():
+        raise ValueError("Prepared electricity source changed after its method report; regenerate electricity demand")
+    # Keep the native data layout exact. Audits belong at the bundle root.
+    shutil.copy2(method_file, output / method_file.name)
+    budgets = demand.parent / f"electricity_sector_budgets_{args.electricity_demand_year}.csv"
+    if budgets.exists():
+        shutil.copy2(budgets, output / budgets.name)
+
+
 def industry_parameters(generated: pd.DataFrame, reference: pd.DataFrame) -> pd.DataFrame:
     """Reuse current equipment assumptions; keep generated regional baselines."""
     from industry.fuel_representation import UNSUPPORTED_REGULAR
@@ -609,6 +660,7 @@ def export_bundle(args, reference: Path) -> dict:
 def _export_bundle(args, reference: Path, output: Path) -> dict:
     """Build an export in an isolated staging directory; no live bundle writes."""
     output.mkdir(parents=True, exist_ok=True)
+    preflight_power_exports(args)
     data = output / "data"
     # Start from known current inputs every time; only this invocation's sectors
     # replace them. This prevents mixing old HU profiles with new HR generators.
@@ -662,6 +714,7 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
         if demand.exists():
             frame = read_generated(demand, hourly=True).rename(columns={"el_dem_mw": "Power", "zone": "Zone"})
             emit("electricity_demand.csv", frame[["period", "Power", "System", "Zone"]], True)
+            copy_demand_provenance(demand, output, args)
         else:
             missing.append(str(demand))
 

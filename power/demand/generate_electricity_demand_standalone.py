@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import argparse
 import calendar
+import hashlib
+import json
 import os
 import re
 import time
@@ -25,6 +27,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from h2res_input_schema import model_calendar
+from power.demand.sector_profiles import METHODS, generate_sector_profiles
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -184,6 +187,8 @@ def load_zone_map(path: Path | None) -> pd.DataFrame | None:
 
 
 def generate(args: argparse.Namespace) -> None:
+    if getattr(args, "demand_method", "national-scaled") == "sector-weighted" and not 0 <= getattr(args, "tourism_share", .1) < 1:
+        raise ValueError("Tourism share must be at least 0 and less than 1")
     token = args.token or os.environ.get("ENTSOE_API_TOKEN") or os.environ.get("ENTSOE_TOKEN")
     if not token:
         raise ValueError("ENTSO-E token required: set ENTSOE_API_TOKEN or use --token")
@@ -199,6 +204,9 @@ def generate(args: argparse.Namespace) -> None:
         "nuts": args.out_dir / f"electricity_demand_nuts3_{args.year}.csv",
         "model": args.out_dir / f"electricity_demand_{args.year}.csv",
         "wide": args.out_dir / f"electricity_demand_wide_{args.year}.csv",
+        "canonical": args.out_dir / "electricity_demand.csv",
+        "method": args.out_dir / "electricity_demand_method.json",
+        "budgets": args.out_dir / f"electricity_sector_budgets_{args.year}.csv",
     }
     parts = {key: path.with_suffix(path.suffix + ".part") for key, path in final_paths.items()}
     for path in parts.values():
@@ -206,6 +214,11 @@ def generate(args: argparse.Namespace) -> None:
     national_rows: list[pd.DataFrame] = []
     wide_total: pd.DataFrame | None = None
     max_error = 0.0
+    method = getattr(args, "demand_method", "national-scaled")
+    report = dict(method=method, source_year=args.year, countries={},
+                  annual_basis="Packaged JRC EIGL 2019 regional electricity shares scaled to the selected ENTSO-E national annual total. Absolute JRC GWh are not imposed on a different national/year boundary.",
+                  calendar="Raw year retained; February 29 excluded from the 8760-hour model calendar. Both calendars preserve JRC regional shares.")
+    ledgers = []
     try:
         for country_number, country in enumerate(args.countries):
             load = national_load(country, args.year, token, args.cache_dir, args.refresh)
@@ -213,7 +226,34 @@ def generate(args: argparse.Namespace) -> None:
             timestamps = load.index.tz_convert(None)
             national = pd.DataFrame({"timestamp": timestamps, "System": country, "el_dem_mw": load.values})
             national_rows.append(national)
-            matrix = np.outer(load.values, weights.values)
+            atlas_path = args.weights_dir / f"{country}_NUTS3_2019_tot.csv"
+            atlas = pd.read_csv(atlas_path)
+            value_col = next(c for c in atlas if c.lower() == "gwh_tot")
+            atlas_total = float(pd.to_numeric(atlas[value_col], errors="raise").sum()) * 1000
+            if method == "sector-weighted":
+                matrix, details, ledger = generate_sector_profiles(
+                    country, args.year, load, weights, args.cache_dir, refresh=args.refresh,
+                    tourism_share=getattr(args, "tourism_share", .1))
+                ledger.insert(0, "System", country)
+                ledgers.append(ledger)
+            elif method == "national-scaled":
+                matrix = np.outer(load.values, weights.values)
+                details = dict(method=method)
+            else:
+                raise ValueError(f"Unknown electricity-demand method: {method}")
+            model_hours = ~((load.index.month == 2) & (load.index.day == 29))
+            model_total = float(load.to_numpy()[model_hours].sum())
+            annual_errors = np.abs(matrix[model_hours].sum(axis=0) - weights.to_numpy() * model_total)
+            hour_error = float(np.max(np.abs(matrix.sum(axis=1) - load.to_numpy())))
+            if hour_error > 1e-6 or np.max(annual_errors) > max(1e-5, model_total * 1e-11):
+                raise ValueError(f"Electricity demand failed hourly/annual conservation for {country}")
+            details.update(jrc_source_sha256=hashlib.sha256(atlas_path.read_bytes()).hexdigest(),
+                jrc_reference_annual_MWh=atlas_total, entsoe_source_annual_MWh=float(load.sum()),
+                entsoe_model_annual_MWh=model_total, jrc_to_model_scale=model_total / atlas_total,
+                max_hourly_error_MW=hour_error, max_model_annual_error_MWh=float(np.max(annual_errors)),
+                regional_annual_targets_MWh={r: float(w * model_total) for r, w in weights.items()},
+                regional_annual_results_MWh=dict(zip(weights.index, matrix[model_hours].sum(axis=0).tolist())))
+            report["countries"][country] = details
             long = pd.DataFrame(matrix, index=timestamps, columns=weights.index)
             long.index.name = "timestamp"
             long = long.stack().rename("el_dem_mw").reset_index()
@@ -242,12 +282,20 @@ def generate(args: argparse.Namespace) -> None:
         if wide_total is None:
             raise ValueError("No electricity-demand data generated")
         wide_total.reset_index().to_csv(parts["wide"], index=False)
-        for key, path in final_paths.items():
-            parts[key].replace(path)
-        canonical = model_calendar(pd.read_csv(final_paths["model"])).rename(
+        canonical = model_calendar(pd.read_csv(parts["model"])).rename(
             columns={"zone": "Zone", "el_dem_mw": "Power"}
         )
-        canonical[["period", "Power", "System", "Zone"]].to_csv(args.out_dir / "electricity_demand.csv", index=False)
+        canonical[["period", "Power", "System", "Zone"]].to_csv(parts["canonical"], index=False)
+        report["electricity_demand_sha256"] = hashlib.sha256(parts["canonical"].read_bytes()).hexdigest()
+        report["prepared_model_source_sha256"] = hashlib.sha256(parts["model"].read_bytes()).hexdigest()
+        parts["method"].write_text(json.dumps(report, indent=2), encoding="utf-8")
+        if ledgers:
+            pd.concat(ledgers, ignore_index=True).to_csv(parts["budgets"], index=False)
+        for key, path in final_paths.items():
+            if parts[key].exists():
+                parts[key].replace(path)
+        if not ledgers:
+            final_paths["budgets"].unlink(missing_ok=True)
     finally:
         for path in parts.values():
             path.unlink(missing_ok=True)
@@ -264,6 +312,10 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--zone-map", type=Path)
     ap.add_argument("--token", help="ENTSO-E API token; preferably set ENTSOE_API_TOKEN instead.")
     ap.add_argument("--refresh", action="store_true")
+    ap.add_argument("--demand-method", choices=METHODS, default="national-scaled",
+                    help="sector-weighted varies regional shapes using source-backed profiles and Eurostat composition; both methods preserve ENTSO-E hours and JRC annual shares")
+    ap.add_argument("--tourism-share", type=float, default=.1,
+                    help="Assumed fraction of national service electricity assigned to tourism (sector-weighted only; default 0.1, not an observed statistic)")
     return ap
 
 

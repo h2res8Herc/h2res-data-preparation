@@ -57,6 +57,7 @@ def check(root, dependencies=True):
              'industry.generate_complex_industry_inputs','industry.facility_sources',
              'industry.regional_allocation','heating.paper_calculator','heating.paper_weather',
              'transport.script.osm_infrastructure','transport.script.activity_units']
+    modules += ['power.demand.generate_electricity_demand_standalone','power.demand.sector_profiles']
     for name in modules:
         module=importlib.import_module(name)
         if not Path(module.__file__).resolve().is_relative_to(root):
@@ -66,8 +67,13 @@ def check(root, dependencies=True):
         missing=missing_dependencies(selected_dependencies(['power','industry','transport','heating']))
         if missing:
             raise ValueError('Missing preparation packages: '+', '.join(item['package'] for item in missing))
+    from power.demand.sector_profiles import library
+    household, branches, profile_manifest = library(root/'power/demand/profile_library')
+    if household.empty or branches.empty or len(profile_manifest['files']) != 2:
+        raise ValueError('The regional-electricity representative-profile library is incomplete')
     return dict(ready=True,release_files=len(manifest['files']),reference_files=43,
                 local_modules=len(modules),all_sector_dependencies_checked=dependencies,
+                electricity_profile_library_verified=True,
                 generated_country_outputs_included=False,model_executed=False,data_downloaded=False)
 
 

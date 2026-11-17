@@ -19,11 +19,132 @@ from excel_integrity import workbook_errors
 from model_input_bundle import replace_sheets, sheet_paths, TECH_WORKBOOKS, selected_workbook
 from model_variants import configurations, reusable_complex, apply_variant_investments, branch_allocation_weights
 from native_data_delivery import publish_outputs
-from default_model_inputs import default_rows, complete_defaults
+from default_model_inputs import allocation_weights, default_rows, complete_defaults
 from filesystem_publish import replace_with_retry
 
 
 class NativeDeliveryTests(unittest.TestCase):
+    def test_default_category_heat_profiles_conserve_national_hourly_energy(self):
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory)
+            pd.DataFrame(dict(System=["HR", "HR"], Zone=["HR021", "HR022"], Power=[25., 75.])).to_csv(data / "electricity_demand.csv", index=False)
+            original = pd.DataFrame({"period": [1, 2], "System": "HR", "zone": "HR1", "all": [4., 6.],
+                                     "A[100_400C]": [3., 2.], "B[100_400C]": [1., 4.]})
+            path = data / "industry_category_profiles.csv"
+            original.to_csv(path, index=False)
+            complete_defaults(data, {("HR", "HR021"), ("HR", "HR022")}, ["electricity_demand.csv"], [], "unused.xlsx", [])
+            result = pd.read_csv(path)
+            regional = result.loc[result.zone.isin(["HR021", "HR022"])]
+            for column in ("all", "A[100_400C]", "B[100_400C]"):
+                self.assertEqual(regional.groupby("period")[column].sum().tolist(), original[column].tolist())
+            self.assertEqual(regional.groupby("zone")["all"].sum().to_dict(), {"HR021": 2.5, "HR022": 7.5})
+
+    def test_default_industry_pool_is_rebuilt_after_regional_expansion(self):
+        from native_input_checks import industry_checks
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory)
+            targets = {("HR", "HR021"), ("HR", "HR022")}
+            pd.DataFrame(dict(System=["HR", "HR"], Zone=["HR021", "HR022"], Power=[25., 75.])).to_csv(data / "electricity_demand.csv", index=False)
+            pd.DataFrame({"period": [1], "System": ["HR"], "zone": ["HR1"], "all": [40.], "A": [10.], "B": [30.]}).to_csv(data / "industry_heat.csv", index=False)
+            industry = pd.DataFrame(dict(System="HR", zone="HR1", Industry=["A", "B"], category="all",
+                                         unit_name="Gas_industry", fuel_type="Gas", include_in_the_model="N",
+                                         cap_mw=[10., 20.], share_fuel_2020=1., max_share_fuel=1., efficiency=[.8, .9],
+                                         max_cap=[100., 200.], max_inv_period=[2., 3.]))
+            stale = industry.iloc[:1].assign(Industry="remainder", cap_mw=999., max_inv_period=999.)
+            path = data / "flex_tech.xlsx"
+            with pd.ExcelWriter(path) as writer:
+                industry.to_excel(writer, sheet_name="Industry_data", index=False)
+                stale.to_excel(writer, sheet_name="simple_industry", index=False)
+            notes = complete_defaults(data, targets, ["electricity_demand.csv"], [], path.name, [])
+            updated = pd.read_excel(path, "Industry_data")
+            pooled = pd.read_excel(path, "simple_industry")
+            errors, _ = industry_checks(updated, pooled, pd.read_csv(data / "industry_heat.csv"), "regular")
+            self.assertEqual(errors, [])
+            self.assertAlmostEqual(pooled.loc[pooled.zone.eq("HR021"), "cap_mw"].sum(), 7.5)
+            self.assertAlmostEqual(pooled.loc[pooled.zone.eq("HR022"), "cap_mw"].sum(), 22.5)
+            self.assertAlmostEqual(pooled.loc[pooled.zone.eq("HR021"), "max_inv_period"].sum(), 1.25)
+            demand = pd.read_csv(data / "industry_heat.csv").set_index("zone")
+            self.assertEqual(demand.loc["HR021", "all"], 10.)
+            self.assertEqual(demand.loc["HR022", "all"], 30.)
+            self.assertEqual(demand.loc[["HR021", "HR022"], "all"].sum(), 40.)
+            self.assertEqual(demand.loc[["HR021", "HR022"], "A"].sum(), 10.)
+            self.assertEqual(demand.loc[["HR021", "HR022"], "B"].sum(), 30.)
+            self.assertTrue(any("recomputed" in n.get("basis", "") for n in notes))
+
+    def test_generated_industry_pool_keeps_its_variant_specific_profiles(self):
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory)
+            path = data / "flex_tech.xlsx"
+            original = pd.DataFrame(dict(System=["HR"], zone=["HR021"], cap_mw=[10.]))
+            with pd.ExcelWriter(path) as writer:
+                original.to_excel(writer, sheet_name="Industry_data", index=False)
+                original.to_excel(writer, sheet_name="simple_industry", index=False)
+            variants = [dict(technology_workbook=path.name, replaced_sheets=["Industry_data", "simple_industry"])]
+            before = path.read_bytes()
+            with patch("model_input_bundle.pooled_industry", side_effect=AssertionError("must retain generated pool")):
+                complete_defaults(data, {("HR", "HR021"), ("HR", "HR022")}, [], variants, path.name, [])
+            self.assertEqual(path.read_bytes(), before)
+
+    def test_national_reference_demand_does_not_block_regional_weight_fallback(self):
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory)
+            targets = {("HR", "HR021"), ("HR", "HR022"), ("HR", "offshore")}
+            pd.DataFrame(dict(System=["HR"] * 3, Zone=["HR021", "HR022", "offshore"],
+                              Power=[25., 75., 0.])).to_csv(data / "electricity_demand.csv", index=False)
+            # These files exist, but their national geography is not the
+            # geography of this power-only preparation run.
+            for filename in ("industry_heat.csv", "heating_individual.csv"):
+                pd.DataFrame(dict(System=["HR"], zone=["HR1"], all=[100.])).to_csv(data / filename, index=False)
+            weights, bases = allocation_weights(data, targets, with_basis=True)
+            expected = {("HR", "HR021"): .25, ("HR", "HR022"): .75, ("HR", "offshore"): 0.}
+            for kind in ("electricity", "industry", "heating"):
+                self.assertEqual(weights[kind], expected)
+            self.assertIn("fallback", bases["industry"][("HR", "HR021")])
+            self.assertIn("electricity", bases["industry"][("HR", "HR021")])
+
+    def test_weight_fallback_is_per_country_and_keeps_available_industry_shares(self):
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory)
+            targets = {("HR", "HR021"), ("HR", "HR022"), ("SI", "SI001"), ("SI", "SI002")}
+            pd.DataFrame(dict(System=["HR", "HR", "SI", "SI"], Zone=["HR021", "HR022", "SI001", "SI002"],
+                              Power=[50., 50., 20., 80.])).to_csv(data / "electricity_demand.csv", index=False)
+            pd.DataFrame({"System": ["HR", "HR", "SI"], "zone": ["HR021", "HR022", "SI1"],
+                          "all": [90., 10., 100.]}).to_csv(data / "industry_heat.csv", index=False)
+            weights, bases = allocation_weights(data, targets, with_basis=True)
+            self.assertEqual(weights["industry"], {("HR", "HR021"): .9, ("HR", "HR022"): .1,
+                                                    ("SI", "SI001"): .2, ("SI", "SI002"): .8})
+            self.assertEqual(bases["industry"][("HR", "HR021")], "prepared industry demand")
+            self.assertIn("fallback", bases["industry"][("SI", "SI001")])
+
+    def test_power_only_default_workbook_allocates_quantities_and_records_fallback(self):
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory)
+            targets = {("HR", "HR021"), ("HR", "HR022")}
+            pd.DataFrame(dict(System=["HR", "HR"], Zone=["HR021", "HR022"], Power=[25., 75.])).to_csv(data / "electricity_demand.csv", index=False)
+            pd.DataFrame({"System": ["HR"], "zone": ["HR1"], "all": [100.]}).to_csv(data / "industry_heat.csv", index=False)
+            path = data / "flex_tech_categories.xlsx"
+            with pd.ExcelWriter(path) as writer:
+                pd.DataFrame(dict(System=["HR"], zone=["HR1"], cap_mw=[100.])).to_excel(writer, sheet_name="industry_heat_storage", index=False)
+            source = (data / "electricity_demand.csv").read_bytes()
+            notes = complete_defaults(data, targets, ["electricity_demand.csv"], [], path.name, [])
+            result = pd.read_excel(path, "industry_heat_storage").set_index("zone")
+            self.assertEqual(result.loc["HR021", "cap_mw"], 25.)
+            self.assertEqual(result.loc["HR022", "cap_mw"], 75.)
+            self.assertEqual(result.loc[["HR021", "HR022"], "cap_mw"].sum(), 100.)
+            self.assertEqual((data / "electricity_demand.csv").read_bytes(), source)
+            storage = [n for n in notes if n.get("sheet") == "industry_heat_storage"]
+            self.assertTrue(storage)
+            self.assertTrue(all("electricity" in n["weight_basis"] and "fallback" in n["weight_basis"] for n in storage))
+
+    def test_missing_all_regional_weights_still_fails_with_workbook_and_sheet(self):
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory)
+            path = data / "flex_tech_categories.xlsx"
+            with pd.ExcelWriter(path) as writer:
+                pd.DataFrame(dict(System=["HR"], zone=["HR1"], cap_mw=[100.])).to_excel(writer, sheet_name="industry_heat_storage", index=False)
+            with self.assertRaisesRegex(ValueError, "flex_tech_categories.xlsx/industry_heat_storage.*No prepared regional demand weights"):
+                complete_defaults(data, {("HR", "HR021"), ("HR", "HR022")}, [], [], path.name, [])
+
     def test_publication_retries_a_transient_windows_folder_lock(self):
         locked = PermissionError("temporary scanner lock")
         locked.winerror = 5

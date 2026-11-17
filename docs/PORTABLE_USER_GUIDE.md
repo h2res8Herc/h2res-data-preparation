@@ -1,6 +1,6 @@
 # H2RES Data Preparation: transfer and GUI guide
 
-Release: **4 November 2026**. Windows 10/11, 64-bit Python. Python 3.12 is recommended for the tested offline setup; compatible Python 3.10+ can install dependencies online. Native input format: **H2RES_2.11.2026_novi**.
+Release: **17 November 2026**. Windows 10/11, 64-bit Python. Python 3.12 is recommended for the tested offline setup; compatible Python 3.10+ can install dependencies online. Native input format: **H2RES_2.11.2026_novi**. The optional refactored CSV interface is included.
 
 This package sources internet data and prepares H2RES inputs. The application window is named **Energy Data Sourcing and Preparation**. The energy-system optimizer belongs to a separate H2RES installation. The transfer folder includes the preparation source code, required local reference/source data, dependency wheels and documentation. Previously generated country outputs and completed input bundles are excluded. Run **generate** to produce the selected country's data.
 
@@ -8,12 +8,16 @@ This package sources internet data and prepares H2RES inputs. The application wi
 
 ## 1. Copy and set up on another machine
 
+**Complete power inputs:** hydro is part of Power. Complete Generate runs produce hydro availability and inflows from bundled data even if an older saved configuration requested skipping hydro. Skipping remains available for source-only/diagnostic runs. Export-existing mode checks required power files before workbook expansion; it does not create missing profiles. Keep the same cache directory and leave Refresh unchecked when resuming.
+
+**16 November preparation update:** **Power & profiles → Regional electricity profiles → sector-weighted** enables economic-sector-weighted regional curves. National hourly load and the existing JRC annual regional ratios remain fixed. The default `national-scaled` option retains the previous calculation. Use **Data task: generate** to change the method; cached ENTSO-E observations can be reused. See [regional electricity methods, assumptions and equations](REGIONAL_ELECTRICITY_PROFILES.html).
+
 **GitHub download:** the attached `H2RES_Data_Preparation_*.zip` portable asset on **Releases** includes the complete hydro file and offline Python 3.12 wheels. The current **Code → Download ZIP** source also contains the required hydro data in `power/hydro/precomputed/runoff_shapes_2020.npz.parts`. Setup reconstructs the original 107,182,326-byte NPZ locally after verifying every part and the full SHA-256. No Git LFS or API token is needed for this reconstruction; source installations still download Python dependencies online. Keep the parts directory when copying the source package.
 
 **Older source ZIPs:** a 134-byte `runoff_shapes_2020.npz` is a Git LFS pointer, not the actual hydro data. Copy the actual file from the working portable ZIP into that same location and rerun `SETUP_WINDOWS.bat`, or download the complete current source with its parts. Existing weather/source caches do not need to be deleted. Current setup also replaces an old pointer when the verified local parts are present.
 
-1. Copy the complete `H2RES_Data_Preparation_2026-11-04` folder, or copy its ZIP and extract it completely. Open files from the extracted folder.
-2. Choose a writable local folder, for example `C:\EnergyTools\H2RES_Data_Preparation_2026-11-04`. The code resolves its bundled data relative to this folder; a `D:\POSAO` installation is not required for data preparation.
+1. Copy the complete `H2RES_Data_Preparation_2026-11-17` folder, or copy its ZIP and extract it completely. Open files from the extracted folder.
+2. Choose a writable local folder, for example `C:\EnergyTools\H2RES_Data_Preparation_2026-11-17`. The code resolves its bundled data relative to this folder; a `D:\POSAO` installation is not required for data preparation.
 3. Use an existing **64-bit Python 3.10+ / Anaconda installation with Tcl/Tk**, or install **64-bit Python 3.12** from the official Python website, including **Tcl/Tk and IDLE**, the Python launcher and pip. Python 3.12 is the tested offline option. Python is a prerequisite; this release does not contain an embedded interpreter.
 4. Double-click **SETUP_WINDOWS.bat**. It searches standard Python, Anaconda/Miniconda, active Conda environments, registered interpreters and the Python launcher. Python 3.12 uses the bundled dependency lock and Windows wheels offline. Other compatible versions use `requirements.txt` and internet access to obtain matching wheels. All installations go into this folder's `.venv`; the base Anaconda environment is not modified. The setup log records each interpreter's version, architecture and Tcl/Tk result.
 5. After setup succeeds, double-click **START_DATA_PREPARATION.bat**. The launcher uses the completed local `.venv` and verifies dependencies before opening the GUI. It reports an incomplete setup instead of switching to another global Python. `START_H2RES_GUI.bat` is a compatibility shortcut to this same application.

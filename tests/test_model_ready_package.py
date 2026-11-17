@@ -20,6 +20,19 @@ import model_input_bundle as bundle_module
 
 
 class ModelReadyPackageTests(unittest.TestCase):
+    def test_electricity_audits_stay_outside_exact_native_data_layout(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            report = self.fixture(root)
+            (root / "electricity_demand_method.json").write_text('{"method":"sector-weighted"}')
+            (root / "electricity_sector_budgets_2020.csv").write_text("region,industry_MWh\nHR050,100\n")
+            summary = build_package(root, report)
+            folder = root / summary["folder"]
+            self.assertTrue((folder / "electricity_demand_method.json").exists())
+            self.assertTrue((folder / "electricity_sector_budgets_2020.csv").exists())
+            self.assertFalse((folder / "data/electricity_demand_method.json").exists())
+            self.assertTrue(json.loads((folder / "package_manifest.json").read_text())["data_layout"]["matches_reference"])
+
     def fixture(self, root, ready=True):
         data = root / "data"
         data.mkdir()

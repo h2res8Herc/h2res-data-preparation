@@ -16,3 +16,19 @@ def skip_vre_for_config(config):
         existing_only=config.get("input_action", "generate") != "generate",
     )
     return bool(config.get("skip_vre")) and not required
+
+
+def hydro_profiles_required(sectors, **options):
+    """A complete power input case needs hydro as well as wind/solar curves."""
+    return vre_profiles_required(sectors, **options)
+
+
+def skip_hydro_for_config(config):
+    required = hydro_profiles_required(
+        ["power"] if config.get("sector_power") else [],
+        model_export=config.get("model_export", True),
+        model_ready_package=config.get("model_ready_package", True),
+        require_model_ready=config.get("require_model_ready", True),
+        existing_only=config.get("input_action", "generate") != "generate",
+    )
+    return bool(config.get("skip_hydro")) and not required

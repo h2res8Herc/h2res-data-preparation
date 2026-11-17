@@ -5,16 +5,42 @@ import json
 import tempfile
 import unittest
 from unittest.mock import Mock,patch
+from types import SimpleNamespace
 import numpy as np
 import pandas as pd
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from refactored_input_checks import select_scope,unique_rows,common_fuel_price,year_value
+from refactored_input_checks import select_scope,unique_rows,common_fuel_price,year_value,preflight
 from refactored_input_export import CaseExporter,export_refactored_bundle
 
 
 class NamespaceChecks(unittest.TestCase):
+    def test_power_only_preflight_does_not_require_unselected_sector_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            pd.DataFrame(dict(unit_name=['Plant'],System='HR',Zone='HR021',fuel_type='Gas',technology='CCGT')).to_csv(root/'generators.csv',index=False)
+            pd.DataFrame(dict(period=[1],System='HR',Zone='HR021',Power=[10.])).to_csv(root/'electricity_demand.csv',index=False)
+            for name in ['renewable_availability.csv','hydro_inflows.csv']:
+                pd.DataFrame(dict(period=[1])).to_csv(root/name,index=False)
+            pd.DataFrame(dict(year=[2025],period=[1],gas=[50.])).to_csv(root/'fuel_prices.csv',index=False)
+            (root/'policy_fuels.xlsx').write_bytes(b'not opened by schema preflight')
+            e=SimpleNamespace(data=root,selected_sectors={'power'},service_mode='regular',efuels=False,
+                workbook='flex_tech.xlsx',countries={'HR021':'HR'},pairs={('HR','HR021')},years=[2025],
+                cost_table=pd.DataFrame(dict(System=['HR'],zone=['HR021'],year=[2025])),
+                fuel_prices=pd.read_csv(root/'fuel_prices.csv'),
+                book=SimpleNamespace(sheet_names=['flex_tech','tech_cost_years','transmission']),
+                policy_book=SimpleNamespace(sheet_names=['CO2','RPS','biomass_caps','dem_change']),
+                demand_multiplier=lambda *args:1.,trajectory=lambda *args:{2025:100.})
+            report=preflight(e)
+            self.assertEqual(report['errors'],[])
+            self.assertTrue(report['ready'])
+            e.selected_sectors={'power','transport'}
+            report=preflight(e)
+            self.assertFalse(report['ready'])
+            self.assertTrue(any('transport_profiles.csv' in error['source'] for error in report['errors']))
+            self.assertFalse(any('heating' in error['source'] or 'COP_HP' in error['source'] for error in report['errors']))
+
     def test_shared_zone_names_in_foreign_reference_rows_do_not_leak(self):
         frame=pd.DataFrame(dict(System=['HR','SI','SI'],zone=['SI1','SI1','SI2'],value=[2.,3.,4.]))
         self.assertEqual(select_scope(frame,system='SI',zone='SI1').value.tolist(),[3.])

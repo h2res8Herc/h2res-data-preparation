@@ -2,6 +2,14 @@
 
 Download public energy data and prepare inputs for the original workbook-based H2RES model and the newer bus-based H2RES-refactored model. This application prepares data; the optimization model runs separately.
 
+## Preparation update — 17 November 2026
+
+[Download the complete current portable ZIP](https://github.com/h2res8Herc/h2res-data-preparation/releases/tag/v2026.11.17), then run SETUP_WINDOWS.bat and START_DATA_PREPARATION.bat.
+
+For the new regional curves, choose **Power & profiles → Regional electricity profiles → sector-weighted** and **Output format → Data task → generate**. This uses public economic and tourism observations with representative sector templates while preserving every national ENTSO-E hour and the JRC annual regional ratios. The compact profile library is bundled. The previous `national-scaled` method remains the default; changing methods requires generation, rather than export-only packaging.
+
+This release also includes power-only refactored exports, corrected regional default quantities and industrial remainders, and required hydro preflight/generation. Existing weather/source caches can be reused. [Release changes and upgrade instructions](docs/PREPARATION_RELEASE_2026_11_17.md) · [Electricity sources, equations and assumptions](docs/REGIONAL_ELECTRICITY_PROFILES.md).
+
 ## Start on Windows
 
 For a complete ready-to-copy installation, use the **attached portable ZIP in [Releases](https://github.com/h2res8Herc/h2res-data-preparation/releases)**. It includes the complete hydro input and offline Python 3.12 dependency wheels. The current **Code → Download ZIP** source also includes all required local data: setup reconstructs the hydro archive from verified local parts. Source downloads install Python dependencies online.
@@ -50,6 +58,8 @@ The expanded PDF and standalone documentation ZIP are attached to the release. E
 
 ## Documentation
 
+* [Regional electricity profiles and conservation equations](docs/REGIONAL_ELECTRICITY_PROFILES.md)
+* [Current preparation release and upgrade instructions](docs/PREPARATION_RELEASE_2026_11_17.md)
 * [User guide](USER_GUIDE.md)
 * [Illustrated transfer and GUI guide](docs/PORTABLE_USER_GUIDE.md)
 * [Refactored export, units and model differences](docs/REFACTORED_EXPORT.md)
