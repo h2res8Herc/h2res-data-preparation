@@ -6,7 +6,7 @@ import unittest
 import pandas as pd
 from openpyxl import Workbook,load_workbook
 
-from regional_network_inputs import blocks,complete_blocks,internal_regions,outside_regions,checks
+from regional_network_inputs import blocks,complete_blocks,internal_regions,outside_regions,checks,mapped_network,link_keys,mapped_capacity_errors
 from model_input_bundle import replace_sheets
 from excel_integrity import workbook_errors
 
@@ -89,6 +89,28 @@ class RegionalNetworkTests(unittest.TestCase):
             self.assertIsNone(book['transmission']['G1'].value)
             self.assertIn('F1:O1',{str(r) for r in book['transmission'].merged_cells.ranges})
             book.close()
+
+    def test_mapped_lines_in_merged_layout_preserve_other_carriers(self):
+        frame, headers = self.fixture()
+        frame, _ = complete_blocks(frame, headers)
+        targets = {('HR', z) for z in 'abc'}
+        baseline, defaults = internal_regions(frame, targets, {('HR', 'a'): 1.})
+        observed = [dict(System='HR', zone=a, To='HR', zoneTo=b, unit_name='400kV_AC',
+                         cap_mw=123., km=55.) for a, b in [('a','b'), ('b','c')]]
+        result, audit = mapped_network(frame, baseline, defaults, observed, targets)
+        base, units = blocks(result)
+        pairs = {(r[base['zone']], r[base['zoneTo']]): r for _,r in result.iloc[1:].iterrows()}
+        for pair in [('a','b'),('b','a'),('b','c'),('c','b')]:
+            self.assertEqual(pairs[pair][units['400kV_AC']['cap_mw']], 123.)
+        self.assertEqual(pairs['a','c'][units['400kV_AC']['max_cap']], 0.)
+        self.assertEqual(pairs['a','c'][units['petrol']['cap_mw']], 1000.)
+        self.assertEqual(pairs['b','c'][units['petrol']['max_cap']], 0.)
+        self.assertFalse(any(n['electricity_fallback'] for n in audit))
+        self.assertEqual(mapped_capacity_errors(result, observed), [])
+        self.assertTrue(mapped_capacity_errors(baseline, observed))
+        keys = link_keys(pd.DataFrame(columns=['System','zone','To','zoneTo','active','link','linkx','multip']), result)
+        self.assertEqual(set(keys.link), {a+'-'+b for a,b in pairs})
+        self.assertEqual(keys.set_index('link').loc['a-b','multip'], -keys.set_index('link').loc['b-a','multip'])
 
     def test_checker_rejects_original_national_only_inputs_for_regional_run(self):
         internal,h=self.fixture();internal,_=complete_blocks(internal,h)

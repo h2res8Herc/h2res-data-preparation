@@ -317,6 +317,8 @@ def run_transport(args: argparse.Namespace, maps: dict[str, Path] | None) -> Non
         sys.executable, TRANSPORT_SCRIPT, "--countries", ",".join(args.countries),
         "--out-root", args.out_root / "transport",
         "--data-dir", args.data_root / "transport",
+        "--port-freight-year", args.port_freight_year,
+        "--airport-passenger-year", args.airport_passenger_year,
         "--nuts3", args.nuts3,
     ]
     if maps:
@@ -600,6 +602,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--industry-source-root", type=Path, help="Directory containing country JRC-IDEES-2023 Industry and both balance workbooks; otherwise use cache/public downloads")
     parser.add_argument("--industry-download", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--industry-base-year", type=int, default=2020)
+    parser.add_argument("--port-freight-year", type=int, default=2020, help="Eurostat port statistics year for international freight")
+    parser.add_argument("--airport-passenger-year", type=int, default=2020, help="Eurostat airport passenger year for domestic and international aviation")
     parser.add_argument("--industry-waste-allocation", choices=("strict", "sector-blend"), default="sector-blend",
                         help="Use exact single-class waste evidence, or an explicitly recorded sector-blend assumption where needed")
     parser.add_argument("--industry-zone-weights", type=Path, help="Complex industry regional allocation: country,zone,Industry,weight; '*' means every sector")
@@ -863,6 +867,11 @@ def main(argv: Iterable[str] | None = None) -> int:
             run_industry(args, post_maps)
         if "transport" in args.sectors:
             run_transport(args, post_maps)
+        if "power" in args.sectors:
+            from power.osm_transmission import prepare as prepare_grid
+            # Transport already refreshed these shared country extracts in this run.
+            prepare_grid(args.countries, args.data_root, args.nuts3, mapping, args.out_root / "power",
+                         refresh=args.refresh_sources and "transport" not in args.sectors)
         if "heating" in args.sectors:
             run_heating(args, post_maps)
         if args.model_export:

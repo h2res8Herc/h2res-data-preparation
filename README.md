@@ -2,9 +2,11 @@
 
 Download public energy data and prepare inputs for the original workbook-based H2RES model and the newer bus-based H2RES-refactored model. This application prepares data; the optimization model runs separately.
 
-## Preparation update — 17 November 2026
+## Preparation update — 22 November 2026
 
-[Download the complete current portable ZIP](https://github.com/h2res8Herc/h2res-data-preparation/releases/tag/v2026.11.17), then run SETUP_WINDOWS.bat and START_DATA_PREPARATION.bat.
+[Download the complete current portable ZIP](https://github.com/h2res8Herc/h2res-data-preparation/releases/tag/v2026.11.22), then run SETUP_WINDOWS.bat and START_DATA_PREPARATION.bat.
+
+Transport now allocates domestic and international aviation separately using airport passenger counts and international sea freight using port throughput. The 2020 traffic snapshots are bundled. Select **Generate** with **Transport** enabled to regenerate an existing case using its download cache. The update also includes the Croatian 2021 occupancy-based heating allocation and OSM transmission corridors across all voltage levels.
 
 For the new regional curves, choose **Power & profiles → Regional electricity profiles → sector-weighted** and **Output format → Data task → generate**. This uses public economic and tourism observations with representative sector templates while preserving every national ENTSO-E hour and the JRC annual regional ratios. The compact profile library is bundled. The previous `national-scaled` method remains the default; changing methods requires generation, rather than export-only packaging.
 

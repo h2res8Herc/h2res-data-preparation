@@ -43,6 +43,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 TRANSPORT_DIR = SCRIPT_DIR.parent
 sys.path.insert(0, str(TRANSPORT_DIR.parent))
 from h2res_input_schema import transport_identifiers
+from transport.script.activity_units import transport_efficiencies
 
 ALLOCATOR = SCRIPT_DIR / "allocate_transport_to_nuts3_no_pyrosm.py"
 DEFAULT_DATA_DIR = SCRIPT_DIR / "transport_data"
@@ -167,8 +168,19 @@ def download_file(url: str, path: Path, refresh: bool = False) -> Path:
     request = urllib.request.Request(
         url, headers={"User-Agent": "h2res-standalone-transport/1.0"}
     )
-    with urllib.request.urlopen(request, timeout=300) as response, path.open("wb") as target:
-        shutil.copyfileobj(response, target, length=1024 * 1024)
+    from tempfile import NamedTemporaryFile
+    with urllib.request.urlopen(request, timeout=300) as response:
+        with NamedTemporaryFile(dir=path.parent, delete=False) as target:
+            partial = Path(target.name)
+        try:
+            with partial.open("wb") as target:
+                shutil.copyfileobj(response, target, length=1024 * 1024)
+            expected = response.headers.get("Content-Length")
+            if not partial.stat().st_size or (expected and partial.stat().st_size != int(expected)):
+                raise OSError(f"Incomplete download from {url}")
+            partial.replace(path)
+        finally:
+            partial.unlink(missing_ok=True)
     return path
 
 
@@ -314,33 +326,6 @@ def ensure_row(
     return pd.concat([frame, pd.DataFrame([row])], ignore_index=True)
 
 
-def infer_efficiencies(frame: pd.DataFrame) -> pd.DataFrame:
-    out = frame.copy()
-    out["_base"] = out["unit_name"].map(base_name)
-    ratios = {
-        "car": {"BAT": 4.2, "FCEV": 2.0, "HYBRID": 1.66},
-        "BUS": {"BAT": 2.8, "FCEV": 2.0, "HYBRID": 1.5},
-        "truck": {"BAT": .47, "FCEV": 2.0, "HYBRID": 1.5},
-        "AVIO_SHORT": {"BAT": 3.0, "FCEV": 2.0},
-        "AVIO_LONG": {"FCEV": 2.0},
-        "MARINE_SHORT": {"BAT": 3.0},
-    }
-    missing = out["efficiency_primary"].isna()
-    for idx, row in out[missing].iterrows():
-        peers = out[
-            out["System"].eq(row["System"]) & out["zone"].eq(row["zone"])
-            & out["sector"].eq(row["sector"]) & out["_base"].eq(row["_base"])
-            & out["type"].eq("ICE")
-        ]
-        if not peers.empty and pd.notna(peers.iloc[0]["efficiency_primary"]):
-            ratio = ratios.get(row["_base"], {}).get(row["type"])
-            if ratio is not None:
-                out.at[idx, "efficiency_primary"] = (
-                    float(peers.iloc[0]["efficiency_primary"]) * ratio
-                )
-    return out.drop(columns="_base")
-
-
 def load_zone_map(path: Path) -> pd.DataFrame:
     zone_map = pd.read_csv(path)
     aliases = {
@@ -425,7 +410,7 @@ def aggregate_country(country_dir: Path, zone_map_path: Path) -> pd.DataFrame:
     )
     out = pd.concat([out.reset_index(drop=True), extra.reset_index(drop=True)], axis=1)
     out["number"] = pd.to_numeric(out["number"], errors="coerce").fillna(0.0)
-    out = infer_efficiencies(out)
+    out = transport_efficiencies(out)
     return out[FINAL_COLUMNS].sort_values(
         ["System", "zone", "sector", "unit_name", "type"]
     ).reset_index(drop=True)
@@ -574,10 +559,59 @@ def run_allocator(args: argparse.Namespace) -> None:
     original_allocate = module.allocate_table_to_nuts3_complete
     args.paper_navigation = {}
     args.paper_navigation_method = METHOD
+    args.port_freight_evidence = {}
+    args.airport_passenger_evidence = {}
+    port_indicators = {}
+    port_source = None
+    airport_source = None
     def navigation_safe_allocation(national, nuts_ids, weights, table_kind):
-        notes = args.paper_navigation.setdefault(nuts_ids[0][:2], [])
-        return allocate_table(original_allocate, national, nuts_ids, weights, table_kind,
-                              coastal, shipping_by_regions[tuple(nuts_ids)], notes)
+        nonlocal airport_source
+        country = nuts_ids[0][:2]
+        notes = args.paper_navigation.setdefault(country, [])
+        shipping = shipping_by_regions[tuple(nuts_ids)]
+        def port_weights():
+            nonlocal port_source
+            from transport.script.european_port_freight import snapshot, regional_weights
+            if country not in port_indicators:
+                if port_source is None:
+                    port_source = snapshot(args.data_dir, args.port_freight_year, args.refresh_sources)
+                regions = geography.set_index("NUTS_ID").loc[nuts_ids].reset_index()
+                result, evidence = regional_weights(port_source, country, regions, shipping.ship_freight, args.port_freight_year)
+                port_indicators[country] = result
+                args.port_freight_evidence[country] = dict(snapshot=str(port_source.resolve()), **evidence)
+                if result is not None:
+                    shipping["ship_international_freight_kt"] = result.loc[nuts_ids].to_numpy()
+                print(f"{country}: international shipping freight: {evidence['fallback'] or 'Eurostat port throughput'}", flush=True)
+            return port_indicators[country]
+        labels = national.sector.str.strip().str.casefold()
+        aviation = labels.isin(["domestic aviation", "international aviation"]) & (table_kind == "passenger")
+        blocks = []
+        if (~aviation).any():
+            blocks.append(allocate_table(original_allocate, national.loc[~aviation], nuts_ids, weights,
+                                         table_kind, coastal, shipping, notes, port_weights))
+        if aviation.any():
+            from transport.script import airport_passengers
+            if airport_source is None:
+                airport_source = airport_passengers.snapshot(args.data_dir, args.airport_passenger_year, args.refresh_sources)
+            regions = geography.set_index("NUTS_ID").loc[nuts_ids].reset_index()
+            reports = args.airport_passenger_evidence.setdefault(country, {})
+            for label, group in national.loc[aviation].groupby(labels[aviation], sort=False):
+                traffic = label.split()[0]
+                counts, report = airport_passengers.regional_weights(
+                    airport_source, regions, country, args.airport_passenger_year, traffic)
+                reports[traffic] = report
+                shipping[f"{traffic}_airport_passengers"] = counts.loc[nuts_ids].to_numpy()
+                selected = dict(weights)
+                if counts.sum() > 0:
+                    selected["avio_w"] = counts.loc[nuts_ids]
+                elif selected["avio_w"].sum() <= 0 and group[["total_load", "number", "energy_MWh"]].abs().any().any():
+                    raise ValueError(f"{country}: positive {label} has no passenger or airport infrastructure evidence")
+                air = original_allocate(group, nuts_ids, selected, table_kind)
+                air["weight_used"] = report["basis"]
+                blocks.append(air)
+                print(f"{country}: {label}: {report['basis']}, {counts.sum():,.0f} located passengers, "
+                      f"{report['unlocated_passengers']:,.0f} unlocated", flush=True)
+        return pd.concat(blocks, ignore_index=True) if blocks else original_allocate(national, nuts_ids, weights, table_kind)
     module.allocate_table_to_nuts3_complete = navigation_safe_allocation
     allocator_args = [
         str(ALLOCATOR), "--countries", ",".join(args.countries),
@@ -599,7 +633,7 @@ def run_allocator(args: argparse.Namespace) -> None:
     for ids, frame in shipping_by_regions.items():
         debug_path = args.out_root / ids[0][:2] / "debug_weights_NUTS3.csv"
         debug = pd.read_csv(debug_path)
-        for column in ("ship_inland_freight", "ship_inland_passenger"):
+        for column in frame.columns.intersection(["ship_inland_freight", "ship_inland_passenger", "ship_international_freight_kt", "international_airport_passengers", "domestic_airport_passengers"]):
             debug[column] = debug.NUTS_ID.map(dict(zip(ids, frame[column])))
         debug.to_csv(debug_path, index=False)
     from sector_method_provenance import transport_allocation, validate_transport_allocation
@@ -624,6 +658,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--zone-map", type=Path)
     parser.add_argument("--out-root", type=Path, default=SCRIPT_DIR / "outputs_transport")
     parser.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
+    parser.add_argument("--port-freight-year", type=int, default=2020, help="Eurostat international shipping allocation year")
+    parser.add_argument("--airport-passenger-year", type=int, default=2020, help="Airport traffic year for domestic and international passenger aviation")
     parser.add_argument("--curves-dir", type=Path)
     parser.add_argument("--refresh-sources", action="store_true")
     parser.add_argument(
@@ -654,6 +690,9 @@ def main(argv: Iterable[str] | None = None) -> int:
                 args.nuts3, args.countries, args.data_dir / "automatic_zone_map.csv"
             )
         combined: list[pd.DataFrame] = []
+        if args.skip_allocation:
+            from sector_method_provenance import validate_transport_allocation
+            validate_transport_allocation(args)
         for country in args.countries:
             country_dir = args.out_root / country
             compact = aggregate_country(country_dir, args.zone_map)

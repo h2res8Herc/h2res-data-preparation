@@ -477,7 +477,7 @@ def generate_raw_outputs(args: argparse.Namespace, sources: dict[str, Path]) -> 
     raw_root.mkdir(parents=True, exist_ok=True)
     for country in args.countries:
         output = raw_root / (
-            f"{country}_{args.source_year}_popHDD_fuelEIGL_hotmapsDH_v4"
+            f"{country}_{args.source_year}_building_heat_v5"
         )
         expected = output / f"hourly_nuts3_{country}_{args.source_year}.csv"
         from heating.method_provenance import raw_fingerprint, raw_cache_matches, write_raw_manifest
@@ -502,6 +502,8 @@ def generate_raw_outputs(args: argparse.Namespace, sources: dict[str, Path]) -> 
             "--outdir", str(output),
             "--dh-chp-lambda", str(args.dh_chp_lambda),
         ]
+        if "building_occupancy" in identity["inputs"]:
+            command.extend(["--occupancy-evidence", identity["inputs"]["building_occupancy"]["file"]])
         if args.powerplants_csv:
             command.extend(["--powerplants-csv", str(args.powerplants_csv)])
         print(f"Calculating hourly NUTS3 heating demand for {country}...")
@@ -512,6 +514,7 @@ def generate_raw_outputs(args: argparse.Namespace, sources: dict[str, Path]) -> 
 
 def locate_country_dir(root: Path, country: str, year: int) -> Path:
     patterns = [
+        f"{country}_{year}_building_heat_v5",
         f"{country}_{year}_popHDD_fuelEIGL_hotmapsDH_v4",
         f"{country}_{year}_popHDD_fuelEIGL_hotmapsDH_v4*",
         f"{country}_{year}_popHDD_fuelEIGL_hotmapsDH_v3*",

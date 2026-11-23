@@ -40,6 +40,12 @@ def transport_allocation(args):
                   Path(__file__).parent / "transport/script/navigation_allocation.py",
                   Path(__file__).parent / "transport/script/generate_transport_inputs_standalone.py"]
         inputs.append(Path(args.paper_allocator))
+        port_evidence = getattr(args, "port_freight_evidence", {}).get(country)
+        if port_evidence:
+            inputs += [Path(port_evidence["snapshot"]), Path(__file__).parent / "transport/script/european_port_freight.py"]
+        airport_evidence = args.airport_passenger_evidence.get(country, {})
+        if airport_evidence:
+            inputs += [Path(next(iter(airport_evidence.values()))["snapshot"]), Path(__file__).parent / "transport/script/airport_passengers.py"]
         inputs += sorted((Path(args.national_dir) / country).glob("*.csv"))
         inputs += [Path(path) for path in (args.oil_raster, args.el_raster) if path is not None]
         details = dict(method_id="paper_transport_v1", sources=sources(inputs), outputs=sources(outputs),
@@ -49,6 +55,9 @@ def transport_allocation(args):
                        national_activity_units="million passenger-km or tonne-km; diagnostic MWh = total_load * 1000 / primary_efficiency",
                        maritime_constraint="Sea navigation restricted to GISCO COAST_TYPE 1/2; landlocked domestic navigation uses inland OSM ports/quays",
                        navigation_method=getattr(args, "paper_navigation_method", None),
+                       international_port_freight=port_evidence,
+                       international_airport_passengers=airport_evidence.get("international"),
+                       domestic_airport_passengers=airport_evidence.get("domestic"),
                        navigation_allocations=getattr(args, "paper_navigation", {}).get(country, []))
         (directory / "paper_spatial_calculation.json").write_text(json.dumps(details,indent=2),encoding="utf-8")
 
@@ -61,6 +70,9 @@ def _checked_transport_countries(args):
         if not path.is_file():
             raise ValueError("Transport has no verified OSM allocation; regenerate instead of reusing old fallback outputs")
         details = json.loads(path.read_text(encoding="utf-8"))
+        evidence = details.get("international_port_freight")
+        if evidence and evidence["year"] != getattr(args, "port_freight_year", evidence["year"]):
+            raise ValueError("Prepared international port freight year differs from the requested year; regenerate Transport")
         verify_records(details["sources"] + details["outputs"])
         import geopandas as gpd
         nuts = gpd.read_file(args.nuts3)
@@ -73,7 +85,7 @@ def _checked_transport_countries(args):
         all_modes = pd.concat([passenger,freight],ignore_index=True)
         has_coast = bool(set(all_modes.nuts3) & coastal)
         if details.get("navigation_method") != METHOD:
-            raise ValueError("Transport navigation provenance predates the inland-waterway fix; regenerate Transport using cached downloads")
+            raise ValueError("Transport navigation provenance predates the current allocation method; regenerate Transport using cached downloads")
         kinds = all_modes.apply(lambda row: navigation_kind(row.sector, row.unit_name, has_coast), axis=1)
         marine = kinds.isin(["maritime", "domestic_navigation"])
         inland = ~all_modes.nuts3.isin(coastal)
@@ -86,6 +98,30 @@ def _checked_transport_countries(args):
         national_checks = {}
         navigation_checks = []
         debug = pd.read_csv(raw / "debug_weights_NUTS3.csv").set_index("NUTS_ID")
+        from transport.script.airport_passengers import FALLBACK
+        labels = passenger.sector.str.strip().str.casefold()
+        for traffic in ("domestic", "international"):
+            air = passenger.loc[labels.eq(f"{traffic} aviation")]
+            if air.empty:
+                continue
+            airport_basis = f"{traffic}_airport_passengers"
+            air_evidence = details.get(airport_basis)
+            if not air_evidence or air_evidence["year"] != getattr(args, "airport_passenger_year", air_evidence["year"]):
+                raise ValueError(f"Regenerate Transport for the selected {traffic} airport passenger year")
+            basis = air_evidence["basis"]
+            if basis not in (airport_basis, FALLBACK) or not air.weight_used.eq(basis).all():
+                raise ValueError(f"{traffic} aviation allocation differs from its recorded passenger evidence")
+            recorded = pd.Series(0., index=debug.index)
+            for airport in air_evidence["airports"]:
+                if airport["nuts3"] is not None:
+                    recorded[airport["nuts3"]] += airport["passengers"]
+            np.testing.assert_allclose(debug[airport_basis], recorded)
+            shares = recorded if basis == airport_basis else debug.avio_w
+            if shares.sum() > 0:
+                shares = shares / shares.sum()
+            for _, block in air.groupby(["sector", "unit_name", "type"], dropna=False):
+                values = block[list(QUANTITIES)]
+                np.testing.assert_allclose(values, np.outer(shares.loc[block.nuts3], values.sum()), rtol=1e-8, atol=1e-5)
         for mode, allocated in (("passenger", passenger), ("freight", freight)):
             for (sector, unit, technology), block in allocated.groupby(["sector", "unit_name", "type"], sort=False, dropna=False):
                 kind = navigation_kind(sector, unit, has_coast)
@@ -98,6 +134,15 @@ def _checked_transport_countries(args):
                     raise ValueError(f"Missing or inconsistent navigation evidence for {country}/{mode}/{sector}")
                 note = matching[0]
                 column = ('ship_inland_' if kind == 'inland_navigation' else 'ship_') + ('freight' if mode == 'freight' else 'passenger')
+                from transport.script.european_port_freight import BASIS
+                if note['weights_basis'] == BASIS:
+                    column = "ship_international_freight_kt"
+                    shares = debug[column].reindex(block.nuts3).to_numpy()
+                    if not details.get("international_port_freight") or not np.isfinite(shares).all() or shares.sum() <= 0:
+                        raise ValueError(f"Missing port freight evidence for {country}")
+                    for quantity in QUANTITIES:
+                        np.testing.assert_allclose(block[quantity], shares / shares.sum() * note["national_totals"][quantity],
+                                                   rtol=1e-8, atol=1e-5)
                 eligible = set(debug.index[debug[column].gt(0)])
                 if note['weights_basis'] == 'assumed_equal_coastal_regions_no_OSM_port_proxy':
                     eligible = set(debug.index) & coastal
@@ -119,6 +164,9 @@ def _checked_transport_countries(args):
                 raise ValueError(f"{country}/{mode}: regional transport does not conserve national activity, fleet and energy")
             national_checks[mode] = dict(national_totals=expected.sum().to_dict(),conserved=True)
         countries[country] = dict(infrastructure=details["infrastructure"],
+                                  international_airport_passengers=details.get("international_airport_passengers"),
+                                  domestic_airport_passengers=details.get("domestic_airport_passengers"),
+                                  international_port_freight=details.get("international_port_freight"),
                                   maritime_inland_zero=True, freight_aviation_zero=True,
                                   navigation_method=METHOD, navigation_allocations=navigation_checks,
                                   inland_navigation_present=bool((kinds.eq('inland_navigation') & all_modes[list(QUANTITIES)].abs().sum(axis=1).gt(0)).any()),

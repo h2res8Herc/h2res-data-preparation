@@ -27,7 +27,11 @@ def raw_fingerprint(args, sources, country):
         files[sector] = find_idees_workbook(sources["idees"], country, sector)
     for path in sorted(sources["eigl"].glob("*.tif")):
         files["EIGL/" + path.name] = path
-    for name in ("paper_weather.py", "paper_calculator.py"):
+    from heating.occupancy import evidence_path
+    occupancy = evidence_path(args.data_dir, country, args.source_year)
+    if occupancy:
+        files["building_occupancy"] = occupancy
+    for name in ("paper_weather.py", "paper_calculator.py", "occupancy.py"):
         files[name] = Path(__file__).parent / name
     if sources["era5"].is_file():
         files["ERA5_NetCDF"] = sources["era5"]

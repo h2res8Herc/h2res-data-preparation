@@ -488,7 +488,8 @@ def export_complex_sector(args, mapping: pd.DataFrame) -> None:
 def transport_parameters(generated: pd.DataFrame, template: pd.DataFrame,
                          primary: pd.DataFrame | None = None) -> tuple[pd.DataFrame, pd.DataFrame | None]:
     """Keep current paid engine conversions and fuel compatibility metadata."""
-    generated = transport_identifiers(generated)
+    from transport.script.activity_units import transport_efficiencies
+    generated = transport_efficiencies(transport_identifiers(generated))
     generated = generated.rename(columns={c: int(c) for c in generated if re.fullmatch(r"\d{4}", str(c))})
     if template.zone.eq("HR1").any():
         template = template.loc[template.zone.eq("HR1")].copy()
@@ -835,7 +836,19 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
     written.extend(name for name in ['literature_fixed_opex.csv',*(entry['workbook'] for entry in power_links)] if name not in written)
     (output / "generator_input_links.json").write_text(json.dumps(power_links,indent=2),encoding="utf-8")
     from regional_network_inputs import synchronize as synchronize_networks
-    network_links=synchronize_networks(data,desired,[name for name in TECH_WORKBOOKS if (data/name).is_file()])
+    from power.osm_transmission import FILENAME, read_prepared
+    grid = None
+    if 'power' in args.sectors:
+        grid_path = args.out_root / 'power' / FILENAME
+        if grid_path.is_file():
+            if not mapping_path.is_file():
+                raise ValueError('The prepared transmission grid requires the original common zone map.')
+            grid = read_prepared(grid_path, mapping, desired)
+            (output / FILENAME).write_text(json.dumps(grid, indent=2), encoding='utf-8')
+        else:
+            print('No prepared OSM transmission inventory in these older outputs. Using reference network defaults. '
+                  'Generate power data to extract mapped lines.', flush=True)
+    network_links=synchronize_networks(data,desired,[name for name in TECH_WORKBOOKS if (data/name).is_file()],grid=grid)
     (output/'network_input_assumptions.json').write_text(json.dumps(network_links,indent=2),encoding='utf-8')
     from policy_input_links import synchronize as synchronize_policy_inputs
     policy_links=synchronize_policy_inputs(data,reference,desired)
@@ -889,6 +902,7 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
                 "generator_financial_link_method": "physical_generator_financial_links_v1",
                 "generator_financial_links_file": "generator_input_links.json",
                 "network_assumptions_file": "network_input_assumptions.json",
+                "transmission_method": grid["method"] if grid is not None else "regional_reference_network_defaults_v1",
                 "policy_assumptions_file":"policy_input_assumptions.json",
                 "complex_zero_weight_activity_repairs":complex_activity_repairs,
                 "industry_fuel_representation": {
@@ -1076,7 +1090,16 @@ def _validate_bundle(output, workbook_name, efuels, industry_mode, electricity_c
     network_audit={}
     if {'transmission','transmission_outside'}.issubset(book.sheet_names):
         from regional_network_inputs import checks as network_checks
-        network_errors,network_audit=network_checks(pd.read_excel(book,'transmission'),pd.read_excel(book,'transmission_outside'),pairs)
+        transmission = pd.read_excel(book,'transmission')
+        network_errors,network_audit=network_checks(transmission,pd.read_excel(book,'transmission_outside'),pairs)
+        inventory = output / 'transmission_osm.json'
+        if str(metadata.get('transmission_method', '')).startswith('osm_boundary_crossings_') and not inventory.is_file():
+            network_errors.append('Missing prepared OSM transmission inventory for the exported network')
+        if inventory.is_file():
+            from regional_network_inputs import mapped_capacity_errors
+            corridors = json.loads(inventory.read_text(encoding='utf-8'))['corridors']
+            network_errors.extend(mapped_capacity_errors(transmission, corridors))
+            network_audit['osm_corridors_checked'] = len(corridors)
         errors.extend(network_errors)
     else:
         errors.append('Native technology workbook lacks internal/external network inputs')

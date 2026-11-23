@@ -45,6 +45,8 @@ Choose `nuts3` for counties/small regions, `nuts2`, `nuts1`, `country`, or `cust
 
 Open the [custom-zone guide and editable examples](CUSTOM_ZONES.html) for a complete HR/SI/IT map and the proposed Croatia/Slovenia/northern-Italy/offshore layout. Different aggregation levels can be combined across countries. Current complete-sector runs require all NUTS3 regions of every selected country; partial countries and independent zero-demand offshore zones are not supported yet. The clearly marked design files must not be used as runnable maps.
 
+Select **Airport passenger year (domestic and international)** on the General tab to set separate domestic and international aviation weights from airport passenger counts. The packaged 2020 data work offline. Other years are downloaded when first requested. Regenerate Transport to apply the weights to existing projects. The source report lists reported and estimated airport traffic.
+
 Keep **Power**, **Industry**, **Transport** and **Heating** enabled for a complete new-country export. Choose separate output and cache folders for different country/configuration cases. The default folders are `outputs_all` and `data_all` inside this extracted package.
 
 Leave **Refresh downloaded source data** off to reuse downloads. Missing required public sources are still downloaded. Refresh requests updated sources and can change inventory vintages and cached results.
@@ -144,7 +146,7 @@ Allow source downloads and the large Excel exports to finish. Interrupted source
 
 The transfer package starts without an output case. The `model_reference_2_11_2026/data` directory contains the schemas, reference tables and default assumptions required by the generator; it is retained as a local input. It is not a generated output for your newly selected country. Population, runoff, statistics and source snapshots are also retained where they are needed locally.
 
-The default source configuration uses industry 2020, heating 2021, bundled transport activity tables for 2019, EIGL spatial maps for 2019, NUTS boundaries for 2021 and the selected weather/profile years. The source vintages differ. Prior Croatia validation checked all nine native input configurations. Those finished country datasets are not included in this release; their calculation method and assumptions are documented here.
+The default source configuration uses industry 2020, heating 2021, bundled transport activity tables with an unspecified reference year, EIGL spatial maps for 2019, NUTS boundaries for 2021 and the selected weather/profile years. The source vintages differ. Prior Croatia validation checked all nine native input configurations. Those finished country datasets are not included in this release; their calculation method and assumptions are documented here.
 
 Regular/category and complex industry use different national source releases and representations. Their numerical capacities can differ while using the same branch geography. Chemical feedstock is located in HR028 (Kutina's county); HR050 does not receive that feedstock allocation. A zero sourced generator or facility record is recorded explicitly and does not prove that all real local activity is absent.
 
@@ -158,7 +160,7 @@ After your own run, inspect these files outside the native data folder:
 
 Validation checks inputs and conservation; it does not run the optimizer. Use the generated `data` contents with a separate compatible H2RES installation. Study-specific network, policy and technology assumptions still need to match the intended scenario.
 
-The export also checks `simple_industry` against the selected detailed source table. An empty simple table is correct when every industry service is modeled in detail. Generated plant names are linked to annual cost, maintenance and home-zone investment entries in every variant. Inspect `model_inputs/generator_input_links.json` for those mappings and defaults. Regional network connections missing from the reference are explicit virtual national-exchange assumptions, documented in `model_inputs/network_input_assumptions.json`; they do not describe a surveyed grid.
+The export also checks `simple_industry` against the selected detailed source table. An empty simple table is correct when every industry service is modeled in detail. Generated plant names are linked to annual cost, maintenance and home-zone investment entries in every variant. Inspect `model_inputs/generator_input_links.json` for those mappings and defaults. Select **Power** and **Generate** to extract mapped transmission lines. Inspect `power/transmission_osm.json` for OSM way IDs, crossings and estimated MW. The network report identifies additional connections needed for isolated zones. Existing power cases can prepare just the grid and then export again. [Grid method and command for existing cases](MODEL_DATA_2_11_2026.html)
 
 To load this exact folder without editing model paths, open a terminal in the output directory and run `python model_inputs/run_model_scenario.py --model-root "D:\POSAO\H2RES_2.11.2026_novi" --bundle .` using the separate model's Python environment. Add `--solve` to start its optimization. The launcher applies the exported variant selection and generated-name policy aliases. See the [native data guide](MODEL_DATA_2_11_2026.html) for variant overrides and assumptions.
 

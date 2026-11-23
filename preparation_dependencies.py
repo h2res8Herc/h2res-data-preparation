@@ -36,8 +36,8 @@ def selected_dependencies(sectors, *, industry_mode="categories", temperature_so
         result.extend(SPATIAL)
     if "transport" in sectors or regular_industry or raw_heating:
         result.append(Dependency("rasterio", "rasterio", "source raster allocation"))
-    if "transport" in sectors:
-        result.append(Dependency("osmium", "osmium", "paper-method rail, port and airport infrastructure"))
+    if sectors.intersection({"transport", "power"}):
+        result.append(Dependency("osmium", "osmium", "mapped transmission lines and transport infrastructure"))
     if regular_industry:
         result.extend([Dependency("rasterstats", "rasterstats", "industry raster allocation"),
                        Dependency("pyxlsb", "pyxlsb", "industry source workbooks")])

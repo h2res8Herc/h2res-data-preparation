@@ -9,8 +9,14 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-METHOD = "coastal_maritime_inland_ports_v1"
+METHOD = "international_port_throughput_domestic_osm_v2"
 QUANTITIES = ("total_load", "number", "energy_MWh")
+
+
+def international_freight(sector, unit, table_kind):
+    text = (str(sector) + " " + str(unit)).lower()
+    return (table_kind == "freight" and navigation_kind(sector, unit, True) == "maritime"
+            and any(marker in text for marker in ("international", "_int", "_long")))
 
 
 def navigation_kind(sector, unit, has_coast):
@@ -29,7 +35,7 @@ def navigation_kind(sector, unit, has_coast):
 
 
 def allocate_table(original, national, nuts_ids, weights, table_kind, coastal_types,
-                   shipping, notes):
+                   shipping, notes, port_weights=None):
     """Override navigation only, avoiding the legacy allocator's uniform fallback."""
     coast = np.array([coastal_types.get(code) in (1, 2) for code in nuts_ids])
     has_coast = bool(coast.any())
@@ -48,6 +54,12 @@ def allocate_table(original, national, nuts_ids, weights, table_kind, coastal_ty
         totals = block[list(QUANTITIES)].apply(pd.to_numeric, errors='raise').sum()
         positive = totals.abs().gt(1e-12).any()
         basis = 'OSM_inland_ports_and_quays' if inland else 'OSM_coastal_ports_and_quays'
+        if positive and has_coast and port_weights is not None and international_freight(key[0], key[1], table_kind):
+            result = port_weights()
+            if result is not None:
+                from transport.script.european_port_freight import BASIS
+                values = result.loc[nuts_ids].to_numpy(dtype=float)
+                basis = BASIS
         if positive and values.sum() <= 0:
             if inland:
                 raise ValueError(f"Inland navigation has positive activity but no OSM port/quay evidence for {key[0]}. "

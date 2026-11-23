@@ -75,6 +75,32 @@ class NavigationAllocationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Sea shipping has positive activity'):
             self.allocate(self.source(international=100.), [3, 3, 3], [0., 0., 0.], [2., 0., 1.])
 
+    def test_only_international_freight_uses_port_throughput_in_nuts_order(self):
+        ids = ['HR031', 'HR033']
+        ship = pd.DataFrame(dict(ship_freight=[1., 3.], ship_passenger=[1., 1.]))
+        def throughput():
+            return pd.Series({'HR033': 2., 'HR031': 8.})
+        notes = []
+        result = allocate_table(type(self).allocator, self.source(100., 100.), ids, {},
+            'freight', dict.fromkeys(ids, 1), ship, notes, throughput)
+        np.testing.assert_allclose(result.loc[result.sector.eq('Domestic shipping'), 'total_load'], [25., 75.])
+        np.testing.assert_allclose(result.loc[result.sector.eq('international shipping'), 'total_load'], [80., 20.])
+        self.assertNotEqual(notes[0]['weights_basis'], notes[1]['weights_basis'])
+
+    def test_unlocated_port_tonnage_goes_only_to_uncovered_coastal_regions(self):
+        from transport.script.european_port_freight import regional_weights
+        regions = gpd.GeoDataFrame(dict(NUTS_ID=['AA001','AA002','AA003'], COAST_TYPE=[1,2,3]),
+            geometry=[box(i,0,i+1,1) for i in range(3)], crs=4326)
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'ports.csv'
+            pd.DataFrame(dict(year=[2020,2020], country=['AA','AA'], port_code=['AA_0AA001','unlisted'],
+                international_kt=[80.,20.], lon=[.5,np.nan], lat=[.5,np.nan],
+                basis=['reported_international','unlisted_all_cargo_proxy'])).to_csv(path,index=False)
+            weights, evidence = regional_weights(path,'AA',regions,[3.,1.,9.],2020)
+            np.testing.assert_allclose(weights, [80.,20.,0.])
+            self.assertEqual(evidence['spatially_unassigned_kt_distributed'],20.)
+            self.assertIsNone(regional_weights(path,'BB',regions,[3.,1.,9.],2020)[0])
+
     def test_zero_shipping_needs_no_ports_and_keeps_complete_grid(self):
         result, _ = self.allocate(self.source(load=0.), [3, 3, 3], [0., 0., 0.], [0., 0., 0.])
         self.assertEqual(len(result), 6)
@@ -98,6 +124,8 @@ class NavigationAllocationTests(unittest.TestCase):
             with osmium.SimpleWriter(str(osm / 'HU.osm.pbf')) as writer:
                 for index, lon in enumerate((.002, .003, .022), 1):
                     writer.add_node(osmium.osm.mutable.Node(id=index, location=(lon, .005), tags={'industrial':'port', 'harbour':'yes'}))
+                # The synthetic polygons are far from every actual Hungarian airport.
+                writer.add_node(osmium.osm.mutable.Node(id=4, location=(.015, .005), tags={'aeroway': 'aerodrome'}))
             raster = root / 'road.tif'
             with rasterio.open(raster, 'w', driver='GTiff', width=3, height=1, count=1,
                 dtype='float32', crs='EPSG:4326', transform=from_origin(0, .01, .01, .01)) as stream:
@@ -112,6 +140,10 @@ class NavigationAllocationTests(unittest.TestCase):
             proof = json.loads((output / 'combined/paper_generation.json').read_text(encoding='utf-8'))
             self.assertEqual(proof['countries']['HU']['navigation_method'], METHOD)
             self.assertTrue(proof['countries']['HU']['inland_navigation_present'])
+            for traffic in ('domestic', 'international'):
+                evidence = proof['countries']['HU'][traffic + '_airport_passengers']
+                self.assertEqual(evidence['located_passengers'], 0)
+                self.assertEqual(evidence['basis'], 'assumed_OSM_aviation_no_located_passenger_evidence')
             self.assertTrue(proof['countries']['HU']['maritime_inland_zero'])
             self.assertTrue(proof['countries']['HU']['national_conservation']['freight']['conserved'])
             raw = pd.read_csv(output / 'HU/transp1_shape_freight_NUTS3.csv')

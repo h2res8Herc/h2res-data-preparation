@@ -1,9 +1,8 @@
 """Complete native regional network inputs, retaining the merged header schema.
 
-Supplied active links take priority. Missing internal connectivity is an explicit
-zero-distance national exchange assumption using reference capacity ceilings,
-not a claimed observation of transmission lines. External national budgets are
-allocated once over active regions.
+Prepared OSM corridors provide interzonal electricity capacities. Supplied
+links and explicitly assumed domestic connections cover remaining gaps.
+External national budgets are allocated once over active regions.
 """
 from __future__ import annotations
 
@@ -210,7 +209,151 @@ def hydrogen_regions(frame,targets,notes):
     return pd.concat([selected,pd.DataFrame(rows,columns=frame.columns)],ignore_index=True)
 
 
-def synchronize(data:Path,targets,names):
+ELECTRIC = ('400kV_AC', 'HVDC')
+ENDPOINTS = ('System', 'zone', 'To', 'zoneTo')
+
+
+def mapped_network(reference, baseline, defaults, corridors, targets):
+    """Overlay OSM electricity on the native network, preserving separate carrier defaults."""
+    long = 'unit_name' in reference
+    base, units = ({c: c for c in BASE}, {}) if long else blocks(reference)
+    body = (baseline if long else baseline.iloc[1:]).drop_duplicates()
+    source = reference if long else reference.iloc[1:]
+    templates = {tech: group.iloc[0] for tech, group in source.groupby('unit_name')} if long else {}
+    mapped = {}
+    for r in corridors:
+        s, a, t, b = (r[c] for c in ENDPOINTS)
+        for key in ((s, a, t, b), (t, b, s, a)):
+            mapped.setdefault(key, {})[r['unit_name']] = r
+    assumed = {(n['System'], n['zone'], n['System'], n['zoneTo']) for n in defaults}
+    # Keep the fewest old virtual corridors needed for domestic connectivity.
+    parent = {node: node for node in targets}
+
+    def root(node):
+        while node != parent[node]:
+            parent[node] = parent[parent[node]]
+            node = parent[node]
+        return node
+
+    def join(key):
+        if key[0] != key[2]:
+            return False
+        a, b = root(key[:2]), root(key[2:])
+        parent[b] = a
+        return a != b
+
+    def endpoints(row):
+        return tuple(row[base[c]] for c in ENDPOINTS)
+
+    for key in mapped:
+        join(key)
+    for _, row in body.iterrows():
+        key = endpoints(row)
+        if key in assumed or key in mapped:
+            continue
+        if long:
+            positive = row.unit_name in ELECTRIC and float(row.cap_mw) > 0
+        else:
+            positive = any(float(row[units[t]['cap_mw']]) > 0 for t in ELECTRIC if t in units)
+        if positive:
+            join(key)
+    fallback = set()
+    for key in sorted(assumed):
+        if join(key):
+            fallback.update((key, (*key[2:], *key[:2])))
+
+    rows = []
+    written = set()
+    notes = [dict(n, electricity_fallback=(n['System'], n['zone'], n['System'], n['zoneTo']) in fallback)
+             for n in defaults]
+    if long:
+        supplied = {}
+        for _, row in body.iterrows():
+            key = endpoints(row)
+            if key in mapped and key not in assumed and row.unit_name in ELECTRIC:
+                supplied[key, row.unit_name] = row
+            if row.unit_name in ELECTRIC and (key in mapped or (key in assumed and key not in fallback)):
+                continue
+            rows.append(row.to_dict())
+        for key, technologies in mapped.items():
+            for tech, values in technologies.items():
+                row = supplied.get((key, tech), templates[tech]).to_dict()
+                row.update(zip(ENDPOINTS, key))
+                cap = values['cap_mw']
+                row.update(km=values['km'], cap_mw=cap, max_cap=max(cap, float(row['max_cap'])))
+                rows.append(row)
+    else:
+        def write_wide(row, key, new):
+            techs = mapped.get(key, {})
+            # A merged-header workbook shares one distance across its carriers.
+            # Supplied multi-carrier rows retain their configured distance.
+            if techs and (new or key in assumed):
+                row[base['km']] = next(iter(techs.values()))['km']
+            for tech, fields in units.items():
+                if tech in techs:
+                    if new or key in assumed:
+                        for column in fields.values():
+                            row[column] = source.iloc[0][column]
+                    cap = techs[tech]['cap_mw']
+                    row[fields['cap_mw']] = cap
+                    row[fields['max_cap']] = max(cap, float(row[fields['max_cap']]))
+                elif new or (tech in ELECTRIC and (techs or (key in assumed and key not in fallback))):
+                    for field in ('cap_mw', 'max_cap', 'max_cap_period'):
+                        row[fields[field]] = 0.
+            rows.append(row)
+        rows.append(baseline.iloc[0].to_dict())
+        for _, row in body.iterrows():
+            key = endpoints(row)
+            write_wide(row.to_dict(), key, False)
+            written.add(key)
+        for key in sorted(mapped.keys() - written):
+            row = source.iloc[0].to_dict()
+            row.update((base[name], value) for name, value in zip(ENDPOINTS, key))
+            write_wide(row, key, True)
+    result = pd.DataFrame(rows, columns=baseline.columns)
+    result.attrs.update(baseline.attrs)
+    return result, notes
+
+
+def link_keys(frame, internal):
+    base = {c: c for c in BASE} if 'unit_name' in internal else blocks(internal)[0]
+    body = internal if 'unit_name' in internal else internal.iloc[1:]
+    keys = set(body[[base[c] for c in ENDPOINTS]].itertuples(index=False, name=None))
+    supplied = set(frame[list(ENDPOINTS)].itertuples(index=False, name=None))
+    rows = []
+    for s, a, t, b in sorted(keys - supplied):
+        row = dict(System=s, zone=a, To=t, zoneTo=b, active=1)
+        if 'link' in frame:
+            row.update(link=f'{a}-{b}', linkx=f'{b}-{a}', multip=1 if (s,a)<(t,b) else -1)
+        rows.append(row)
+    return pd.concat([frame, pd.DataFrame(rows, columns=frame.columns)], ignore_index=True)
+
+
+def mapped_capacity_errors(frame, corridors):
+    """Check each mapped rating exactly once in each native direction after writing."""
+    long = 'unit_name' in frame
+    base, units = ({c:c for c in BASE}, {}) if long else blocks(frame)
+    body = frame if long else frame.iloc[1:]
+    expected = {}
+    for r in corridors:
+        s, a, t, b = (r[c] for c in ENDPOINTS)
+        for key in ((s,a,t,b,r['unit_name']), (t,b,s,a,r['unit_name'])):
+            expected[key] = r['cap_mw']
+    found = {}
+    for _, row in body.iterrows():
+        ends = tuple(row[base[c]] for c in ENDPOINTS)
+        ratings = [(row.unit_name, row.cap_mw)] if long else [
+            (t, row[units[t]['cap_mw']]) for t in ELECTRIC if t in units]
+        for tech, mw in ratings:
+            key = (*ends, tech)
+            if key in expected:
+                found.setdefault(key, []).append(float(mw))
+    return [f'Mapped OSM rating for {key}: expected {mw:g} MW, found {found.get(key, [])}'
+            for key, mw in expected.items()
+            if len(found.get(key, [])) != 1 or not np.isclose(found[key][0], mw, rtol=1e-10, atol=1e-8)]
+
+
+def synchronize(data:Path,targets,names,grid=None):
     from model_input_bundle import replace_sheets
     from default_model_inputs import allocation_weights
     weights=allocation_weights(data,targets)['electricity']
@@ -228,14 +371,25 @@ def synchronize(data:Path,targets,names):
                 fixed.extend(dict(sheet=sheet,**r) for r in repairs)
                 if sheet=='transmission':
                     patches[sheet],internal=internal_regions(frame,targets,weights)
+                    if grid is not None:
+                        patches[sheet],internal=mapped_network(frame,patches[sheet],internal,grid['corridors'],targets)
                 else:
                     patches[sheet],external=outside_regions(frame,targets,weights)
             if 'transmission_H2' in book.sheet_names:
                 patches['transmission_H2']=hydrogen_regions(book.parse('transmission_H2'),targets,internal)
+            if grid is not None:
+                for key_sheet in ('keys_links','keys_borders'):
+                    patches[key_sheet]=link_keys(book.parse(key_sheet),patches['transmission'])
         replace_sheets(path,patches)
         reports.append(dict(workbook=name,method='regional_reference_network_defaults_v1',internal_links=internal,external_allocations=external,
                             incomplete_carrier_blocks=fixed,limitation='Added internal links are explicit national exchange assumptions, not surveyed grid assets.'))
-        print(f'Prepared regional network: {name}; {len(internal)} assumed directional internal links',flush=True)
+        if grid is not None:
+            reports[-1].update(method=grid['method'], mapped_corridors=grid['corridors'], attribution=grid['attribution'],
+                               sources=grid['sources'], capacity_basis=grid['capacity_basis'],
+                               distance_basis=grid['distance_basis']+'; existing shared multi-carrier rows retain their distance',
+                               limitation='MW are estimated. Unmatched supplied links and marked electricity fallbacks use reference assumptions.')
+        virtual = sum(n.get('electricity_fallback', True) for n in internal)
+        print(f'Prepared regional network: {name}; {virtual} assumed directional electricity links',flush=True)
     return reports
 
 

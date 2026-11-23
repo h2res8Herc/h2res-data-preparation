@@ -1,4 +1,4 @@
-H2RES DATA PREPARATION — 17 November 2026
+H2RES DATA PREPARATION — 22 November 2026
 
 Extract the complete folder to a writable directory. Run SETUP_WINDOWS.bat,
 then START_DATA_PREPARATION.bat. Python 3.12 x64 with Tcl/Tk is recommended.
@@ -20,3 +20,5 @@ Open docs/PORTABLE_USER_GUIDE.html and docs/PREPARATION_RELEASE_2026_11_17.md.
 CHECK_PACKAGE.bat checks inventory, required references and dependencies.
 The optimization model is a separate installation. No prepared country output,
 personal configuration, API credentials or virtual environment is included.
+
+Transport uses separate domestic and international airport passenger counts. Choose Generate with Transport selected to recalculate existing regional outputs. The 2020 airport weights are included for offline use.

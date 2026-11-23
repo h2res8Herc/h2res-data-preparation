@@ -11,6 +11,7 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 from heating.paper_weather import regional_hdd
+from heating.occupancy import allocate
 from openmeteo_quota import quota_run
 
 
@@ -20,6 +21,7 @@ def main():
     parser.add_argument("--calculator", type=Path, required=True)
     parser.add_argument("--weather-points", type=int, default=8)
     parser.add_argument("--weather-seed", type=int, default=0)
+    parser.add_argument("--occupancy-evidence", type=Path)
     options, remaining = parser.parse_known_args()
     def argument(name):
         return remaining[remaining.index(name) + 1]
@@ -38,10 +40,24 @@ def main():
         raise ValueError("The supplied heating calculator's electric-fuel adapter needs review")
     source = source.replace(old, '"electric_heater": "m_electricity",\n        "heat_pump": "m_electricity",', 1)
     source = install_weather_budget(source)
+    if options.occupancy_evidence:
+        entry = "    annual = annual.merge("
+        start = '    sh_nat = float(sum(res["space_heating"].values())'
+        end = "    hourly_rows = []"
+        if any(source.count(marker) != 1 for marker in (entry, start, end)):
+            raise ValueError("The supplied heating calculator's occupancy adapter needs review")
+        source = source.replace(entry, "    annual, region_profiles = allocate_buildings(annual, res, ter, stats_df, hdd_hourly, year)\n" + entry)
+        source = source[:source.index(start)] + "    hours = np.arange(8760, dtype=int)\n" + source[source.index(end):]
     exec(compile(source, str(options.calculator), "exec"), module.__dict__)
     method = dict(method_id="paper_heating_v1", weather_points=options.weather_points,
                   weather_seed=options.weather_seed, weather_method="random inhabited grid cells with population weights",
-                  district_heating_chp_used=False)
+                  district_heating_chp_used=False, allocation="population_degree_hours_and_fuel_prevalence")
+    def allocate_buildings(annual, res, ter, stats, degree_hours, year):
+        revised, profiles, details = allocate(annual, res, ter, stats, degree_hours,
+                                             options.occupancy_evidence, year, output)
+        method.update(details)
+        return revised, profiles
+    module.allocate_buildings = allocate_buildings
     def compute(pop_df, era5_path, year, base_temp_c, alpha_temp, beta_pop, verbose=False):
         return regional_hdd(pop_df, nuts, population, era5_path, year, base_temp_c,
                             alpha_temp, beta_pop, module.open_era5_t2m_series,

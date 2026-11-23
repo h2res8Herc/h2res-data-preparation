@@ -829,6 +829,14 @@ class CaseExporter:
             self.audit['assumptions'].append('CHP units retain their electrical efficiency/capacity and costs as power generators; useful heat and heat-revenue/coupling constraints are omitted because space/district heating was not selected.')
         self.audit['assumptions'].append('Unselected preparation sectors are not modeled in this refactored case. Legacy policy caps remain the supplied scenario assumptions; they are not recalibrated for the reduced sector scope.')
         self.audit['optimization_solved']=False
+        grid_report = self.bundle / 'network_input_assumptions.json'
+        if grid_report.is_file():
+            records = json.loads(grid_report.read_text(encoding='utf-8'))
+            network = next((r for r in records if r['workbook'] == self.workbook and 'mapped_corridors' in r), None)
+            if network:
+                self.audit['transmission_source'] = {k: network[k] for k in
+                    ('method', 'attribution', 'sources', 'capacity_basis', 'distance_basis', 'mapped_corridors')}
+                self.audit['transmission_source']['licence'] = 'https://www.openstreetmap.org/copyright'
         (self.destination/'export_report.json').write_text(json.dumps(self.audit,indent=2),encoding='utf-8')
         (self.destination/'unit_mapping.csv').write_text(pd.DataFrame(self.unit_links).to_csv(index=False),encoding='utf-8')
         shutil.copy2(CONTRACT,self.destination/'input_contract.json')

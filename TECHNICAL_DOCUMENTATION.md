@@ -257,6 +257,9 @@ weighted plant profiles.
 Industry produces sector technology tables and normalized distributions using
 the standalone resource pipeline. Transport produces `transport_all` and,
 where e-fuels are enabled, the compatible `transport_ICE_prim` representation.
+The [transport efficiency rules](docs/TRANSPORT_EFFICIENCIES.md) document how
+the 19 November model's ICE conversion factors apply to newly generated fleets
+and previously prepared transport inputs during export.
 Regular/category industry generation writes regular and e-fuel-compatible variants at both sector
 and process-heat-category resolution. The global e-fuel option determines which
 variant is written as canonical `Industry_data`.
@@ -297,11 +300,15 @@ process adapter on a small hour sample and verifies annual energy closure.
 These checks do not solve the optimization or establish complete non-industry
 input coverage for a newly selected country.
 Heating produces individual and district-heating technology tables for
-electric, fuel-boiler and solar technologies, plus normalized individual/DH
-heat-demand curves. Public source files are cached in `data_all`.
+electric, fuel-boiler and solar technologies, plus hourly individual and district
+heat-demand curves in MWh per model hour. Public source files are cached in `data_all`.
 
 Heating temperature can come from Open-Meteo or an existing CDS/ERA5 NetCDF.
 The packaged population raster supports population-weighted spatial allocation.
+
+Croatian 2021 runs automatically use the packaged DZS county observations of occupied dwelling floor area and monthly commercial guest nights. Residential space heating follows occupied area times local heating degree hours. Residential hot water follows resident population. Guest nights weight accommodation hot water and, together with local degree hours, accommodation space heating. Ten percent of each tertiary end use is assigned to accommodation as a modelling assumption. Other services use resident population, with degree hours applied to space heating. The six components sum to the represented JRC-IDEES national building energy. The calculation preserves national fuel totals and the county district-heating allocation. Each fuel uses its county’s combined hourly demand shape.
+
+To supply equivalent observations for another country and year, place `occupancy_CC_YYYY.csv` in `<data-root>/heating/` before generating. Use one row per source NUTS 3 region and the columns `nuts3_id`, `occupied_m2`, and `nights_1` through `nights_12` (monthly guest nights, January to December). The cache file takes precedence over the packaged observations. Without a matching file the extractor uses its population, degree-hour and fuel-prevalence method. The raw output records the applied method in `paper_method_details.json`. Occupancy runs also write `building_heat_end_uses_monthly.csv`. Choose raw generation to apply the method to previously prepared heating data.
 
 ## 6. Primary CLI options
 
@@ -361,10 +368,12 @@ budgets are split over the matching generated plants by existing capacity and
 are not repeated in every region. Cost, investment and maintenance defaults are
 traced in `generator_input_links.json` outside the native `data` directory.
 
-Missing regional network connections use explicit virtual national-exchange
-defaults and are recorded in `network_input_assumptions.json`. These are not
-observations of physical lines. External transfer envelopes retain their
-national totals. See [native data documentation](docs/MODEL_DATA_2_11_2026.md)
+Power generation reads OpenStreetMap transmission lines and cables from the
+shared country PBF cache. `power/transmission_osm.json` traces interzonal
+capacity estimates to circuits and OSM ways at all voltage levels, including minor lines. Missing or unusable voltages are estimated at 35 kV and flagged per rating. The workbook
+and refactored CSV exports use these corridors. `network_input_assumptions.json`
+records fallback connections for isolated components. External transfer envelopes
+retain their national totals. See [native data documentation](docs/MODEL_DATA_2_11_2026.md)
 for the assumptions and generated launcher, which selects the recorded
 variants in a separate H2RES installation.
 

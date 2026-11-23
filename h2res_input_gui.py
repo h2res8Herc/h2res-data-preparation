@@ -91,6 +91,9 @@ def build_command(config: dict, python_executable: str | None = None) -> list[st
         raise ValueError("Whole-energy RES requires the e-fuels option on the General tab.")
     cmd += ["--industry-mode", config.get("industry_mode", "categories"),
             "--industry-electricity-case", config.get("industry_electricity_case", "conservative")]
+    if config.get("sector_transport") and config.get("input_action", "generate") == "generate":
+        cmd += ["--port-freight-year", str(config.get("port_freight_year", "2020"))]
+        cmd += ["--airport-passenger-year", str(config.get("airport_passenger_year", "2020"))]
     if config.get("sector_industry"):
         cmd += ["--industry-base-year", str(config.get("industry_base_year", "2020")),
                 "--industry-regional-allocation", config.get("industry_regional_allocation", "require-weights"),
@@ -203,6 +206,8 @@ class DataPreparationGui:
             "out_root": str(ROOT / "outputs_all"), "data_root": str(ROOT / "data_all"),
             "power_output_level": "aggregated", "hydro_output_level": "match-power",
             "hydro_year": "2020", "vre_year": "2020", "vre_irena_year": "",
+            "port_freight_year": "2020",
+            "airport_passenger_year": "2020",
             "electricity_demand_year": "2020", "entsoe_token": "",
             "electricity_demand_method": "national-scaled", "electricity_tourism_share": "0.1",
             "vre_weather_source": "openmeteo", "temperature_source": "open-meteo",
@@ -327,6 +332,8 @@ class DataPreparationGui:
         self._row(tab, 5, "Download/cache directory", "data_root", "directory")
         ttk.Checkbutton(tab, text="Enable e-fuel-compatible transport and industry tables", variable=self.vars["efuels"]).grid(row=6, column=1, sticky="w", pady=4)
         ttk.Checkbutton(tab, text="Refresh downloaded source data", variable=self.vars["refresh_sources"]).grid(row=7, column=1, sticky="w", pady=4)
+        self._row(tab, 8, "International port freight year", "port_freight_year")
+        self._row(tab, 9, "Airport passenger year (domestic and international)", "airport_passenger_year")
 
     def _combo(self, parent, row: int, label: str, key: str, values: tuple[str, ...]) -> None:
         ttk.Label(parent, text=label).grid(row=row, column=0, sticky="w", padx=(0, 8), pady=4)

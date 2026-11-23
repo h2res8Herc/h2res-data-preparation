@@ -6,6 +6,10 @@ source references, BibTeX and a printable HTML edition.
 
 ## Starting the application
 
+For European port freight weights, select **Transport** on the General tab and choose **generate** on the Output format tab. The **International port freight year** defaults to the bundled 2020 observations. Other years are downloaded on demand. Existing transport exports acquire the new weights when you regenerate Transport. Both H2RES formats use the resulting regional activity. See the [transport allocation and coverage notes](docs/PAPER_METHOD_AUDIT.html).
+
+**International airport passenger year** selects the spatial weights for international passenger aviation. The default 2020 airport dataset is included in the package. When airport traffic is unavailable for an entire country, the run records the use of airport infrastructure weights. Select **generate** and **Transport** to apply new passenger weights to an existing project. Downloaded transport sources can be reused.
+
 For regional electricity curves that reflect economic composition, select **Power & profiles → Regional electricity profiles → sector-weighted** and use **Data task: generate**. It preserves ENTSO-E national hourly load and the existing JRC annual regional shares. The original **national-scaled** method remains the default. See [regional electricity profiles, sources and equations](docs/REGIONAL_ELECTRICITY_PROFILES.md).
 
 For the bus-based H2RES-refactored model (the version with `data_chile`), enable **Also export H2RES-refactored CSV case** on **Output format**. It creates `data_refactored` and a separate ZIP. See [the refactored export guide](docs/REFACTORED_EXPORT.html) for its native industry/transport representations and validation.
