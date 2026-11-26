@@ -14,6 +14,9 @@ import json
 from pathlib import Path
 import re
 import shutil
+import tempfile
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from zipfile import ZipFile
@@ -72,17 +75,35 @@ def ensure_ets(cache, *, download=True, refresh=False):
     if not refresh and all((tables / name).is_file() for name in TABLES):
         return tables
     archive = cache / "eutl_data_package_2026-07-21.zip"
-    if (not archive.exists() or refresh) and download:
+    # The release and checksum are pinned. A verified local archive already
+    # contains the exact bytes requested by a refresh.
+    verified = archive.is_file() and digest(archive, "md5") == ETS_MD5
+    if not verified and download:
         cache.mkdir(parents=True, exist_ok=True)
-        partial = archive.with_suffix(".zip.part")
         print("Downloading EU ETS installation evidence (499 MB; cached for subsequent runs)", flush=True)
         request = urllib.request.Request(ETS_URL, headers={"User-Agent": "H2RES-paper-method/1.0"})
-        with urllib.request.urlopen(request, timeout=180) as response, partial.open("wb") as output:
-            shutil.copyfileobj(response, output, 1024 * 1024)
-        partial.replace(archive)
+        for attempt in range(4):
+            with tempfile.NamedTemporaryFile(dir=cache, suffix=".zip.part", delete=False) as output:
+                partial = Path(output.name)
+            try:
+                with urllib.request.urlopen(request, timeout=180) as response, partial.open("wb") as output:
+                    shutil.copyfileobj(response, output, 1024 * 1024)
+                if digest(partial, "md5") != ETS_MD5:
+                    raise ValueError("Downloaded EU ETS archive checksum differs from the pinned public dataset")
+                partial.replace(archive)
+                verified = True
+                break
+            except urllib.error.HTTPError as exc:
+                if exc.code not in (500, 502, 503, 504) or attempt == 3:
+                    raise
+                delay = 5 * 2**attempt
+                print(f"EU ETS server returned HTTP {exc.code}; retrying in {delay}s", flush=True)
+                time.sleep(delay)
+            finally:
+                partial.unlink(missing_ok=True)
     if not archive.is_file():
         raise FileNotFoundError("EU ETS facility evidence is missing; enable source downloads or provide a source cache")
-    if digest(archive, "md5") != ETS_MD5:
+    if not verified:
         raise ValueError("EU ETS archive checksum differs from the pinned public dataset")
     tables.mkdir(parents=True, exist_ok=True)
     with ZipFile(archive) as source:

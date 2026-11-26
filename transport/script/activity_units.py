@@ -8,8 +8,10 @@ import pandas as pd
 REFERENCE_ICE = {
     "ICE_car": 1.3914348782, "ICE_BUS": 15.3425207282, "ICE_truck": 1.7901018079,
     "ICE_RAIL": 2.0778166653, "ICE_RAIL_CARGO": 15.4328853379,
-    "ICE_AVIO_SHORT": .4943074889, "ICE_AVIO_LONG": 1.7181303043,
-    "ICE_MARINE_SHORT": .9815160779, "ICE_MARINE_LONG": 84.5622262932,
+    # HR 2020 IDEES passenger-only aviation and single-counted navigation balances.
+    "ICE_AVIO_SHORT": .9895181951, "ICE_AVIO_LONG": 1.7469899626,
+    "ICE_MARINE_SHORT": 33.225 / (1.8911655499489841 * 11.63),
+    "ICE_MARINE_MID": 903. / (39.117260933284044 * 11.63), "ICE_MARINE_LONG": 169.1244525864,
 }
 # Explicit Excel formulas in the detailed workbook, including positive but
 # historically unrepresentative EV_truck entries in the source tables.
@@ -17,7 +19,7 @@ FORMULA_FACTORS = {
     "EV_truck": 3., "HYBRID_truck": 1.5, "HYBRID_BUS": 1.5,
     "FCEV_car": 2., "FCEV_BUS": 2., "FCEV_truck": 2.,
     "EV_AVIO_SHORT": 3., "FCEV_AVIO_SHORT": 2., "FCEV_AVIO_LONG": 2.,
-    "EV_MARINE_SHORT": 3.,
+    "EV_MARINE_SHORT": 3., "EV_MARINE_MID": 3.,
 }
 # Keep usable source coefficients for these modes. Passenger rail differs
 # within the model itself: regional observations, a 3x ICE formula in HR1.

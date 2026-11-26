@@ -16,8 +16,8 @@ from shapely.geometry import Point, mapping
 from shapely import wkb
 
 KINDS = ("rail_lines", "rail_stations", "ports_polys", "ports_points",
-         "quays_lines", "runways_lines", "aerodrome_points")
-VERSION = "paper-infrastructure-1"
+         "quays_lines", "runways_lines", "aerodrome_points", "river_canal_lines")
+VERSION = "paper-infrastructure-2"
 
 
 def file_hash(path):
@@ -74,6 +74,8 @@ def read_features(path_string, digest):
             counts["ways"] += 1
             tags = dict(way.tags)
             kinds = []
+            if tags.get("waterway") in {"river", "canal"}:
+                kinds.append("river_canal_lines")
             if tags.get("railway") in {"rail", "narrow_gauge", "monorail", "funicular", "tram", "subway", "light_rail"}:
                 kinds.append("rail_lines")
             if tags.get("man_made") == "quay" or tags.get("harbour") == "quay":
@@ -109,7 +111,7 @@ def read_features(path_string, digest):
     print(f"Reading actual OSM transport infrastructure: {path.name}", flush=True)
     Handler().apply_file(str(path), locations=True, filters=[osmium.filter.KeyFilter(
         "railway", "public_transport", "harbour", "seamark:type", "landuse",
-        "industrial", "man_made", "aeroway", "amenity")])
+        "industrial", "man_made", "aeroway", "amenity", "waterway")])
     cache.mkdir(parents=True, exist_ok=True)
     frames = {}
     for kind, records in rows.items():
@@ -177,6 +179,19 @@ def weights(nuts, pbf_path, coastal_types, metric_crs="EPSG:3035", include_inlan
     shipping = pd.DataFrame(dict(ship_freight=freight * coast,
                                  ship_passenger=passenger * coast), index=nuts.index)
     if include_inland:
+        if coast.any():
+            # Within coastal countries, maritime terminals are poor proxies for
+            # river traffic. Keep port/quay features within 500 m of a waterway.
+            rivers = features["river_canal_lines"].to_crs(metric_crs)
+            def near_waterway(frame):
+                local = frame.to_crs(metric_crs)
+                indices, _ = rivers.sindex.query(local.geometry, predicate="dwithin", distance=500)
+                return local.iloc[np.unique(indices)]
+            quay = measure(near_waterway(features["quays_lines"]), regions, "length")
+            ports = measure(near_waterway(points), regions, "count")
+            area = measure(near_waterway(features["ports_polys"]), regions, "area")
+            freight = 20 * quay + 50 * measure(near_waterway(cargo), regions, "count") + 50 * area + .5 * ports
+            passenger = 30 * quay + 2 * ports + 5 * area
         shipping['ship_inland_freight'] = freight
         shipping['ship_inland_passenger'] = passenger
     aviation = pd.Series(100 * measure(features["runways_lines"], regions, "length")

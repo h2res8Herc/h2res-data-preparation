@@ -82,8 +82,8 @@
       "sha256": "b4eb6fe02ecedb98607df94f66f011c2971349c56ce64aa82fa2f4f4003e7e19"
     },
     "default_model_inputs.py": {
-      "bytes": 15398,
-      "sha256": "c5c8e375cb13bb4f66caba16d2e9533eece8c5f8865b7514271c7e4ec81eff48"
+      "bytes": 15601,
+      "sha256": "2816c34ab3865efcf18629c0fbc3e070e354cf37306d00c221d2a425e44c011a"
     },
     "docs/ASSUMPTIONS_AND_LIMITATIONS.md": {
       "bytes": 10958,
@@ -182,8 +182,8 @@
       "sha256": "b44de40ab074c4986602eda165997c05354022d58b3fe8084775f91cccce583c"
     },
     "docs/PAPER_METHOD_AUDIT.md": {
-      "bytes": 25783,
-      "sha256": "1be2e9684c01d714e62b3a51a64d422bc06318216fb174d7cb3186be390e14e9"
+      "bytes": 28346,
+      "sha256": "acd49bbc48653de9855f0346a06a86549967fe8937149763ee5020a284c72827"
     },
     "docs/PORTABLE_USER_GUIDE.html": {
       "bytes": 36258,
@@ -1258,8 +1258,8 @@
       "sha256": "5eb1e22c1c7fed18e369820db9013347621032b5645e5494bf6775d2b63a95a9"
     },
     "industry/facility_sources.py": {
-      "bytes": 17331,
-      "sha256": "4df1a0e59f37a2a5f598fc744fba021a96fc610a23804638483edf94a15c009e"
+      "bytes": 18319,
+      "sha256": "eb5e957dda98cc64a9656604616be5f69f3735587724cbbdcd7b37b4c921683f"
     },
     "industry/fuel_representation.py": {
       "bytes": 5267,
@@ -1326,8 +1326,8 @@
       "sha256": "f6e8d5ebd77d6b11cb7a73d4ee309fd4d50bbe819772fa623c4f6e81202900bb"
     },
     "model_input_bundle.py": {
-      "bytes": 75840,
-      "sha256": "da0cd7290ae01e7753fd1a9a2c725dd8fad3fc220596582579fa5c8a607f1466"
+      "bytes": 77533,
+      "sha256": "5945205a2bd629822a71c747d7e5a333604230f4e982ab6254098fe9855a3463"
     },
     "model_ready_package.py": {
       "bytes": 14941,
@@ -1514,8 +1514,8 @@
       "sha256": "61c4ea80aaa70bfc70c1cd0e334010c8299c1df8bf13a7bed1a35953a77d346f"
     },
     "model_variants.py": {
-      "bytes": 15598,
-      "sha256": "cb2e6d57a1c926139854a1ce45c47af2f521c2f835d20ad879b67135038ec431"
+      "bytes": 15684,
+      "sha256": "7fc26d38f73d9fc5b8a7ffdccd59736a69cad688348a2b266eff9e778e374af4"
     },
     "native_data_delivery.py": {
       "bytes": 7228,
@@ -1830,8 +1830,8 @@
       "sha256": "ee9b3d64a52b4cd7acab29cb19c36aff13e95367990f87c73bd5518a92f598ea"
     },
     "sector_method_provenance.py": {
-      "bytes": 15847,
-      "sha256": "44c4afad62285572ec57cbb8df216c869c1e322464952a20f3be22db0f920bec"
+      "bytes": 16923,
+      "sha256": "e4e02ca7cafde161da2f86547999912f9078734bffad6b9fc1ae6ca4935dda1d"
     },
     "setup_windows.ps1": {
       "bytes": 5016,
@@ -1894,8 +1894,8 @@
       "sha256": "d08cdf66c2539fa3b0fd7e0726c9378281c0db9a725595badffd42b4bc0fe53c"
     },
     "tests/test_navigation_allocation.py": {
-      "bytes": 9665,
-      "sha256": "929c75c8aecb8f7383736ecb0dd08eb9fbaac90c6f67517dcecd51b54fd00df5"
+      "bytes": 11499,
+      "sha256": "2dec9df0e0ba6d96a561a0a4694262c3a7727cd7db258a6ef0c33b8f04e0a893"
     },
     "tests/test_openmeteo_quota.py": {
       "bytes": 8933,
@@ -1986,8 +1986,8 @@
       "sha256": "fdb02584c1db6391f577fe0c9e6771629fc86501d1abbd2dd4409dd65d43a87c"
     },
     "transport/script/activity_units.py": {
-      "bytes": 4501,
-      "sha256": "9ac45130571c99f9b926de935095f3f931ee9d057daf3cb18394459b6dead105"
+      "bytes": 4781,
+      "sha256": "32353dcec188f644bbb2463e8da24ff9b517289edabb2cf924d403e349bbc69a"
     },
     "transport/script/airport_passengers.py": {
       "bytes": 9389,
@@ -1998,8 +1998,16 @@
       "sha256": "20a2d292121ac1b0d9fdc4c3e0194ef8fb481462792f6f8f19573428b192be96"
     },
     "transport/script/generate_transport_inputs_standalone.py": {
-      "bytes": 196455,
-      "sha256": "e37e34462a767f6d6363f44a7591f5ebb2690d0b98767aa2d85432e6967010ba"
+      "bytes": 197736,
+      "sha256": "cf0049585a1354e64f0653c69daa5c54691490646fc065a090ab7a04ab0a0f0e"
+    },
+    "transport/script/idees_navigation_aviation_2020.csv": {
+      "bytes": 11594,
+      "sha256": "03cb23ac0cefb553c20e80b836501bf15c6d242d21573bbd13e6e9e5271a65df"
+    },
+    "transport/script/inland_port_freight_2020.csv": {
+      "bytes": 28451,
+      "sha256": "dc0bf613998d99f49b476af3c6068f834c5dac3e03acc60f70202e6b8354de96"
     },
     "transport/script/international_airport_passengers_2020.csv": {
       "bytes": 48471,
@@ -2010,12 +2018,20 @@
       "sha256": "f2c2eda12f8d9992fba7293d859e62c96e5e766767ca8ef554bac71d994f064b"
     },
     "transport/script/navigation_allocation.py": {
-      "bytes": 5053,
-      "sha256": "a3b2017ae3f18fdcc1747e0c9096e373670a556bf6befbf90aaf79d64bdb66a6"
+      "bytes": 5402,
+      "sha256": "022da1ab744061c28fba40a82d7db57a613d8b819af1232c33755057f8fa6ac1"
+    },
+    "transport/script/navigation_sources.py": {
+      "bytes": 2687,
+      "sha256": "af96c9b71785e1e1fa663308d1fc920944a303650ca82da5ffa5e1e157abd4ef"
     },
     "transport/script/osm_infrastructure.py": {
-      "bytes": 9186,
-      "sha256": "c8a6795fc85c781f46d488746ce14fc88f7e3b86e331495c9558f4a64c1a88d4"
+      "bytes": 10232,
+      "sha256": "48d3cf1109816879ecff8eca6f5e2d35b69825b6da11f4564e681bcc2362db30"
+    },
+    "transport/script/plot_transport_regions.py": {
+      "bytes": 5741,
+      "sha256": "820769453948d16eb7703a61d5f1f2f4fb41bf6641ea4e491d8b3c0b99c572b2"
     },
     "update_genco_macroregions.py": {
       "bytes": 4759,

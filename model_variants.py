@@ -148,7 +148,7 @@ def prepare_sources(args, reference):
 def update_workbooks(args, data, common_updates, reference=None):
     from model_input_bundle import (industry_parameters, pooled_industry, read_generated,
                                     replace_sheets, selected_complex_workbook, selected_workbook,
-                                    transport_parameters)
+                                    transport_parameters, add_inland_transport_costs)
     inventory = []
     industry_base = args.out_root / "industry" / "combined"
     heating = {name: frame for name, frame in common_updates.items()
@@ -184,6 +184,7 @@ def update_workbooks(args, data, common_updates, reference=None):
                     pd.read_excel(book, "transport_ICE_prim") if efuels else None,
                 )
                 updates["transport_all"] = fleet
+                add_inland_transport_costs(updates, book)
                 if efuels:
                     updates["transport_ICE_prim"] = primary
         if generated_companion:

@@ -1,15 +1,14 @@
 """Keep sea navigation coastal and retain landlocked inland-waterway activity.
 
-The bundled domestic-navigation rows combine JRC's coastal shipping and inland
-waterways. In a country without coastal regions, positive domestic navigation
-is inland activity. Legacy H2RES shipping sector/unit names are retained.
+Bundled JRC balances carry separate coastal and inland rows. Older custom
+national tables can still supply a single domestic-navigation row.
 """
 from __future__ import annotations
 
 import numpy as np
 import pandas as pd
 
-METHOD = "international_port_throughput_domestic_osm_v2"
+METHOD = "idees_inland_coastal_port_throughput_v4"
 QUANTITIES = ("total_load", "number", "energy_MWh")
 
 
@@ -54,6 +53,12 @@ def allocate_table(original, national, nuts_ids, weights, table_kind, coastal_ty
         totals = block[list(QUANTITIES)].apply(pd.to_numeric, errors='raise').sum()
         positive = totals.abs().gt(1e-12).any()
         basis = 'OSM_inland_ports_and_quays' if inland else 'OSM_coastal_ports_and_quays'
+        if inland and table_kind == "freight" and "ship_inland_freight_tonnes" in shipping:
+            tonnes = shipping["ship_inland_freight_tonnes"].to_numpy(dtype=float)
+            if tonnes.sum() > 0:
+                from transport.script.navigation_sources import INLAND_BASIS
+                values = tonnes
+                basis = INLAND_BASIS
         if positive and has_coast and port_weights is not None and international_freight(key[0], key[1], table_kind):
             result = port_weights()
             if result is not None:

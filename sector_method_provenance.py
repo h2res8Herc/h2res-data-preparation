@@ -40,6 +40,8 @@ def transport_allocation(args):
                   Path(__file__).parent / "transport/script/navigation_allocation.py",
                   Path(__file__).parent / "transport/script/generate_transport_inputs_standalone.py"]
         inputs.append(Path(args.paper_allocator))
+        from transport.script import navigation_sources
+        inputs += [Path(navigation_sources.__file__), navigation_sources.PORTS, navigation_sources.BALANCES]
         port_evidence = getattr(args, "port_freight_evidence", {}).get(country)
         if port_evidence:
             inputs += [Path(port_evidence["snapshot"]), Path(__file__).parent / "transport/script/european_port_freight.py"]
@@ -49,11 +51,14 @@ def transport_allocation(args):
         inputs += sorted((Path(args.national_dir) / country).glob("*.csv"))
         inputs += [Path(path) for path in (args.oil_raster, args.el_raster) if path is not None]
         details = dict(method_id="paper_transport_v1", sources=sources(inputs), outputs=sources(outputs),
-                       infrastructure=osm, national_table_basis="bundled JRC-derived national table snapshot; legacy CSVs do not declare a selectable source year",
+                       infrastructure=osm, national_table_basis=("JRC-IDEES-2021 navigation and aviation balances for 2020; "
+                           "legacy tables for other modes" if Path(args.national_dir).name == "national_transport_idees_2020_v3"
+                           else "user-supplied national transport tables"),
                        road_weights="separate EIGL oil/electricity rasters",
                        infrastructure_measurement="clipped regional line lengths/areas and station/port/aerodrome counts",
                        national_activity_units="million passenger-km or tonne-km; diagnostic MWh = total_load * 1000 / primary_efficiency",
-                       maritime_constraint="Sea navigation restricted to GISCO COAST_TYPE 1/2; landlocked domestic navigation uses inland OSM ports/quays",
+                       maritime_constraint="Separate coastal and inland JRC freight balances. Inland weights use located Eurostat port tonnes or OSM port/quay proxies.",
+                       inland_port_freight=args.inland_port_evidence.get(country),
                        navigation_method=getattr(args, "paper_navigation_method", None),
                        international_port_freight=port_evidence,
                        international_airport_passengers=airport_evidence.get("international"),
@@ -135,11 +140,17 @@ def _checked_transport_countries(args):
                 note = matching[0]
                 column = ('ship_inland_' if kind == 'inland_navigation' else 'ship_') + ('freight' if mode == 'freight' else 'passenger')
                 from transport.script.european_port_freight import BASIS
-                if note['weights_basis'] == BASIS:
-                    column = "ship_international_freight_kt"
+                from transport.script.navigation_sources import INLAND_BASIS
+                if note['weights_basis'] in (BASIS, INLAND_BASIS):
+                    inland_traffic = note['weights_basis'] == INLAND_BASIS
+                    column = "ship_inland_freight_tonnes" if inland_traffic else "ship_international_freight_kt"
                     shares = debug[column].reindex(block.nuts3).to_numpy()
-                    if not details.get("international_port_freight") or not np.isfinite(shares).all() or shares.sum() <= 0:
+                    evidence = details.get("inland_port_freight" if inland_traffic else "international_port_freight")
+                    if not evidence or not np.isfinite(shares).all() or shares.sum() <= 0:
                         raise ValueError(f"Missing port freight evidence for {country}")
+                    if inland_traffic:
+                        recorded = pd.DataFrame(evidence["ports"]).groupby("nuts3").tonnes.sum()
+                        np.testing.assert_allclose(shares, recorded.reindex(block.nuts3, fill_value=0))
                     for quantity in QUANTITIES:
                         np.testing.assert_allclose(block[quantity], shares / shares.sum() * note["national_totals"][quantity],
                                                    rtol=1e-8, atol=1e-5)
@@ -167,6 +178,7 @@ def _checked_transport_countries(args):
                                   international_airport_passengers=details.get("international_airport_passengers"),
                                   domestic_airport_passengers=details.get("domestic_airport_passengers"),
                                   international_port_freight=details.get("international_port_freight"),
+                                  inland_port_freight=details.get("inland_port_freight"),
                                   maritime_inland_zero=True, freight_aviation_zero=True,
                                   navigation_method=METHOD, navigation_allocations=navigation_checks,
                                   inland_navigation_present=bool((kinds.eq('inland_navigation') & all_modes[list(QUANTITIES)].abs().sum(axis=1).gt(0)).any()),

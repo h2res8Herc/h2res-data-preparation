@@ -485,6 +485,24 @@ def export_complex_sector(args, mapping: pd.DataFrame) -> None:
                    selected_sectors=getattr(args, "complex_industry_sectors", "all"), waste_allocation=getattr(args, "industry_waste_allocation", "sector-blend"))
 
 
+def add_inland_transport_costs(updates, workbook):
+    """Retain native inland costs and supply missing inland conversion trajectories."""
+    fleet = updates["transport_all"]
+    units = fleet.loc[fleet.sector.eq("Inland_waterways"), "unit_name"].unique()
+    if len(units) == 0:
+        return
+    costs = pd.read_excel(workbook, "tech_cost_years")
+    added = {}
+    for unit in units:
+        if unit.endswith("_MID") and unit not in costs:
+            coastal = unit.removesuffix("_MID") + "_SHORT"
+            if coastal not in costs:
+                raise ValueError(f"No inland or coastal cost trajectory for {unit}")
+            added[unit] = costs[coastal]
+    if added:
+        updates["tech_cost_years"] = pd.concat([costs, pd.DataFrame(added)], axis=1)
+
+
 def transport_parameters(generated: pd.DataFrame, template: pd.DataFrame,
                          primary: pd.DataFrame | None = None) -> tuple[pd.DataFrame, pd.DataFrame | None]:
     """Keep current paid engine conversions and fuel compatibility metadata."""
@@ -493,6 +511,14 @@ def transport_parameters(generated: pd.DataFrame, template: pd.DataFrame,
     generated = generated.rename(columns={c: int(c) for c in generated if re.fullmatch(r"\d{4}", str(c))})
     if template.zone.eq("HR1").any():
         template = template.loc[template.zone.eq("HR1")].copy()
+    domestic = template.loc[template.sector.eq("Domestic_shipping")]
+    for service, suffix in (("Domestic_coastal_shipping", "_SHORT"), ("Inland_waterways", "_MID")):
+        if generated.sector.eq(service).any() and not template.sector.eq(service).any() and not domestic.empty:
+            inherited = domestic.assign(sector=service)
+            for column in ("unit_name", "compat_parent"):
+                if column in inherited:
+                    inherited[column] = inherited[column].replace(r"_SHORT$", suffix, regex=True)
+            template = pd.concat([template, inherited], ignore_index=True)
     base = template.loc[template.get("compat_parent", pd.Series(np.nan, index=template.index)).isna()]
     derived = template.loc[template.get("compat_parent", pd.Series(np.nan, index=template.index)).notna()]
     keep = {"zone", "System", "sector", "unit_name", "total_load", "number", "efficiency_primary"}
@@ -517,6 +543,9 @@ def transport_parameters(generated: pd.DataFrame, template: pd.DataFrame,
     fuel_rows = []
     for row in result.itertuples(index=False):
         options = primary.loc[primary.sector_prim.eq(row.unit_name)]
+        if options.empty and row.sector == "Inland_waterways" and row.unit_name.endswith("_MID"):
+            donor = row.unit_name.removesuffix("_MID") + "_SHORT"
+            options = primary.loc[primary.sector_prim.eq(donor)].assign(sector_prim=row.unit_name)
         if options.zone.eq("HR1").any():
             options = options.loc[options.zone.eq("HR1")]
         options = options.drop_duplicates(["sector_prim", "fuel_prim"])
@@ -772,6 +801,7 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
         fleet, fuels = transport_parameters(read_generated(base / "transport_all.csv"), pd.read_excel(workbook, "transport_all"),
                                            pd.read_excel(workbook, "transport_ICE_prim") if args.efuels else None)
         updates["transport_all"] = fleet
+        add_inland_transport_costs(updates, workbook)
         sector_zones["transport"] = set(updates["transport_all"][["System", "zone"]].drop_duplicates().itertuples(index=False, name=None))
         if args.efuels:
             updates["transport_ICE_prim"] = fuels

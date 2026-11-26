@@ -1,0 +1,190 @@
+country,kind,sector,activity_million,energy_ktoe
+AT,freight,Domestic coastal shipping,0.0,0.0
+AT,freight,Inland waterways,1606.0,21.580997420464314
+AT,freight,international shipping,0.0,0.0
+AT,passenger,Domestic aviation,45.158139806212034,16.680363859581263
+AT,passenger,International aviation,7671.329755725281,290.84845049910535
+AT,freight,Domestic aviation,0.0032187996606338723,0.0048468024995598135
+AT,freight,International aviation,286.6724734945205,27.27958045532282
+BE,freight,Domestic coastal shipping,207.239,6.782944430024899
+BE,freight,Inland waterways,7388.0,118.08661704890889
+BE,freight,international shipping,927838.812516,6376.616595012898
+BE,passenger,Domestic aviation,0.0,0.0
+BE,passenger,International aviation,11578.7789244692,655.4224410538523
+BE,freight,Domestic aviation,0.0,0.0
+BE,freight,International aviation,5507.801980742314,542.8234746813157
+BG,freight,Domestic coastal shipping,0.0,0.0
+BG,freight,Inland waterways,6256.0,87.354
+BG,freight,international shipping,38524.078609000004,84.74643164230439
+BG,passenger,Domestic aviation,52.138464875647685,3.8766981943250216
+BG,passenger,International aviation,3166.5992322716447,132.62528929116277
+BG,freight,Domestic aviation,0.0,0.0
+BG,freight,International aviation,25.779425977866772,4.934813890264548
+CY,freight,Domestic coastal shipping,5.898,0.3971625107480653
+CY,freight,Inland waterways,0.0,0.0
+CY,freight,international shipping,11084.122561,275.59157351676697
+CY,passenger,Domestic aviation,0.0,0.0
+CY,passenger,International aviation,2671.0064253841615,93.31050803461746
+CY,freight,Domestic aviation,0.0,0.0
+CY,freight,International aviation,13.393180188004358,1.8814094202406673
+CZ,freight,Domestic coastal shipping,0.0,0.0
+CZ,freight,Inland waterways,18.0,4.111693895098882
+CZ,freight,international shipping,0.0,0.0
+CZ,passenger,Domestic aviation,1.2973726864628892,28.823538184434135
+CZ,passenger,International aviation,3020.4221835559665,99.18926858291663
+CZ,freight,Domestic aviation,0.41465128089033576,12.56803533233285
+CZ,freight,International aviation,144.06639133100566,14.573070196103185
+DE,freight,Domestic coastal shipping,619.044,9.437334861077433
+DE,freight,Inland waterways,46338.0,261.25286290332497
+DE,freight,international shipping,902780.631131,1325.0147033533963
+DE,passenger,Domestic aviation,2809.7548722209863,270.38477227976085
+DE,passenger,International aviation,72591.90238389459,2974.6602136145475
+DE,freight,Domestic aviation,50.8347350854979,26.156242337608102
+DE,freight,International aviation,16644.095525098066,1578.4877657491656
+DK,freight,Domestic coastal shipping,1469.423,117.32166809974208
+DK,freight,Inland waterways,0.0,0.0
+DK,freight,international shipping,99880.737266,556.5270851246776
+DK,passenger,Domestic aviation,165.67190867400353,17.041705069313146
+DK,passenger,International aviation,7025.469188205906,303.14395799037504
+DK,freight,Domestic aviation,0.07700112221943728,0.022611353730703474
+DK,freight,International aviation,300.89370149721873,29.587168406873467
+EE,freight,Domestic coastal shipping,21.854,6.476182287188306
+EE,freight,Inland waterways,0.0,0.0
+EE,freight,international shipping,77370.17998,293.49234737747213
+EE,passenger,Domestic aviation,0.0,0.0
+EE,passenger,International aviation,503.29086987521646,23.291833289127542
+EE,freight,Domestic aviation,0.0,0.0
+EE,freight,International aviation,4.696528568356922,0.7100583703737506
+EL,freight,Domestic coastal shipping,4717.97,514.797162510748
+EL,freight,Inland waterways,0.0,0.0
+EL,freight,international shipping,260218.24799499998,1626.8252794496993
+EL,passenger,Domestic aviation,1281.2525611786973,90.19838219926592
+EL,passenger,International aviation,14709.582402505443,348.3451419073878
+EL,freight,Domestic aviation,1.4729390502530346,0.3759084284210808
+EL,freight,International aviation,63.48024331717333,7.07265688882892
+ES,freight,Domestic coastal shipping,8330.782,803.4496130696473
+ES,freight,Inland waterways,0.0,0.0
+ES,freight,international shipping,1137730.271861,6377.734565778161
+ES,passenger,Domestic aviation,12708.597816307092,943.297891989038
+ES,passenger,International aviation,54783.25886368092,1447.1409902609882
+ES,freight,Domestic aviation,39.90379253149598,16.286974734951645
+ES,freight,International aviation,1658.0084342637351,128.6113743133888
+FI,freight,Domestic coastal shipping,1004.247,102.48561814339617
+FI,freight,Inland waterways,127.0,10.099936456775785
+FI,freight,international shipping,177000.003446,308.87386070507296
+FI,passenger,Domestic aviation,634.1303303719297,28.80438386705511
+FI,passenger,International aviation,6397.306952379233,273.23334066173413
+FI,freight,Domestic aviation,0.5775749485995672,0.16285602976345898
+FI,freight,International aviation,112.11053701665543,10.138198461223732
+FR,freight,Domestic coastal shipping,13100.039,339.19444598886025
+FR,freight,Inland waterways,6988.0,79.56737688302267
+FR,freight,international shipping,526836.566479,986.9171109200342
+FR,passenger,Domestic aviation,16172.383249630395,965.2890903947347
+FR,passenger,International aviation,53358.0513887242,2152.9870095299802
+FR,freight,Domestic aviation,104.73356964792873,31.342036002513666
+FR,freight,International aviation,5343.785865406091,511.03938771851494
+HR,freight,Domestic coastal shipping,33.225,1.8911655499489841
+HR,freight,Inland waterways,903.0,39.117260933284044
+HR,freight,international shipping,40096.701716999996,20.385554600171968
+HR,passenger,Domestic aviation,64.05038718278357,5.565680351882034
+HR,passenger,International aviation,1078.3862036273897,53.07673488747481
+HR,freight,Domestic aviation,0.016632834634264126,0.00508491037075988
+HR,freight,International aviation,7.248300998924002,0.8915368236171702
+HU,freight,Domestic coastal shipping,0.0,0.0
+HU,freight,Inland waterways,1998.0,4.098624247635425
+HU,freight,international shipping,0.0,0.0
+HU,passenger,Domestic aviation,0.0,0.0
+HU,passenger,International aviation,3045.109619177636,96.12866243887589
+HU,freight,Domestic aviation,0.0,0.0
+HU,freight,International aviation,39.11890930040218,5.274690957512702
+IE,freight,Domestic coastal shipping,201.544,109.2957007738607
+IE,freight,Inland waterways,0.0,0.0
+IE,freight,international shipping,53855.81284299999,154.96698194325023
+IE,passenger,Domestic aviation,6.730721615044904,4.153015244617236
+IE,passenger,International aviation,7167.668912932528,366.75757710266635
+IE,freight,Domestic aviation,0.7351974330615959,0.4098394415392554
+IE,freight,International aviation,210.08266838951073,27.32720363680056
+IT,freight,Domestic coastal shipping,43194.196,556.069132044885
+IT,freight,Inland waterways,124.0,1.097849898365276
+IT,freight,international shipping,641891.014204,2439.4720550300935
+IT,passenger,Domestic aviation,8902.750675532814,337.9800733451692
+IT,passenger,International aviation,29109.432453100002,1232.0565095636457
+IT,freight,Domestic aviation,22.330149474192737,6.213563800144557
+IT,freight,International aviation,2572.3428520555476,262.87547667882984
+LT,freight,Domestic coastal shipping,121.06,3.791995624917974
+LT,freight,Inland waterways,0.01,9.379898572299769e-05
+LT,freight,international shipping,165668.989275,181.92871883061053
+LT,passenger,Domestic aviation,0.0,0.0
+LT,passenger,International aviation,1311.7799920301995,52.26471995891435
+LT,freight,Domestic aviation,0.0,0.0
+LT,freight,International aviation,15.5388032101434,1.9024339533814496
+LU,freight,Domestic coastal shipping,0.0,0.0
+LU,freight,Inland waterways,201.0,0.10343938091143594
+LU,freight,international shipping,0.0,0.0
+LU,passenger,Domestic aviation,0.0,0.0
+LU,passenger,International aviation,1049.924401139179,102.47899268611255
+LU,freight,Domestic aviation,0.0,0.0
+LU,freight,International aviation,5111.000962253956,444.1724260585133
+LV,freight,Domestic coastal shipping,2.0,2.367411865864144
+LV,freight,Inland waterways,0.0,0.0
+LV,freight,international shipping,82908.20586399999,207.05760963026654
+LV,passenger,Domestic aviation,0.0,0.0
+LV,passenger,International aviation,1252.736466737911,55.39628647432893
+LV,freight,Domestic aviation,0.0,0.0
+LV,freight,International aviation,30.481096130537168,2.7289069908473387
+MT,freight,Domestic coastal shipping,5.553,18.00438521066208
+MT,freight,Inland waterways,0.0,0.0
+MT,freight,international shipping,4809.832097,2185.7777300085986
+MT,passenger,Domestic aviation,0.0,0.0
+MT,passenger,International aviation,1542.0908714389764,58.25046812143323
+MT,freight,Domestic aviation,0.0,0.0
+MT,freight,International aviation,6.7925692047172905,0.9522833832959048
+NL,freight,Domestic coastal shipping,38.725,0.5895072783594091
+NL,freight,Inland waterways,45166.0,211.33946950581944
+NL,freight,international shipping,1887579.855827,11880.701805674977
+NL,passenger,Domestic aviation,0.0,0.0
+NL,passenger,International aviation,36027.36542723128,1554.5669517974166
+NL,freight,Domestic aviation,0.0,0.0
+NL,freight,International aviation,5825.55693092421,660.6571238689637
+PL,freight,Domestic coastal shipping,99.952,0.7054421893723023
+PL,freight,Inland waterways,77.0,0.32877965069648485
+PL,freight,international shipping,266400.4832,301.6294926913155
+PL,passenger,Domestic aviation,229.99141504106885,18.216038526043413
+PL,passenger,International aviation,11334.415566763684,438.1611332500511
+PL,freight,Domestic aviation,0.0618954844793775,0.01973103543552439
+PL,freight,International aviation,201.04266101569536,18.99733622544316
+PT,freight,Domestic coastal shipping,314.025,62.75081685296645
+PT,freight,Inland waterways,0.0,0.0
+PT,freight,international shipping,166882.613333,686.5896818572656
+PT,passenger,Domestic aviation,1521.7169811556703,85.17319853929172
+PT,passenger,International aviation,17604.738329288793,508.35921867199465
+PT,freight,Domestic aviation,4.8888531300547085,1.8209545131588298
+PT,freight,International aviation,213.38921449253365,14.734504457841954
+RO,freight,Domestic coastal shipping,0.0,0.0
+RO,freight,Inland waterways,13638.0,41.86027515047291
+RO,freight,international shipping,93216.732281,43.10472914875322
+RO,passenger,Domestic aviation,155.82112013628782,38.40441545649536
+RO,passenger,International aviation,5225.214387975392,46.72879352691209
+RO,freight,Domestic aviation,0.2297566359972602,0.2484650250179563
+RO,freight,International aviation,15.009168435966268,0.5816965848677942
+SE,freight,Domestic coastal shipping,3553.274,115.34625163425702
+SE,freight,Inland waterways,79.0,0.7439461301453627
+SE,freight,international shipping,110212.083418,2578.1041272570938
+SE,passenger,Domestic aviation,1093.528176743952,61.195604366532685
+SE,passenger,International aviation,6969.5933369514105,330.676151527846
+SE,freight,Domestic aviation,2.170834409141523,0.5896922800709173
+SE,freight,International aviation,95.93731257273988,13.4070814902107
+SI,freight,Domestic coastal shipping,0.0,0.0
+SI,freight,Inland waterways,0.0,0.0
+SI,freight,international shipping,68717.753838,115.44995700773856
+SI,passenger,Domestic aviation,0.0,0.0
+SI,passenger,International aviation,147.74251248521568,9.302473367248496
+SI,freight,Domestic aviation,0.0,0.0
+SI,freight,International aviation,2.5231157793479726,0.6444741821926074
+SK,freight,Domestic coastal shipping,0.0,0.0
+SK,freight,Inland waterways,834.0,16.984
+SK,freight,international shipping,0.0,0.0
+SK,passenger,Domestic aviation,0.0,0.0
+SK,passenger,International aviation,347.83248907094696,26.217878844010784
+SK,freight,Domestic aviation,0.0,0.0
+SK,freight,International aviation,7.965749819591601,2.7398167707785586

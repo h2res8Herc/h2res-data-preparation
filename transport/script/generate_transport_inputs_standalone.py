@@ -75,7 +75,7 @@ CURVE_FILES = (
 STORAGE_CHARGE = {
     "EV_AVIO_SHORT": (250, 500), "FCEV_AVIO_SHORT": (200, 2000),
     "ICE_AVIO_SHORT": (0, 10000), "FCEV_AVIO_LONG": (150000, 12000),
-    "ICE_AVIO_LONG": (0, 10000), "EV_MARINE_SHORT": (815, 245),
+    "ICE_AVIO_LONG": (0, 10000), "EV_MARINE_SHORT": (815, 245), "EV_MARINE_MID": (815, 245),
     "ICE_MARINE_SHORT": (0, 10000), "ICE_MARINE_LONG": (0, 10000),
     "EV_BUS": (400, 500), "FCEV_BUS": (800, 12000),
     "HYBRID_BUS": (0, 10000), "ICE_BUS": (0, 10000),
@@ -88,7 +88,7 @@ STORAGE_CHARGE = {
 }
 MAX_SHARE = {
     "EV_AVIO_SHORT": .2, "FCEV_AVIO_SHORT": .5, "FCEV_AVIO_LONG": .1,
-    "EV_MARINE_SHORT": .7, "EV_BUS": .8, "FCEV_BUS": .1,
+    "EV_MARINE_SHORT": .7, "EV_MARINE_MID": .7, "EV_BUS": .8, "FCEV_BUS": .1,
     "EV_car": .95, "FCEV_car": .1, "EV_truck": .8, "FCEV_truck": .3,
 }
 
@@ -186,7 +186,9 @@ def download_file(url: str, path: Path, refresh: bool = False) -> Path:
 
 def materialize_embedded_sources(data_dir: Path, refresh: bool = False) -> tuple[Path, Path]:
     helper = data_dir / "helpers" / "allocate_transport_to_nuts3_no_pyrosm.py"
-    national_dir = data_dir / "national_transport"
+    from transport.script.navigation_sources import BALANCES, corrected_table
+    national_dir = data_dir / "national_transport_idees_2020_v3"
+    balances = pd.read_csv(BALANCES)
     curves_dir = data_dir / "curves"
     if refresh or not helper.exists():
         helper.parent.mkdir(parents=True, exist_ok=True)
@@ -197,7 +199,9 @@ def materialize_embedded_sources(data_dir: Path, refresh: bool = False) -> tuple
             path = national_dir / country / name
             if refresh or not path.exists():
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(content, encoding="utf-8", newline="")
+                kind = "passenger" if "passenger" in name else "freight"
+                path.write_text(corrected_table(content, balances.loc[balances.country.eq(country) & balances.kind.eq(kind)]),
+                                encoding="utf-8", newline="")
     for key, name in zip(("activity", "plugin", "v2g"), CURVE_FILES):
         path = curves_dir / name
         if refresh or not path.exists():
@@ -389,7 +393,7 @@ def aggregate_country(country_dir: Path, zone_map_path: Path) -> pd.DataFrame:
     )
 
     hybrid_bases = {"car", "BUS", "truck"}
-    ev_bases = hybrid_bases | {"AVIO_SHORT", "MARINE_SHORT"}
+    ev_bases = hybrid_bases | {"AVIO_SHORT", "MARINE_SHORT", "MARINE_MID"}
     fcev_bases = hybrid_bases | {"AVIO_SHORT", "AVIO_LONG"}
     for (zone, system, sector), group in list(out.groupby(["zone", "System", "sector"])):
         load = float(group.iloc[0]["total_load"])
@@ -469,6 +473,12 @@ def write_distribution_curves(curves_dir: Path, output_dir: Path) -> None:
                 if (totals <= 0).any():
                     raise ValueError(f"Cannot normalize zero-valued activity curve: {source}")
                 curve[value_cols] = curve[value_cols].div(totals, axis=1)
+        # Each shipping service has an editable profile. Older source files
+        # provide one common domestic navigation shape for both services.
+        if "Domestic shipping" in curve:
+            for sector in ("Domestic coastal shipping", "Inland waterways"):
+                if sector not in curve:
+                    curve[sector] = curve["Domestic shipping"]
         if len(curve) != 8760:
             raise ValueError(f"Transport curve did not normalize to 8760 hours: {source}")
         curve.to_csv(output_dir / name, index=False)
@@ -560,6 +570,7 @@ def run_allocator(args: argparse.Namespace) -> None:
     args.paper_navigation = {}
     args.paper_navigation_method = METHOD
     args.port_freight_evidence = {}
+    args.inland_port_evidence = {}
     args.airport_passenger_evidence = {}
     port_indicators = {}
     port_source = None
@@ -569,6 +580,12 @@ def run_allocator(args: argparse.Namespace) -> None:
         country = nuts_ids[0][:2]
         notes = args.paper_navigation.setdefault(country, [])
         shipping = shipping_by_regions[tuple(nuts_ids)]
+        if table_kind == "freight" and national.sector.eq("Inland waterways").any():
+            from transport.script.navigation_sources import inland_weights
+            regions = geography.set_index("NUTS_ID").loc[nuts_ids].reset_index()
+            counts, report = inland_weights(country, regions)
+            args.inland_port_evidence[country] = report
+            shipping["ship_inland_freight_tonnes"] = counts.loc[nuts_ids].to_numpy()
         def port_weights():
             nonlocal port_source
             from transport.script.european_port_freight import snapshot, regional_weights
@@ -633,7 +650,7 @@ def run_allocator(args: argparse.Namespace) -> None:
     for ids, frame in shipping_by_regions.items():
         debug_path = args.out_root / ids[0][:2] / "debug_weights_NUTS3.csv"
         debug = pd.read_csv(debug_path)
-        for column in frame.columns.intersection(["ship_inland_freight", "ship_inland_passenger", "ship_international_freight_kt", "international_airport_passengers", "domestic_airport_passengers"]):
+        for column in frame.columns.intersection(["ship_inland_freight", "ship_inland_passenger", "ship_inland_freight_tonnes", "ship_international_freight_kt", "international_airport_passengers", "domestic_airport_passengers"]):
             debug[column] = debug.NUTS_ID.map(dict(zip(ids, frame[column])))
         debug.to_csv(debug_path, index=False)
     from sector_method_provenance import transport_allocation, validate_transport_allocation

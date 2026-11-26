@@ -111,6 +111,32 @@ class NavigationAllocationTests(unittest.TestCase):
         self.assertEqual(navigation_kind('international shipping', 'ICE_MARINE_INT', False), 'maritime')
         self.assertEqual(navigation_kind('Passenger cars', 'ICE_car', False), None)
 
+    def test_croatian_source_balances_and_combined_zone_efficiency(self):
+        from transport.script.navigation_sources import COMPONENTS
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            _, national = generator.materialize_embedded_sources(root)
+            for kind in ("freight", "passenger"):
+                table = pd.read_csv(national / "HR" / f"transp1_shape_{kind}.csv")
+                rows = ensure_energy_column(table, kind)
+                if kind == "freight":
+                    observed = rows.set_index("sector").loc[[*COMPONENTS, "international shipping"]]
+                    np.testing.assert_allclose(observed.energy_MWh / 1000, [21.994255, 454.933745, 237.084], atol=1e-5)
+                    rows = rows.loc[rows.sector.isin(COMPONENTS)].copy()
+                    rows["nuts3"] = ["HR031", "HR026"]
+                else:
+                    rows = rows.loc[rows.sector.str.endswith("aviation")].copy()
+                    np.testing.assert_allclose(rows.energy_MWh / 1000, [64.7288625, 617.2824267])
+                    rows["nuts3"] = "HR031"
+                rows.assign(country="HR").to_csv(root / f"transp1_shape_{kind}_NUTS3.csv", index=False)
+            mapping = root / "zones.csv"
+            pd.DataFrame({"country": "HR", "nuts3": ["HR031", "HR026"], "zone": "HR1"}).to_csv(mapping, index=False)
+            fleet = generator.aggregate_country(root, mapping)
+            ships = fleet.set_index("unit_name").loc[["ICE_MARINE_SHORT", "ICE_MARINE_MID"]]
+            self.assertEqual(ships.sector.tolist(), ["Domestic_coastal_shipping", "Inland_waterways"])
+            np.testing.assert_allclose(ships.total_load, [33.225, 903.])
+            np.testing.assert_allclose(ships.total_load / ships.efficiency_primary, [21.994255, 454.933745], atol=1e-5)
+
     def test_full_offline_transport_pipeline_with_hungary_source_snapshot(self):
         import osmium
         with tempfile.TemporaryDirectory() as folder:
@@ -147,7 +173,7 @@ class NavigationAllocationTests(unittest.TestCase):
             self.assertTrue(proof['countries']['HU']['maritime_inland_zero'])
             self.assertTrue(proof['countries']['HU']['national_conservation']['freight']['conserved'])
             raw = pd.read_csv(output / 'HU/transp1_shape_freight_NUTS3.csv')
-            domestic = raw.loc[raw.sector.eq('Domestic shipping')]
+            domestic = raw.loc[raw.sector.eq('Inland waterways')]
             np.testing.assert_allclose(domestic.total_load, [1332., 0., 666.])
             fleet = pd.read_csv(output / 'combined/transport_all.csv')
             self.assertIn('ICE_MARINE_SHORT', set(fleet.unit_name))

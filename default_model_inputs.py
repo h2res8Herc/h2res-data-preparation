@@ -207,6 +207,9 @@ def complete_defaults(data: Path, targets, generated_files, variants, selected_n
         name = path.relative_to(data).as_posix()
         entry = next((v for v in variants if v["technology_workbook"] == name), None)
         exclude = set(entry["replaced_sheets"]) if entry else set(selected_sheets) if name == selected_name else set()
+        # Inland transport adds technology columns to the template cost table.
+        # Its system/year rows still need the normal regional default expansion.
+        exclude.discard("tech_cost_years")
         if path.name.startswith("industry_complex") and path.name in generated:
             continue
         patches = {}
