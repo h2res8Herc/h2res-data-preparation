@@ -101,6 +101,8 @@ def build_package(bundle: Path, report: dict | None = None) -> dict:
             shutil.copy2(bundle / "scenario_reader_validation.json", delivery / "scenario_reader_validation.json")
         generated = set(metadata.get("generated_sectors", []))
         flags = {"model_efuel": efuels, "model_industry_categories": mode == "categories",
+                 "model_simple_industry": False, "model_oil_and_gas_products_supply": efuels,
+                 "industry_cbam_active": False, "industry_carbon_pricing_active": False,
                  "industry_storage": mode == "categories", "model_transport_and_industry": True,
                  "model_complex_industry": mode == "complex", "model_complex_non_metallic_minerals": mode == "complex",
                  "industry_category_electricity_case": case, "industry_complex_electricity_case": case}
@@ -117,7 +119,7 @@ def build_package(bundle: Path, report: dict | None = None) -> dict:
         selection["updated_technology_workbooks"] = ["data/" + v["technology_workbook"] for v in variants] or ["data/" + technology]
         selection["technology_variants"] = variants
         selection["reference_model_root"] = metadata.get("reference_model_root")
-        expected_files = set(reference_files)
+        expected_files = set(reference_files).union(metadata.get("native_layout_extensions", []))
         actual_files = {path.relative_to(delivery / "data").as_posix() for path in (delivery / "data").rglob("*") if path.is_file()}
         layout = dict(matches_reference=actual_files == expected_files, reference_model=metadata.get("reference_model_root"),
                       missing_files=sorted(expected_files - actual_files), extra_files=sorted(actual_files - expected_files),
@@ -145,7 +147,7 @@ def build_package(bundle: Path, report: dict | None = None) -> dict:
             readme += ["", "Use the included launcher with the separate model to apply the selected flags, "
                        "generated plant policy aliases and the legacy regional industry-reader correction in memory. "
                        "An uncorrected model started directly from main.py does not apply that correction.","",
-                       'From this folder, using the model Python environment: `python run_model_scenario.py --model-root "D:\\POSAO\\H2RES_2.11.2026_novi" --bundle .`. Add `--solve` to optimize.']
+                       f'From this folder, using the model Python environment: `python run_model_scenario.py --model-root "{metadata.get("reference_model_root") or "PATH_TO_MODEL"}" --bundle .`. Add `--solve` to optimize.']
         if not report["ready"]:
             readme += ["", "## Inputs to complete", ""]
             readme += ["- " + str(issue) for issue in report.get("errors", [])]

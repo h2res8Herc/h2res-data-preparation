@@ -295,6 +295,8 @@ def run_industry(args: argparse.Namespace, maps: dict[str, Path] | None) -> None
         command.append("--refresh-sources")
     if args.industry_mode == "categories":
         command.append("--keep-heat-categories")
+    if maps is not None:
+        command.append("--defer-zonal-workbooks")
     run(command)
     if maps is None:
         return

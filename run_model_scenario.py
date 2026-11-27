@@ -140,6 +140,9 @@ def run(model_root: Path, bundle: Path, *, solve=False, name=None, industry_mode
         scenario['efuels']=scenario['efuels'] if efuels is None else efuels
         scenario['industry_electricity_case']=electricity_case or scenario['industry_electricity_case']
         scenario['technology_workbook'],scenario['complex_workbook']=native_variant_files(scenario['efuels'],scenario['industry_mode'],scenario['industry_electricity_case'])
+        technical = Path("variants/technical_2050") / Path(scenario['technology_workbook']).name
+        if scenario['industry_electricity_case'] == 'technical_2050' and (bundle/'data'/technical).is_file():
+            scenario['technology_workbook'] = technical.as_posix()
     manifest_path = bundle / "bundle_manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
     native_manifest=bundle/'H2RES_DATA_manifest.json'
@@ -161,11 +164,16 @@ def run(model_root: Path, bundle: Path, *, solve=False, name=None, industry_mode
     if solve and (bundle / "results" / name).exists():
         raise ValueError("Results already exist for this scenario name; choose a new name")
     flags = {"model_efuel": scenario["efuels"], "model_industry_categories": scenario["industry_mode"] == "categories",
+             "model_simple_industry": False, "model_transport_and_industry": True,
+             "industry_cbam_active": False, "industry_carbon_pricing_active": False,
+             "model_oil_and_gas_products_supply": scenario["efuels"],
              "model_complex_industry": scenario["industry_mode"] == "complex",
              "model_complex_non_metallic_minerals": scenario["industry_mode"] == "complex",
              "industry_storage": scenario["industry_mode"] == "categories",
              "industry_category_electricity_case": scenario["industry_electricity_case"],
              "industry_complex_electricity_case": scenario["industry_electricity_case"]}
+    if "heating" in manifest.get("generated_sectors", []):
+        flags["model_heating"] = True
     if scenario["preset"] == "res100" and scenario["scope"] == "all-energy":
         flags.update(model_heating=True, model_transport_and_industry=True)
     namespace = {"__file__": str(model_root / "main.py"), "__name__": "__main__", "gp": gp}
@@ -195,7 +203,13 @@ def run(model_root: Path, bundle: Path, *, solve=False, name=None, industry_mode
         exec(compile(tree, str(model_root / "main.py"), "exec"), namespace)
         if not solve:
             execute("scripts/read_process_data.py", namespace)
+            loaded = sorted(namespace["active_zones_system_df_list"])
+            if validation.is_file():
+                expected = json.loads(validation.read_text(encoding="utf-8")).get("active_zones")
+                if expected is not None and {z for z, system in loaded} != set(expected):
+                    raise ValueError(f"Model reader activated {loaded}; expected zones {expected}")
             result = {"input_reader_completed": True, "years": [int(y) for y in namespace["years"]],
+                      "active_zone_system_pairs": loaded, "technology_workbook": scenario["technology_workbook"],
                       "preset": scenario["preset"], "scope": scenario["scope"], "target_year": scenario["target_year"],
                       "industry_mode": scenario["industry_mode"],
                       "complex_industry_sectors": namespace.get("complex_industry_sectors") if scenario["industry_mode"] == "complex" else None,

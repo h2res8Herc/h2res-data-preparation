@@ -382,3 +382,41 @@ both mode with network-dependent VRE disabled. The test checks 116 individual
 GENCO rows, 46 aggregated NUTS3 units, a complete 116-row identity schema and
 8,784-hour aggregated/individual hydro exports. VRE retrieval and IRENA
 calibration are smoke-tested on a Croatian site, including persistent caching.
+
+### Country-level exports for the November 21 native model
+
+Enter `HR,SI` in the GUI country field and select `country` as the spatial
+level to prepare one case with systems HR and SI and zones HR1 and SI1.
+Use a separate output directory for the joint case. Exporting existing
+outputs requires sector tables prepared for the same country selection.
+On the **Output format** tab, select **Use templates from H2RES installation**
+and choose the folder containing the target model's `main.py`. The loader
+reads its `data` directory and caches the templates under the download
+directory. For the Croatian–Slovenian e-fuel case, enable all four sectors,
+e-fuels, industry categories and the desired electricity case. Select
+**Generate all native flex_tech and industry variants** to build both the
+root and technical-2050 variants supplied by this model installation.
+Use the published `data` folder as one unit. The scenario launcher in
+`model_inputs` applies the generated configuration. Run its reader check
+before adding `--solve`.
+
+The native data directory includes `transport_infrastructure.csv` for charger
+and hydrogen-refuelling technologies and `transport_infrastructure_existing.csv`
+for their zonal stocks. Missing stocks start at zero. Domestic coastal freight
+and inland waterway freight have separate fleet and infrastructure identifiers.
+The default inland charging and refuelling ratios inherit the domestic shipping
+assumptions and can be edited independently.
+
+In e-fuel workbooks, each active zone has Gas and Oil rows in `PE_generation`.
+Missing rows start with zero production, reserves, imports and exports and
+with ramp-up and ramp-down coefficients of 0.2. These zeros are scenario
+defaults. Supply measured quantities here when available.
+
+Generated `simple_industry` rows contain Excel formulas linked to
+`Industry_data`. A hidden calculation sheet stores the annual service weights.
+A service contributes to the pool when all its technologies are excluded.
+Installed capacities add across these services, while the pooled efficiency
+preserves their baseline fuel input. The export stores numeric formula results
+for H2RES. After editing source cells, recalculate and save the workbook in
+Excel before running H2RES. Regenerate for changes to the set of zones or
+technologies.

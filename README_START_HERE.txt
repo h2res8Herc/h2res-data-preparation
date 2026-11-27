@@ -1,4 +1,4 @@
-H2RES DATA PREPARATION — 22 November 2026
+H2RES DATA PREPARATION — 27 November 2026
 
 Extract the complete folder to a writable directory. Run SETUP_WINDOWS.bat,
 then START_DATA_PREPARATION.bat. Python 3.12 x64 with Tcl/Tk is recommended.
