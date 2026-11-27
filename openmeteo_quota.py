@@ -154,7 +154,12 @@ def quota_retry_delay(attempt,headers=None):
 
 
 def openmeteo_urlopen(request,params,*,timeout=180,opener=None,wait=None):
-    """Heating transport: retry HTTP 429 indefinitely, with the same request."""
+    """Read archived heating data, with quota-aware retry on the point API."""
+    if opener is None and getattr(request, "full_url", request).startswith("https://archive-api.open-meteo.com/v1/archive?"):
+        from heating.openmeteo_archive import archive_response
+        response = archive_response(params)
+        if response is not None:
+            return response
     opener=opener or urllib.request.urlopen
     wait=wait or wait_seconds
     attempt=0
