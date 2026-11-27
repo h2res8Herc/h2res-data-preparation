@@ -15,3 +15,4 @@ pyxlsb
 pycountry
 xarray
 netCDF4
+omfiles==1.2.0

@@ -60,8 +60,40 @@ def digest(path, algorithm="sha256"):
 
 def fetch(url):
     request = urllib.request.Request(url, headers={"User-Agent": "H2RES-paper-method/1.0"})
-    with urllib.request.urlopen(request, timeout=180) as response:
-        return response.read()
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(request, timeout=45) as response:
+                return response.read()
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+            if isinstance(exc, urllib.error.HTTPError) and exc.code not in (429, 500, 502, 503, 504):
+                raise
+            if attempt == 2:
+                raise
+            delay = 5 * 2**attempt
+            print(f"Facility service unavailable ({exc}); retrying in {delay}s", flush=True)
+            time.sleep(delay)
+
+
+def load_facility_inventory(load, cached, *, download):
+    """Return the inventory path and any availability issue for the allocation report."""
+    try:
+        return load(), None
+    except FileNotFoundError as exc:
+        if download or cached.exists():
+            raise
+        reason = str(exc)
+    except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+        reason = str(exc)
+        if cached.is_file():
+            record = json.loads(cached.read_bytes())
+            if record.get("type") != "FeatureCollection" or not isinstance(record.get("features"), list):
+                raise ValueError(f"Unusable facility cache: {cached}") from exc
+            print(f"Refresh failed ({reason}); reusing cached facility evidence {cached}", flush=True)
+            return cached, dict(status="reused_cache", reason=reason)
+        if isinstance(exc, urllib.error.HTTPError) and exc.code not in (429, 500, 502, 503, 504):
+            raise
+    print(f"Facility inventory {cached.name} unavailable ({reason}); using remaining facility evidence", flush=True)
+    return None, dict(status="unavailable", reason=reason)
 
 
 def country_aliases(country):
@@ -238,7 +270,7 @@ def observations(tables, ied_path, country, year, nuts, eigl_path=None):
     ets["evidence_year"] = year
     ets = assign_regions(ets, nuts)
 
-    features = json.loads(Path(ied_path).read_text(encoding="utf-8"))["features"]
+    features = json.loads(Path(ied_path).read_text(encoding="utf-8"))["features"] if ied_path is not None else []
     rows = []
     for feature in features:
         props, point = feature["properties"], feature["geometry"]
@@ -312,13 +344,19 @@ def branch_weights(ets, ied, zones, branches=BRANCHES, eigl=None):
 def prepare_weights(cache, nuts, country, year, *, download=True, refresh=False):
     cache = Path(cache)
     tables = ensure_ets(cache, download=download, refresh=refresh)
-    ied = ensure_ied(cache, country, year, download=download, refresh=refresh)
-    eigl = ensure_eigl(cache, country, nuts, download=download, refresh=refresh)
+    ied, ied_issue = load_facility_inventory(
+        lambda: ensure_ied(cache, country, year, download=download, refresh=refresh),
+        cache / f"EEA_IED_{country}_{year}.geojson", download=download)
+    eigl, eigl_issue = load_facility_inventory(
+        lambda: ensure_eigl(cache, country, nuts, download=download, refresh=refresh),
+        cache / f"EIGL_industrial_facilities_{country}.geojson", download=download)
     ets, sites, extra = observations(tables, ied, country, year, nuts, eigl)
     weights, choices = branch_weights(ets, sites, nuts.NUTS_ID, eigl=extra)
-    source_files = [tables / name for name in TABLES if name.endswith(".csv")] + [ied, eigl]
+    source_files = [tables / name for name in TABLES if name.endswith(".csv")]
+    source_files.extend(path for path in (ied, eigl) if path is not None)
     provenance = dict(source_priority="Within each sector: ETS selected-year verified emissions; otherwise IED, then EIGL sector facility density. Missing-sector coverage uses explicitly flagged industrial-site density. Overlapping inventories are alternatives and are not added twice.",
                       year=year, ETS_installations=len(ets), IED_sites=len(sites), EIGL_sites=len(extra), sectors=choices,
+                      source_issues={name: issue for name, issue in (("EEA_IED", ied_issue), ("EIGL", eigl_issue)) if issue},
                       sources=[dict(file=str(path.resolve()), sha256=digest(path),
                                     url=IED_QUERY if path == ied else EIGL_QUERY if path == eigl else ETS_URL) for path in source_files])
     evidence = pd.concat([pd.DataFrame(frame.drop(columns="geometry")) for frame in (ets, sites, extra)], ignore_index=True)
