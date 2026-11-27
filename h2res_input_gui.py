@@ -106,7 +106,8 @@ def build_command(config: dict, python_executable: str | None = None) -> list[st
             cmd.append("--no-industry-download")
     if config.get("model_root"):
         cmd += ["--model-root", config["model_root"]]
-    if config.get("model_reference"):
+        cmd += ["--model-reference", str(Path(config["data_root"]) / "native_templates" / Path(config["model_root"]).resolve().name)]
+    elif config.get("model_reference"):
         templates = Path(config["model_reference"])
         if templates.resolve() == (ROOT / "model_reference").resolve():
             templates = DEFAULT_TEMPLATE_DIRECTORY
@@ -316,7 +317,7 @@ class DataPreparationGui:
         country_combo.grid(row=0, column=1, sticky="ew", pady=4)
         ttk.Label(
             tab,
-            text="Select ALL, enter ISO2 codes, or leave blank to use every country in a custom map.",
+            text="Enter one or more countries (e.g. HR,SI for a joint case), select ALL, or leave blank for every country in a custom map.",
             foreground="#555",
             wraplength=320,
         ).grid(row=0, column=2, sticky="w", padx=5)
@@ -351,6 +352,7 @@ class DataPreparationGui:
         ttk.Checkbutton(tab, text="Generate all native flex_tech and industry variants", variable=self.vars["all_model_variants"]).grid(row=7, column=1, sticky="w", pady=4)
         ttk.Button(tab, text="Open H2RES data folder", command=self.open_model_inputs).grid(row=8, column=1, sticky="w", pady=4)
         ttk.Checkbutton(tab,text='Also export H2RES-refactored CSV case (data_refactored)',variable=self.vars['refactored_export']).grid(row=9,column=1,sticky='w',pady=4)
+        self._row(tab, 11, "Use templates from H2RES installation (optional)", "model_root", "directory")
         ttk.Label(tab, text=("Generate downloads missing internet sources or reuses cached observations, then prepares the selected sectors. "
                             "Export existing outputs only repackages previously prepared data. Portable templates supply the required "
                             "file structure and editable technology assumptions. The ready-to-use folder is <Output directory>/data. "
@@ -536,10 +538,9 @@ COMMON PROBLEMS
 
     def config(self) -> dict:
         config = {key: var.get() for key, var in self.vars.items()}
-        # This frontend is independent of an installed model and prepares files only.
-        config["model_root"] = ""
         if config["input_action"] not in {"generate", "export existing outputs"}:
             config["input_action"] = "generate"
+            config["model_root"] = ""
         return config
 
     def refresh_preview(self) -> None:
@@ -571,11 +572,11 @@ COMMON PROBLEMS
             for key, value in data.items():
                 if key in self.vars:
                     self.vars[key].set(value)
-            self.vars["model_root"].set("")
             if Path(str(self.vars["model_reference"].get())).resolve() == (ROOT / "model_reference").resolve():
                 self.vars["model_reference"].set(str(DEFAULT_TEMPLATE_DIRECTORY))
             if self.vars["input_action"].get() not in {"generate", "export existing outputs"}:
                 self.vars["input_action"].set("generate")
+                self.vars["model_root"].set("")
         except Exception as exc:
             if not silent:
                 messagebox.showerror(APP_TITLE, str(exc))

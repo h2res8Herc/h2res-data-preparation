@@ -69,6 +69,8 @@ def download_month(country: str, year: int, month: int, token: str,
     out = cache_dir / country / str(year) / f"{month:02d}.xml"
     if out.exists() and out.stat().st_size > 100 and not refresh:
         return out
+    if not token:
+        raise ValueError(f"ENTSO-E token required to download {country} {year}-{month:02d}; set ENTSOE_API_TOKEN or reuse the monthly XML cache")
     out.parent.mkdir(parents=True, exist_ok=True)
     start, end = month_bounds(year, month)
     params = {
@@ -190,8 +192,6 @@ def generate(args: argparse.Namespace) -> None:
     if getattr(args, "demand_method", "national-scaled") == "sector-weighted" and not 0 <= getattr(args, "tourism_share", .1) < 1:
         raise ValueError("Tourism share must be at least 0 and less than 1")
     token = args.token or os.environ.get("ENTSOE_API_TOKEN") or os.environ.get("ENTSOE_TOKEN")
-    if not token:
-        raise ValueError("ENTSO-E token required: set ENTSOE_API_TOKEN or use --token")
     if any(country in {"ALL", "EU", "EUROPE"} for country in args.countries):
         args.countries = list(AREAS)
     unsupported = sorted(set(args.countries) - set(AREAS))

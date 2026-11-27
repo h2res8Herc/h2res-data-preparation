@@ -66,7 +66,7 @@ def retry_prepared_publication(recovery: Path, root: Path):
         raise ValueError('Recovery input coverage has not passed; regenerate the incomplete inputs')
     metadata = json.loads((recovery / 'bundle_manifest.json').read_text(encoding='utf-8'))
     actual = {p.relative_to(recovery/'data').as_posix() for p in (recovery/'data').rglob('*') if p.is_file()}
-    if actual != set(metadata['reference_files']):
+    if actual != set(metadata['reference_files']).union(metadata.get("native_layout_extensions", [])):
         raise ValueError('Recovery data layout differs from the model reference')
     inventory_path=recovery/'h2res_inputs/FILES.csv'
     if not inventory_path.is_file():

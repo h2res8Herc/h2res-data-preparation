@@ -614,6 +614,9 @@ def build_country(args: argparse.Namespace, country: str, sources: dict[str, Pat
         post_cmd.append("--debug")
     run(post_cmd)
 
+    if getattr(args, "defer_zonal_workbooks", False):
+        validate_outputs(final_dir)
+        return final_dir
     write_industry_variants(final_dir / UNITS_FILE, final_dir, args.efuels, args.keep_heat_categories)
     write_demand_views(final_dir / DIST_FILE, final_dir)
     validate_outputs(final_dir)
@@ -744,6 +747,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Use the e-fuel-compatible table as canonical Industry_data. All regular/e-fuel and heat-category variants are always written.",
     )
     p.add_argument("--refresh-helpers", action="store_true", help="Rewrite embedded helper scripts before running.")
+    p.add_argument("--defer-zonal-workbooks", action="store_true", help="Prepare underlying regional observations for aggregation by the all-sector driver, which writes the final workbooks.")
 
     p.add_argument("--download-sources", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--refresh-sources", action="store_true")
@@ -775,7 +779,8 @@ def main(argv: Iterable[str] | None = None) -> int:
         sources = prepare_sources(args)
         countries = resolve_countries(args.countries, sources)
         final_dirs = [build_country(args, c, sources) for c in countries]
-        combine_countries(final_dirs, args.out_root / "combined")
+        if not args.defer_zonal_workbooks:
+            combine_countries(final_dirs, args.out_root / "combined")
     except (FileNotFoundError, ValueError, subprocess.CalledProcessError, zipfile.BadZipFile) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2

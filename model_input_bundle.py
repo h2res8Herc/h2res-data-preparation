@@ -85,11 +85,14 @@ def snapshot_reference(model_root: Path, destination: Path = DEFAULT_REFERENCE) 
     return manifest
 
 
-def selected_workbook(efuels: bool, industry_mode: str, electricity_case: str = "conservative") -> str:
+def selected_workbook(efuels: bool, industry_mode: str, electricity_case: str = "conservative", data=None) -> str:
     if industry_mode not in ("regular", "categories", "complex"):
         raise ValueError(f"Unknown industry mode: {industry_mode}")
     name = "flex_tech" + ("_efuel" if efuels else "")
     name += {"regular": "", "categories": "_categories", "complex": "_complex_industry"}[industry_mode]
+    technical = "variants/technical_2050/" + name + ".xlsx"
+    if electricity_case == "technical_2050" and data is not None and (data/technical).is_file():
+        return technical
     if efuels and industry_mode == "categories":
         if electricity_case == "technical_2050":
             return "variants/technical_2050/" + name + ".xlsx"
@@ -176,7 +179,7 @@ def preflight_reference(args, reference: Path) -> None:
             variant.efuels, variant.industry_mode, variant.industry_electricity_case = efuels, mode, case
             preflight_reference(variant, reference)
         return
-    workbook_name = selected_workbook(args.efuels, args.industry_mode, args.industry_electricity_case)
+    workbook_name = selected_workbook(args.efuels, args.industry_mode, args.industry_electricity_case, reference/"data")
     data = reference / "data"
     metadata = json.loads((reference / "manifest.json").read_text(encoding="utf-8"))
     absent = [name for name in metadata.get("files", {}) if not (data / name).is_file()]
@@ -696,7 +699,7 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
     # replace them. This prevents mixing old HU profiles with new HR generators.
     repairs = copy_baseline(reference, data)
     (output / "complex_generation.json").unlink(missing_ok=True)
-    workbook_name = selected_workbook(args.efuels, args.industry_mode, args.industry_electricity_case)
+    workbook_name = selected_workbook(args.efuels, args.industry_mode, args.industry_electricity_case, reference/"data")
     workbook = data / workbook_name
     updates = {}
     missing = []
@@ -829,6 +832,9 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
     if mapping_path.exists():
         mapping = pd.read_csv(mapping_path)
         mapping = mapping.loc[mapping.country.isin(args.countries)]
+        absent = set(args.countries) - set(mapping.country)
+        if absent:
+            raise ValueError(f"Prepared zone map has no rows for requested countries {sorted(absent)}. Generate the sectors together before exporting.")
         if not mapping.empty:
             system_col = "system_new" if "system_new" in mapping else "country"
             desired = set(mapping[[system_col, "zone"]].drop_duplicates().itertuples(index=False, name=None))
@@ -842,6 +848,13 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
             else:
                 active = pd.concat([active, pd.DataFrame([{"System": system, "zone": zone, "active": "Y"}])], ignore_index=True)
         updates["active_zones"] = active
+    from transport.script.infrastructure_inputs import generate as generate_infrastructure
+    fleet = updates.get("transport_all")
+    if fleet is None:
+        fleet = pd.read_excel(workbook, "transport_all")
+    selected_fleet = fleet.loc[[pair in desired for pair in fleet[["System","zone"]].itertuples(index=False,name=None)]] if desired else fleet
+    infrastructure_files = generate_infrastructure(selected_fleet,data,reference/"data")
+    written.extend(infrastructure_files)
     if updates:
         replace_sheets(workbook, updates)
     variants = []
@@ -861,8 +874,21 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
                 emit(name, read_generated(base / name, hourly=True), True)
     from default_model_inputs import complete_defaults
     default_expansions = complete_defaults(data, desired, written, variants, workbook_name, updates)
+    for name in dict.fromkeys([workbook_name, *(v["technology_workbook"] for v in variants)]):
+        path = data/name
+        with pd.ExcelFile(path) as book:
+            if "PE_generation" not in book.sheet_names:
+                continue
+            pe = book.parse("PE_generation")
+        keys = set(pe[["zone","unit_name"]].itertuples(index=False,name=None))
+        additions = [dict(zone=zone,unit_name=fuel,production_TWh_2020=0,Base_year_reserves_TWh=0,
+                          Base_year_imports_TWh=0,Base_year_exports_TWh=0,ramp_up=.2,ramp_down=.2)
+                     for zone in sorted({z for _,z in desired}) for fuel in ("Gas","Oil") if (zone,fuel) not in keys]
+        if additions:
+            replace_sheets(path,{"PE_generation":pd.concat([pe,pd.DataFrame(additions)],ignore_index=True)})
     from power_input_links import synchronize as synchronize_power_inputs
-    power_links = synchronize_power_inputs(data, reference, desired, [name for name in TECH_WORKBOOKS if (data/name).is_file()])
+    native_workbooks = list(dict.fromkeys([name for name in TECH_WORKBOOKS if (data/name).is_file()] + [v["technology_workbook"] for v in variants] + [workbook_name]))
+    power_links = synchronize_power_inputs(data, reference, desired, native_workbooks)
     written.extend(name for name in ['literature_fixed_opex.csv',*(entry['workbook'] for entry in power_links)] if name not in written)
     (output / "generator_input_links.json").write_text(json.dumps(power_links,indent=2),encoding="utf-8")
     from regional_network_inputs import synchronize as synchronize_networks
@@ -878,7 +904,7 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
         else:
             print('No prepared OSM transmission inventory in these older outputs. Using reference network defaults. '
                   'Generate power data to extract mapped lines.', flush=True)
-    network_links=synchronize_networks(data,desired,[name for name in TECH_WORKBOOKS if (data/name).is_file()],grid=grid)
+    network_links=synchronize_networks(data,desired,native_workbooks,grid=grid)
     (output/'network_input_assumptions.json').write_text(json.dumps(network_links,indent=2),encoding='utf-8')
     from policy_input_links import synchronize as synchronize_policy_inputs
     policy_links=synchronize_policy_inputs(data,reference,desired)
@@ -909,6 +935,19 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
         apply_variant_investments(data, settings, variants, workbook_name,
                                   selected_complex_workbook(args.efuels, args.industry_electricity_case)
                                   if args.industry_mode == "complex" else None)
+    if "industry" in args.sectors:
+        from industry.remainder_formulas import link as link_remainder
+        cases = {v["technology_workbook"]:v for v in variants}
+        cases.setdefault(workbook_name,dict(industry_mode=args.industry_mode,efuels=args.efuels,
+                                           industry_electricity_case=args.industry_electricity_case))
+        from model_variants import complex_directory
+        for name,case in cases.items():
+            mode = case["industry_mode"]
+            base = args.out_root/"industry"/"combined"
+            if mode == "complex" and variants:
+                base = complex_directory(args,case["efuels"],case["industry_electricity_case"])
+            curves = base/("industry_category_profiles.csv" if mode == "categories" else "industry_heat.csv")
+            link_remainder(data/name,read_generated(curves))
     reference_info = json.loads((reference / "manifest.json").read_text(encoding="utf-8"))
     from industry.fuel_representation import REGULAR_FUEL_METHOD
     manifest = {"model_version": reference_info.get("model_version", MODEL_VERSION), "generated_sectors": args.sectors,
@@ -922,6 +961,7 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
                 "input_repairs": repairs,
                 "sector_zones": {key: sorted(values) for key, values in sector_zones.items()},
                 "reference_files": reference_info["files"],
+                "native_layout_extensions": infrastructure_files,
                 "data_layout": reference_info.get("data_layout"),
                 "data_directories": reference_info.get("directories", []),
                 "reference_model_root": reference_info.get("model_root"),
@@ -957,6 +997,8 @@ def _export_bundle(args, reference: Path, output: Path) -> dict:
             validations.append(result)
             report["errors"].extend(variant["technology_workbook"] + ": " + error for error in result["errors"])
         for efuels in (False, True):
+            if any(v["efuels"] == efuels and v["industry_mode"] == "complex" and v["industry_electricity_case"] == "technical_2050" for v in variants):
+                continue
             name = selected_workbook(efuels, "complex")
             print('Validating native input variant: '+name+' (technical_2050)',flush=True)
             result = validate_bundle(output, name, efuels, "complex", "technical_2050")

@@ -718,6 +718,8 @@ def main(argv: Iterable[str] | None = None) -> int:
             validate(compact, ready)
             compact.to_csv(country_dir / "transp1_shape_AGG_new.csv", index=False)
             ready.to_csv(country_dir / "transport_all.csv", index=False)
+            from transport.script.infrastructure_inputs import generate as generate_infrastructure
+            generate_infrastructure(ready, country_dir)
             if primary is not None:
                 primary.to_csv(country_dir / "transport_ICE_prim.csv", index=False)
             else:
@@ -737,6 +739,7 @@ def main(argv: Iterable[str] | None = None) -> int:
             combined_dir.mkdir(parents=True, exist_ok=True)
             all_ready = pd.concat(combined, ignore_index=True)
             all_ready.to_csv(combined_dir / "transport_all.csv", index=False)
+            generate_infrastructure(all_ready, combined_dir)
             all_primary = transport_ice_prim(all_ready) if args.efuels else None
             if all_primary is not None:
                 all_primary.to_csv(combined_dir / "transport_ICE_prim.csv", index=False)

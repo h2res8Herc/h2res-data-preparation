@@ -154,8 +154,13 @@ def update_workbooks(args, data, common_updates, reference=None):
     heating = {name: frame for name, frame in common_updates.items()
                if name in {"active_zones", "flex_tech_heat", "flex_tech_DH", "thermal_tech",
                            "thermal_tech_DH", "solar_indv", "solar_DH"}}
-    for efuels, mode, case in configurations():
-        name = selected_workbook(efuels, mode, case)
+    cases = list(configurations())
+    for efuels, mode, _ in list(cases):
+        option = (efuels, mode, "technical_2050")
+        if option not in cases and selected_workbook(*option, data=data).startswith("variants/"):
+            cases.append(option)
+    for efuels, mode, case in cases:
+        name = selected_workbook(efuels, mode, case, data)
         path = data / name
         template_path = reference / "data" / name if reference is not None else path
         updates = dict(heating)

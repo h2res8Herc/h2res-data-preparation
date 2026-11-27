@@ -1,7 +1,7 @@
 {
-  "release": "H2RES_Data_Preparation_2026-11-22",
-  "release_date": "2026-11-22",
-  "created_utc": "2026-11-23T09:46:30.899191+00:00",
+  "release": "H2RES_Data_Preparation_2026-11-27",
+  "release_date": "2026-11-27",
+  "created_utc": "2026-11-27T08:14:34.727944+00:00",
   "application": "Energy Data Sourcing and Preparation",
   "target": "Windows x64; Python 3.12 offline, compatible Python 3.10+ online",
   "native_model_format": "H2RES_2.11.2026_novi",
@@ -34,8 +34,8 @@
       "sha256": "f6e8d5ebd77d6b11cb7a73d4ee309fd4d50bbe819772fa623c4f6e81202900bb"
     },
     "README.md": {
-      "bytes": 8196,
-      "sha256": "65278a33353f8caf8254e4c0d940c56abc7ac34d40d4cf9341319b743d565944"
+      "bytes": 8497,
+      "sha256": "efa4b9308213a18101bcd2498ad81379e56c3f67b78a0613aed48c821610a5f5"
     },
     "README_PORTABLE_INPUT_GENERATOR.txt": {
       "bytes": 7702,
@@ -43,7 +43,7 @@
     },
     "README_START_HERE.txt": {
       "bytes": 1573,
-      "sha256": "2d42d95f19ff877a8d44951a97276b4ddf9a665de37ea562ce306e5976e308f7"
+      "sha256": "99c8f59dd83501dc6f75c5f2e8f398ad6b67d123790aba8caca56174cfa11db3"
     },
     "SETUP_WINDOWS.bat": {
       "bytes": 343,
@@ -63,11 +63,11 @@
     },
     "START_HERE.html": {
       "bytes": 1001,
-      "sha256": "f15d9c38bdee4943f17cb15efaa5b51880e2af436c4f7a2b45a4dd437ee69377"
+      "sha256": "d8aa6b9f51b32c71f4d8a23d99ba985c1b56e12948c5632d970afb0d0eb5e875"
     },
     "TECHNICAL_DOCUMENTATION.md": {
-      "bytes": 27326,
-      "sha256": "c08737d5625b5eb8ae7d980bc4ee79ac2832032dbb935e06cda500913c03a861"
+      "bytes": 29668,
+      "sha256": "3fa47d91d64106ea1695120cb40b7e71603b204bd798a5310393efed5ce1c336"
     },
     "USER_GUIDE.md": {
       "bytes": 21210,
@@ -82,8 +82,8 @@
       "sha256": "b4eb6fe02ecedb98607df94f66f011c2971349c56ce64aa82fa2f4f4003e7e19"
     },
     "default_model_inputs.py": {
-      "bytes": 15601,
-      "sha256": "2816c34ab3865efcf18629c0fbc3e070e354cf37306d00c221d2a425e44c011a"
+      "bytes": 15668,
+      "sha256": "151726f560ffdc34b89853f2b485e7b2ab940bb959c4e0b73dd4faacac39d1b0"
     },
     "docs/ASSUMPTIONS_AND_LIMITATIONS.md": {
       "bytes": 10958,
@@ -1214,12 +1214,12 @@
       "sha256": "43e34064d6ce9dc84c2a9e495e97d81beda9c6ff2540e4b218b564887f8eae48"
     },
     "generate_all_sector_inputs.py": {
-      "bytes": 46565,
-      "sha256": "4b49a5f8c17d1b11ad2fa928e741c2fff112a1a52efab55bc32b7be7d74de591"
+      "bytes": 46642,
+      "sha256": "b6301a088f5666c05bc5631da4ebb723a886fc97731ebcb3d80c961e4f116769"
     },
     "h2res_input_gui.py": {
-      "bytes": 40649,
-      "sha256": "a50d78fd7b701cd65fa37df47421e2073af4da15fb83352abd1214542cf5bbd2"
+      "bytes": 40851,
+      "sha256": "114168c9bfc8fb712d96ecfc0114346f7e82c32908c7970b933ec4481a64f9b8"
     },
     "h2res_input_schema.py": {
       "bytes": 5148,
@@ -1241,6 +1241,10 @@
       "bytes": 1901,
       "sha256": "e4252fe4318033c54e4e1f09ddd71f5855d4482003763ed4a0d5bd14c3ad7912"
     },
+    "heating/openmeteo_archive.py": {
+      "bytes": 5272,
+      "sha256": "f54fb496ddbe3e3c26af8d40e53315f7c0a86d44e7375aaac5854f4e278c98fe"
+    },
     "heating/paper_calculator.py": {
       "bytes": 5795,
       "sha256": "0fb2e597bd582f83a334cd893901f930183db0d60f3e5e72fc65f5bc899f1a11"
@@ -1258,8 +1262,8 @@
       "sha256": "5eb1e22c1c7fed18e369820db9013347621032b5645e5494bf6775d2b63a95a9"
     },
     "industry/facility_sources.py": {
-      "bytes": 18319,
-      "sha256": "eb5e957dda98cc64a9656604616be5f69f3735587724cbbdcd7b37b4c921683f"
+      "bytes": 20407,
+      "sha256": "ac7fa8ff7bf128d7c4de1941bdd0060f6d6a2b06f7e30cc379d2c59b778c4c10"
     },
     "industry/fuel_representation.py": {
       "bytes": 5267,
@@ -1270,8 +1274,8 @@
       "sha256": "61294b4e4c5b671ce6130f52a3e4166f538aa2ca5496a4ef93f9c6451433e6a3"
     },
     "industry/generate_industry_inputs_standalone.py": {
-      "bytes": 89896,
-      "sha256": "070a1fb3f502a38fee89ff894650a0ccd71a79e4ed57b31666cdc0358e0c2827"
+      "bytes": 90250,
+      "sha256": "0057e81c6b748882227950e37877159375b39f0d161368712f166ec6a9b218cb"
     },
     "industry/handoff/model/data/sources/JRC-IDEES-2023_EmissionBalance_HR.xlsx": {
       "bytes": 1579169,
@@ -1317,6 +1321,10 @@
       "bytes": 14117,
       "sha256": "de15fc241aa773420b3c29bff2cd1fe9e30e917905b867ae6548fa8aa7b96bb5"
     },
+    "industry/remainder_formulas.py": {
+      "bytes": 6346,
+      "sha256": "5b19d58aa0858b47274dd78172a685bb3969287d16927a80711a1c7fbd637078"
+    },
     "launch_data_preparation.ps1": {
       "bytes": 4141,
       "sha256": "7c31653e6315adbf805781fa33f76b1ba1997ffc80daf41ef7e4bb70c2c3e550"
@@ -1326,12 +1334,12 @@
       "sha256": "f6e8d5ebd77d6b11cb7a73d4ee309fd4d50bbe819772fa623c4f6e81202900bb"
     },
     "model_input_bundle.py": {
-      "bytes": 77533,
-      "sha256": "5945205a2bd629822a71c747d7e5a333604230f4e982ab6254098fe9855a3463"
+      "bytes": 80489,
+      "sha256": "0bda74fac6076af8eb0e8264d980d1ccb2076461985c225d3e3960efe66a5e4e"
     },
     "model_ready_package.py": {
-      "bytes": 14941,
-      "sha256": "23990671424e6c96012cd9d844902695e4cc6a451acec5805e98da4748491327"
+      "bytes": 15203,
+      "sha256": "016211910059ee4bfbfc16cd6386885c2748add231b78983f05a4452c14f85d5"
     },
     "model_reference/data/industry_complex_efuel.xlsx": {
       "bytes": 316873,
@@ -1514,20 +1522,20 @@
       "sha256": "61c4ea80aaa70bfc70c1cd0e334010c8299c1df8bf13a7bed1a35953a77d346f"
     },
     "model_variants.py": {
-      "bytes": 15684,
-      "sha256": "7fc26d38f73d9fc5b8a7ffdccd59736a69cad688348a2b266eff9e778e374af4"
+      "bytes": 15935,
+      "sha256": "c4c66b2edbf6a6540fb7a19278c5eb08653962bb5eda5083fafa7cfa7e9447fb"
     },
     "native_data_delivery.py": {
-      "bytes": 7228,
-      "sha256": "855e243dde749e7e50b6f003b621039cc60c851ecc42b435a2c1692d93558acb"
+      "bytes": 7280,
+      "sha256": "bd8fd216ea00c6e5091918521b5df7cd17451452982dda24452fbb61e2c74d00"
     },
     "native_input_checks.py": {
       "bytes": 11617,
       "sha256": "c657432232ffec52adf5b119dff5374f3d3ef8b1a44c52285eee3f8e22fc4e74"
     },
     "openmeteo_quota.py": {
-      "bytes": 7667,
-      "sha256": "c16466432ce8a7ee31871da7c37bc703657b4fb712579a74488747671d698fba"
+      "bytes": 7959,
+      "sha256": "49e50332344650e67261125e86b85e9f2f0b378ae94207acbaba2e85b138ef86"
     },
     "policy_input_links.py": {
       "bytes": 3811,
@@ -1674,8 +1682,8 @@
       "sha256": "4ff0348481d2e273f63441c2eea2f295d576d5304e78b8c941d935d4a28263d3"
     },
     "power/demand/generate_electricity_demand_standalone.py": {
-      "bytes": 17210,
-      "sha256": "35097248a22991c449fc671025725a4dcf99337aacfe29a950e562e4d7ccdd17"
+      "bytes": 17268,
+      "sha256": "ef1dcf73b4d2b44ea4160277378fad8f2608d19091612ff5387398400bc951b9"
     },
     "power/demand/profile_library/bdew_2025_hourly.csv": {
       "bytes": 65181,
@@ -1806,16 +1814,16 @@
       "sha256": "0a1ff54b0f915d2d0833c4b9af4cd7b6af05d92f37911b5959523bb28f42b921"
     },
     "requirements-lock-win-py312.txt": {
-      "bytes": 646,
-      "sha256": "52eaefa4477201ec2e5c6c9d41396700654fb2dbb30d4a5f22bc85c6b0b4a56d"
+      "bytes": 662,
+      "sha256": "04966f9bb59d6867bc665054dc18d0b3a0740766db7c2d6b02cfa8dbcedfebf1"
     },
     "requirements.txt": {
-      "bytes": 279,
-      "sha256": "dcae7f5c42e55ea29d9665b080a55f1b4ba3ffa4c45c272bce3d93f9048c1139"
+      "bytes": 294,
+      "sha256": "1182a41888e5d6964e906542c222bf4206bfb261daa1e9c41bddaf8217a53dd0"
     },
     "run_model_scenario.py": {
-      "bytes": 13376,
-      "sha256": "8e895e007c2783c99cabd623e30b7f7886d7f5900fd85b81f74f5eb65103ea15"
+      "bytes": 14494,
+      "sha256": "f01714ef7f80f287966f70736d72c8385a5ea3fe79ae2e92223a5c7ac1aabfbe"
     },
     "scenario_config.py": {
       "bytes": 16957,
@@ -1998,12 +2006,16 @@
       "sha256": "20a2d292121ac1b0d9fdc4c3e0194ef8fb481462792f6f8f19573428b192be96"
     },
     "transport/script/generate_transport_inputs_standalone.py": {
-      "bytes": 197736,
-      "sha256": "cf0049585a1354e64f0653c69daa5c54691490646fc065a090ab7a04ab0a0f0e"
+      "bytes": 197955,
+      "sha256": "49bd36e25bd856ba5f48cd65050c12e065be8e85d6a2a703ea32c44f3d287c54"
     },
     "transport/script/idees_navigation_aviation_2020.csv": {
       "bytes": 11594,
       "sha256": "03cb23ac0cefb553c20e80b836501bf15c6d242d21573bbd13e6e9e5271a65df"
+    },
+    "transport/script/infrastructure_inputs.py": {
+      "bytes": 2334,
+      "sha256": "a725563a794b6bc07cd462ff603707b134cd8f249a8afa9ca608a36a75cc28f8"
     },
     "transport/script/inland_port_freight_2020.csv": {
       "bytes": 28451,
@@ -2032,6 +2044,14 @@
     "transport/script/plot_transport_regions.py": {
       "bytes": 5741,
       "sha256": "820769453948d16eb7703a61d5f1f2f4fb41bf6641ea4e491d8b3c0b99c572b2"
+    },
+    "transport/script/transport_infrastructure.csv": {
+      "bytes": 2505,
+      "sha256": "d53e23d8db038e3d1fa45676debf911c0f98044f7e7b8fdd0036dd80b47f8899"
+    },
+    "transport/script/transport_infrastructure_existing.csv": {
+      "bytes": 3673,
+      "sha256": "3b50ef7f517bb61a8d6b6050fb507c398615cacca6e1e406124c085ddd10cb70"
     },
     "update_genco_macroregions.py": {
       "bytes": 4759,

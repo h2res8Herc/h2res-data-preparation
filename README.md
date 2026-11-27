@@ -2,9 +2,11 @@
 
 Download public energy data and prepare inputs for the original workbook-based H2RES model and the newer bus-based H2RES-refactored model. This application prepares data; the optimization model runs separately.
 
-## Preparation update — 22 November 2026
+## Preparation update — 27 November 2026
 
-[Download the complete current portable ZIP](https://github.com/h2res8Herc/h2res-data-preparation/releases/tag/v2026.11.22), then run SETUP_WINDOWS.bat and START_DATA_PREPARATION.bat.
+[Download the complete current portable ZIP](https://github.com/h2res8Herc/h2res-data-preparation/releases/tag/v2026.11.27), then run SETUP_WINDOWS.bat and START_DATA_PREPARATION.bat.
+
+Enter `HR,SI` at country level to generate one joint case. For the November 21 native model, select its installation on the Output format tab. Historical heating temperatures can use the bulk archive, and temporary facility-service outages are recorded when cached or alternative evidence is used.
 
 Transport now allocates domestic and international aviation separately using airport passenger counts and international sea freight using port throughput. The 2020 traffic snapshots are bundled. Select **Generate** with **Transport** enabled to regenerate an existing case using its download cache. The update also includes the Croatian 2021 occupancy-based heating allocation and OSM transmission corridors across all voltage levels.
 

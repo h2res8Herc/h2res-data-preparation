@@ -202,7 +202,8 @@ def complete_defaults(data: Path, targets, generated_files, variants, selected_n
                     notes.append(dict(file=name, column=unit, donor_column=donor, basis="supplied default generator profile"))
             write_csv(frame, data / name)
     for path in data.rglob("*.xlsx"):
-        if "sources" in path.relative_to(data).parts:
+        if ({"sources", "arhiva"} & set(path.relative_to(data).parts)
+                or path.stem.endswith(" - Copy")):
             continue
         name = path.relative_to(data).as_posix()
         entry = next((v for v in variants if v["technology_workbook"] == name), None)
